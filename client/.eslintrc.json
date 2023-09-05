@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    // "project": ["./tsconfig.json"],
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": [
+    "eslint:recommended", // eslint 기본 추천 규칙
+    "plugin:@typescript-eslint/recommended", // ts 기본 추천 규칙
+    "plugin:@typescript-eslint/recommended-requiring-type-checking", // 타입 정보를 필요로 하는 특정 규칙들 포함
+    "plugin:react/recommended", // 리액트에 필요한 규칙
+    "plugin:react/jsx-runtime", // react를 import 하지 않아도 되도록 인식하는 규칙
+    "plugin:react-hooks/recommended", // react-hooks에 관한 규칙
+    "prettier" // pre
+  ],
+  "rules": {
+    "linebreak-style": "off",
+    "import/prefer-default-export": "off",
+    "prettier/prettier": "off",
+    "import/extensions": "off",
+    "no-use-before-define": "off",
+    "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": "off", // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
+    "no-shadow": "off",
+    "no-console": "warn",
+    "react/prop-types": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": 0
+  }
+}

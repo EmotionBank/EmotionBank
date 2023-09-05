@@ -1,0 +1,9 @@
+{
+  "name": "emotion_bank",
+  "short_name": "react",
+  "description": "react todo list app with pwa",
+  "background_color": "#ffffff",
+  "crossorigin": "use-credentials",
+  "theme_color": "#eeeeee",
+  "filename": "manifest.json"
+}
