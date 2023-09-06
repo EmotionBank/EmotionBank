@@ -1,5 +1,5 @@
 ---
-name: 'Issue: ETC'
+name: ETC
 about: 나머지 알아서 적어주세요 ㅇㅁㅇ
 title: ''
 labels: ''
@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-## Description
+## :memo: Description
 
-## To-do
+## :white_check_mark: To-do
 - [ ] todo
 - [ ] todo
 
-## ETC
+## :speech_balloon: ETC
 기타 참고사항을 작성해주세요.

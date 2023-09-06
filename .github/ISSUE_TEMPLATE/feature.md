@@ -1,5 +1,5 @@
 ---
-name: 'Issue: Feature'
+name: Feature
 about: Feature 작업 사항을 입력해주세요
 title: ''
 labels: ":sparkles: Feature"
@@ -7,15 +7,15 @@ assignees: ''
 
 ---
 
-## PreIssue
+## :rewind: PreIssue
 [선택] 이 이슈 이전에 해야하는 이슈를 작성해주세요
 
-## Description
+## :memo: Description
 설명을 상세하게 작성해주세요.
 
-## To-do
+## :white_check_mark: To-do
 - [ ] todo
 - [ ] todo
 
-## ETC
+## :speech_balloon: ETC
 기타 참고사항을 작성해주세요.
