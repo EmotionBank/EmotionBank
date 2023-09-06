@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 const PORT = 3000;
 
@@ -57,6 +59,30 @@ module.exports = (env, argv) => {
               }
             : false,
       }),
+      new WebpackPwaManifest({
+        name: 'EmotionBank',
+        description: 'EmotionBank',
+        background_color: '#ffffff',
+        crossOrigin: 'use-credentials',
+        theme_color: '#eeeeee',
+        icons: [
+          {
+            src: path.resolve('public/logo192.png'),
+            sizes: [16, 24, 32, 64]
+          },
+          {
+            src: path.resolve('public/logo192.png'),
+            sizes: '192x192'
+          },
+          {
+            src: path.resolve('public/logo512.png'),
+            sizes: '512x512'
+          },
+        ]
+      }),
+      new GenerateSW({
+        include: [/\.html$/, /\.js$/]
+      })
     ],
   };
 };
