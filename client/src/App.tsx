@@ -1,7 +1,12 @@
+import AppRouter from '@/router/AppRouter';
+import React from 'react';
+
 const App = () => {
-  return <div id="root">
-    Hello
-  </div>;
+  return (
+    <React.Fragment>
+      <AppRouter />
+    </React.Fragment>
+  );
 };
 
 export default App;
