@@ -1,10 +1,13 @@
-import AppRouter from '@/router/AppRouter';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
+import AppRouter from '@/router/AppRouter';
 
 const App = () => {
   return (
     <React.Fragment>
-      <AppRouter />
+      <RecoilRoot>
+        <AppRouter />
+      </RecoilRoot>
     </React.Fragment>
   );
 };
