@@ -1,17 +1,13 @@
-import { Button } from '@/components/common/Button/Button';
-import Modal from '@/components/common/Modal/Modal';
+import Calendar from '@/components/Calendar/Calendar';
 import useModal from '@/hooks/useModal';
+import { MainPageWrapper } from '@/pages/Main/Main.style';
 
 const Main = () => {
   const { openModal, closeModal } = useModal();
   return (
-    <div>
-      MAIN
-      <Button onClick={openModal}>open</Button>
-      <Modal>
-        <h1>asdfasdf</h1>
-      </Modal>
-    </div>
+    <MainPageWrapper>
+      <Calendar />
+    </MainPageWrapper>
   );
 };
 
