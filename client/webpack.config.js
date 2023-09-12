@@ -9,6 +9,51 @@ const PORT = 3000;
 module.exports = (env, argv) => {
   const prod = argv.mode === 'production';
 
+  const plugins = [
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './public/index.html'),
+      minify:
+        process.env.NODE_ENV === 'production'
+          ? {
+              collapseWhitespace: true, // 빈칸 제거
+              removeComments: true, // 주석 제거
+            }
+          : false,
+    }),
+    new WebpackPwaManifest({
+      name: 'EmotionBank',
+      description: 'EmotionBank',
+      background_color: '#ffffff',
+      crossOrigin: 'use-credentials',
+      theme_color: '#eeeeee',
+      icons: [
+        {
+          src: path.resolve('public/logo192.png'),
+          sizes: [16, 24, 32, 64],
+        },
+        {
+          src: path.resolve('public/logo192.png'),
+          sizes: '192x192',
+        },
+        {
+          src: path.resolve('public/logo512.png'),
+          sizes: '512x512',
+        },
+      ],
+    }),
+  ];
+
+  if (prod) {
+    plugins.push(
+      new GenerateSW({
+        include: [/\.html$/, /\.js$/],
+      }),
+    );
+  }
+
   return {
     mode: prod ? 'production' : 'development',
     devtool: prod ? 'hidden-source-map' : 'eval',
@@ -45,44 +90,6 @@ module.exports = (env, argv) => {
         },
       ],
     },
-    plugins: [
-      new webpack.ProvidePlugin({
-        React: 'react',
-      }),
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, './public/index.html'),
-        minify:
-          process.env.NODE_ENV === 'production'
-            ? {
-                collapseWhitespace: true, // 빈칸 제거
-                removeComments: true, // 주석 제거
-              }
-            : false,
-      }),
-      new WebpackPwaManifest({
-        name: 'EmotionBank',
-        description: 'EmotionBank',
-        background_color: '#ffffff',
-        crossOrigin: 'use-credentials',
-        theme_color: '#eeeeee',
-        icons: [
-          {
-            src: path.resolve('public/logo192.png'),
-            sizes: [16, 24, 32, 64]
-          },
-          {
-            src: path.resolve('public/logo192.png'),
-            sizes: '192x192'
-          },
-          {
-            src: path.resolve('public/logo512.png'),
-            sizes: '512x512'
-          },
-        ]
-      }),
-      new GenerateSW({
-        include: [/\.html$/, /\.js$/]
-      })
-    ],
+    plugins,
   };
 };
