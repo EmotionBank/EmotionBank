@@ -66,6 +66,7 @@ module.exports = (env, argv) => {
     devServer: {
       port: PORT,
       hot: true,
+      historyApiFallback: true,
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
