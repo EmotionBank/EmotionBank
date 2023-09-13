@@ -3,6 +3,9 @@ package com.emotionbank.business.api.user.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +27,8 @@ public class UserController {
 
 	private final UserService userService;
 	@GetMapping("/{nickname}")
-	public ResponseEntity<?> searchUser(@PathVariable String nickname) {
-		List<UserDto.UserSearchResultDto> userSearchResultDtos = userService.searchUser(nickname);
+	public ResponseEntity<?> searchUser(@PathVariable String nickname,Pageable pageable) {
+		List<UserDto.UserSearchResultDto> userSearchResultDtos = userService.searchUser(nickname,pageable);
 		List<UserResponseDto.UserSearchResponseDto> userSearchResponseDtos = userSearchResultDtos.stream()
 			.map(UserResponseDto.UserSearchResponseDto::of)
 			.collect(Collectors.toList());

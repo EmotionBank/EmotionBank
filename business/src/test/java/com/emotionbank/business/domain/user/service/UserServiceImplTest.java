@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.emotionbank.business.domain.user.dto.UserDto;
@@ -40,13 +42,13 @@ class UserServiceImplTest {
 			new User(),
 			new User()
 		));
+		Pageable pageable = PageRequest.of(0,1);
+		when(userRepository.findByNicknameContains("%user%",pageable)).thenReturn((fakeUsers));
 
-		when(userRepository.findByNicknameContains("%user%")).thenReturn((fakeUsers));
-
-		List<UserDto.UserSearchResultDto> result = userService.searchUser("user");
+		List<UserDto.UserSearchResultDto> result = userService.searchUser("user",pageable);
 
 		assertThat(result).hasSize(3);
 
-		verify(userRepository, times(1)).findByNicknameContains("%user%");
+		verify(userRepository, times(1)).findByNicknameContains("%user%",pageable);
 	}
 }
