@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.dto.Type;
@@ -33,21 +32,21 @@ public class User {
 
 	private String nickname;
 
-	@Column(name="birthday")
+	@Column(name = "birthday")
 	private LocalDate birthDay;
 
 	private String email;
 
-	@Column(name="member_type")
+	@Column(name = "member_type")
 	private Type memberType;
 
-	@Column(name="created_time")
+	@Column(name = "created_time")
 	private LocalDate createdTime;
 
-	@Column(name="last_login_time")
+	@Column(name = "last_login_time")
 	private LocalDate lastLoginTime;
 
-	@Column(name="withdrawal_time")
+	@Column(name = "withdrawal_time")
 	private LocalDate withdrawalTime;
 
 	@OneToMany(mappedBy = "user")

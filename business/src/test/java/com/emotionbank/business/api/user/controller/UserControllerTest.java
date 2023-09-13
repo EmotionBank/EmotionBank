@@ -14,16 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -34,7 +30,6 @@ import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 @SpringBootTest
-
 class UserControllerTest extends BaseControllerTest {
 
 	@InjectMocks
@@ -45,28 +40,30 @@ class UserControllerTest extends BaseControllerTest {
 
 	Pageable pageable;
 
-
 	@BeforeEach
 	public void beforeEach() {
-		mockMvc = MockMvcBuilders.standaloneSetup(userController).setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+		mockMvc = MockMvcBuilders.standaloneSetup(userController)
+			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
-		when(userService.searchUser("닉네임",pageable)).thenReturn(new ArrayList<>());
+		when(userService.searchUser("닉네임", pageable)).thenReturn(new ArrayList<>());
 		MockitoAnnotations.openMocks(this);
 		pageable = PageRequest.of(0, 5);
 	}
+
 	@Test
 	@DisplayName("응답 코드 확인")
 	public void checkStatus() {
 		String nickname = "닉네임";
-		ResponseEntity<?> responseEntity = userController.searchUser(nickname,pageable);
+		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
+
 	@Test
 	@DisplayName("응답 본문 확인")
 	public void checkBody() {
 		String nickname = "닉네임";
-		ResponseEntity<?> responseEntity = userController.searchUser(nickname,pageable );
-		List<UserDto.UserSearchResultDto> responseBody = (List<UserDto.UserSearchResultDto>) responseEntity.getBody();
+		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
+		List<UserDto.UserSearchResultDto> responseBody = (List<UserDto.UserSearchResultDto>)responseEntity.getBody();
 		assertNotNull(responseBody);
 		assertTrue(responseBody.isEmpty());
 	}
@@ -78,22 +75,19 @@ class UserControllerTest extends BaseControllerTest {
 	// 	verify(userService, times(1)).searchUser(nickname);
 	// }
 
-
 	@Test
 	@DisplayName("유저를 검색한다")
 	public void searchUser() throws Exception {
 		//given
 		String nickname = "닉네임";
 		MultiValueMap<String, String> requestParam = new LinkedMultiValueMap<>();
-		requestParam.set("page","1" );
-		requestParam.set("size","5");
+		requestParam.set("page", "1");
+		requestParam.set("size", "5");
 
 		//when
-		mockMvc.perform(
-			MockMvcRequestBuilders.get("/users/{nickname}",nickname)
-				.params(requestParam)
-				.accept(MediaType.APPLICATION_JSON)
-		).andExpect(status().isOk());
+		mockMvc.perform(MockMvcRequestBuilders.get("/users/{nickname}", nickname)
+			.params(requestParam)
+			.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 		// verify(userService, times(1)).searchUser(nickname);
 	}

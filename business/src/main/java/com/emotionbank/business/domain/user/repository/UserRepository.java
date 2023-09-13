@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.emotionbank.business.domain.user.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<List<User>> findByNicknameContains(String nickname, Pageable pageable);
 }

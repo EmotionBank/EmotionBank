@@ -1,7 +1,6 @@
 package com.emotionbank.business.domain.user.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
@@ -15,13 +14,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 
 	@Override
 	public List<UserDto.UserSearchResultDto> searchUser(String userNickname, Pageable pageable) {
-		List<User> users = userRepository.findByNicknameContains("%"+userNickname+"%",pageable).orElseThrow(NullPointerException::new);
+		List<User> users = userRepository.findByNicknameContains("%" + userNickname + "%", pageable)
+			.orElseThrow(NullPointerException::new);
 		List<UserDto.UserSearchResultDto> userSearchResultDtos = users.stream()
 			.map(User::toUserSearchResultDto)
 			.collect(Collectors.toList());
