@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout/Layout';
 import Main from '@/pages/Main/Main';
 import Login from '@/pages/Login/Login';
+import Signup from '@/pages/Login/Signup';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 
@@ -22,7 +23,11 @@ const AppRouter = () => {
         {
           path:'/redirection',
           element:<Redirection />
-        }
+        },
+        {
+          path:'/signup',
+          element:<Signup />
+        },
       ],
     },
   ]);

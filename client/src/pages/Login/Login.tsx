@@ -9,7 +9,7 @@ const Login = () => {
   };
 
   return (
-    <Button onClick={handleLogin}>
+    <Button onClick={handleLogin} $kakao>
       카카오로 로그인 하기
     </Button>
   );

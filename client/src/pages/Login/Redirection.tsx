@@ -4,15 +4,23 @@ import { useState, useEffect } from 'react'
 import axios from "axios";
 const Redirection = () => {
     const [ 회원가입여부, set회원가입여부 ] = useState(false)
-    const code = window.location.search;
+    const code = window.location.search.substring(6);
+    const SERVER_URI = process.env.REACT_APP_SERVER_URI
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log(code)
         // 서버로 post 요청 후 받은 응답에서 닉네임이 없으면 회원가입 페이지로 navigate
-        
-        // 닉네임 있으면 메인 페이지로 navigate
-        navigate('/')
+        axios.post(`${SERVER_URI}?code=${code}`)
+        .then((res) => {
+            if(res.data.hasOwnProperty('nickname')){
+                // 닉네임 있으면 메인 페이지로 navigate
+                navigate('/')
+            } else {
+                navigate('/signup')
+            }
+        })
+
 
     }, [])
     return(
