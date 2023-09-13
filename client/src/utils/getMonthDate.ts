@@ -33,6 +33,6 @@ export const getMonthDate = (newDate: DateInterface, page = 0) => {
   return {
     year: doMonth.year,
     month: doMonth.month,
-    date: isLastWeek4 ? dateArr : isLastWeek5 ? [...dateArr, week5] : [...dateArr, week5, week6],
+    weeokList: isLastWeek4 ? dateArr : isLastWeek5 ? [...dateArr, week5] : [...dateArr, week5, week6],
   };
 };

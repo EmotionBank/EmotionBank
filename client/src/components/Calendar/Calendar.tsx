@@ -4,22 +4,21 @@ import { DAY } from '@/constants/calendar';
 import { DateInterface } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-import { IDate } from '@/pages/Main/Main';
 
-interface currnetDateInterface {
-  year: number;
-  month: number;
-  date: DateInterface[][];
+interface currnetDateInterface extends DateInterface {
+  weeokList: DateInterface[][];
 }
 interface Props {
-  updateDate: (newDate: IDate) => void;
+  updateDate: (newDate: DateInterface) => void;
 }
 
 const Calendar = ({ updateDate }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
+    date: 0,
+    day: 0,
     year: 0,
     month: 0,
-    date: [],
+    weeokList: [],
   });
   const [monthState, setMonthState] = useState<number>(0);
 
@@ -27,10 +26,7 @@ const Calendar = ({ updateDate }: Props) => {
     const today = getNewDateObj(new Date());
     const MonthDate = getMonthDate(today, monthState);
     setCurrentData(MonthDate);
-    updateDate({
-      year: MonthDate.year,
-      month: MonthDate.month,
-    });
+    updateDate({ ...MonthDate });
   }, [monthState]);
 
   const handleIncreseMonth = () => setMonthState(monthState + 1);
@@ -57,7 +53,7 @@ const Calendar = ({ updateDate }: Props) => {
         ))}
       </S.CalendarHeader>
       <S.CalendarBody>
-        {currentDate.date.map((week, idx) => (
+        {currentDate.weeokList.map((week, idx) => (
           <S.WeekContainer key={idx}>
             {week.map((day, i) => {
               return (
