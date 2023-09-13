@@ -4,14 +4,18 @@ import { DAY } from '@/constants/calendar';
 import { DateInterface } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
+import { IDate } from '@/pages/Main/Main';
 
 interface currnetDateInterface {
   year: number;
   month: number;
   date: DateInterface[][];
 }
+interface Props {
+  updateDate: (newDate: IDate) => void;
+}
 
-const Calendar = () => {
+const Calendar = ({ updateDate }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
     year: 0,
     month: 0,
@@ -23,6 +27,10 @@ const Calendar = () => {
     const today = getNewDateObj(new Date());
     const MonthDate = getMonthDate(today, monthState);
     setCurrentData(MonthDate);
+    updateDate({
+      year: MonthDate.year,
+      month: MonthDate.month,
+    });
   }, [monthState]);
 
   const handleIncreseMonth = () => setMonthState(monthState + 1);
@@ -30,7 +38,6 @@ const Calendar = () => {
 
   const convertDateFormat = useCallback((date: number) => {
     const str = String(date);
-    console.log(str);
     if (str.length === 1) return '0' + str;
     return str;
   }, []);
