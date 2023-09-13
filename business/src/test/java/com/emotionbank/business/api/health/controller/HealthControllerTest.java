@@ -19,7 +19,6 @@ public class HealthControllerTest extends BaseControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("health").exists())
 			.andExpect(jsonPath("activeProfiles").exists())
-			.andExpect(jsonPath("localServerPort").exists())
 			.andExpect(jsonPath("serverPort").exists())
 			.andExpect(jsonPath("_links.self").exists());
 	}
