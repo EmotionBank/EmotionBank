@@ -1,6 +1,5 @@
-package com.emotionbank.business.domain.account.entity;
+package com.emotionbank.business.domain.user.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,10 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.emotionbank.business.domain.transaction.entity.Transaction;
-import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,27 +21,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "account_id")
-	private Long accountId;
+	@Column(name = "category_id")
+	private Long categoryId;
 
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "account_name")
-	private String accountName;
-	@Column(name = "account_number")
-	private String accountNumber;
+	@OneToMany(mappedBy = "category")
+	private List<Transaction> transactions;
 
-	@Column(name="created_time")
-	private LocalDateTime createdTime;
 
-	@OneToOne(mappedBy = "sender")
-	private Transaction sender;
+	@Column(name="category_name")
+	private String categoryName;
 
-	@OneToOne(mappedBy = "receiver")
-	private Transaction receiver;
 }
