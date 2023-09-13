@@ -1,13 +1,25 @@
 const color = {
-  black: 'black',
-  white: 'white',
+  black: '##191F28',
+  darkgray: '#323d4c',
+  gray: '##6b7685',
+  lightgray: '#ACB3BA',
+  white: '#FCFAED',
+  red: '#F86375',
+  green: '#51CA87',
+  yellow: '#FBD975',
+  purple: '#C8B2CB',
+  orange: '#FFA74F',
+  pink: '#FAACA7',
+  navy: '#303240',
 };
 
 const fontSize = {
-  s: '1rem',
+  xs: '1.2rem',
+  s: '1.4rem',
   m: '1.6rem',
   l: '2.2rem',
-  xl: '3rem',
+  xl: '2.6rem',
+  title: '3.2rem',
 };
 
 export const theme = {
