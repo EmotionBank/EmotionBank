@@ -1,19 +1,14 @@
+import { useEffect, useState } from 'react';
 import * as S from '@/components/Calendar/Calendar.style';
 import { DAY } from '@/constants/calendar';
+import { DateInterface } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-import { useEffect, useState } from 'react';
 
-interface newDateInterface {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-}
 interface currnetDateInterface {
   year: number;
   month: number;
-  date: newDateInterface[][];
+  date: DateInterface[][];
 }
 
 const Calendar = () => {

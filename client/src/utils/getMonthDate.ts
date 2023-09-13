@@ -1,13 +1,7 @@
+import { DateInterface } from '@/types/date';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 
-interface newDateInterface {
-  year: number;
-  month: number;
-  date: number;
-  day: number;
-}
-
-export const getMonthDate = (newDate: newDateInterface, page = 0) => {
+export const getMonthDate = (newDate: DateInterface, page = 0) => {
   const doMonth = getNewDateObj(new Date(newDate.year, newDate.month - 1 + page, 1));
 
   const prevMonthLastDate = getNewDateObj(new Date(doMonth.year, doMonth.month - 1, 0));
