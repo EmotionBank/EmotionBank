@@ -1,0 +1,14 @@
+spring:
+    config:
+        import:
+            - optional:application-secret.yml
+    jpa:
+        open-in-view: true
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                diarect: org.hibernate.dialect.MySQL5InnoDBDialect
+                format_sql: true
+                use_sql_comments: true
+
