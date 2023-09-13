@@ -36,6 +36,6 @@ public class Category {
 
 
 	@Column(name="category_name")
-	private String CategoryName;
+	private String categoryName;
 
 }
