@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/apis';
-import { DepositTransactionData } from '@/types/bank';
+import { DepositTransactionType } from '@/types/bank';
 
 // 계좌 입금 (본인에게 +/-)
 export interface PostDepositTransaction {
@@ -16,6 +16,6 @@ export interface PostDepositTransaction {
   transactionDate: Date;
 }
 export const depositTransaction = async (transactionData: PostDepositTransaction) => {
-  const { data } = await axiosInstance.post<DepositTransactionData>('/accounts/deposit', transactionData);
+  const { data } = await axiosInstance.post<DepositTransactionType>('/accounts/deposit', transactionData);
   return data;
 };

@@ -1,17 +1,17 @@
-export interface AccountBalanceData {
+export interface AccountBalanceType {
   accountName: string;
   balance: number;
 }
 
-export interface DepositTransactionData {
+export interface DepositTransactionType {
   balance: number;
 }
 
-export interface WithdrawTransactionData {
+export interface WithdrawTransactionType {
   balance: number;
 }
 
-export interface TransactionData {
+export interface TransactionType {
   transactionId: number;
   emotion: string;
   date: Date;
@@ -21,11 +21,11 @@ export interface TransactionData {
   balance: number;
 }
 
-export interface TransactionListData {
-  transactions: TransactionData[];
+export interface TransactionListType {
+  transactions: TransactionType[];
 }
 
-export interface TransactionDetailData {
+export interface TransactionDetailType {
   title: string;
   emotion: string;
   money: number;

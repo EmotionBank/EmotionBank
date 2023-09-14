@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/apis';
-import { WithdrawTransactionData } from '@/types/bank';
+import { WithdrawTransactionType } from '@/types/bank';
 
 // 계좌 출금
 export interface PostWithdrawTransaction {
@@ -11,6 +11,6 @@ export interface PostWithdrawTransaction {
   accountNumber: string;
 }
 export const withdrawTransaction = async (transactionData: PostWithdrawTransaction) => {
-  const { data } = await axiosInstance.post<WithdrawTransactionData>('/accounts/withdraw', transactionData);
+  const { data } = await axiosInstance.post<WithdrawTransactionType>('/accounts/withdraw', transactionData);
   return data;
 };
