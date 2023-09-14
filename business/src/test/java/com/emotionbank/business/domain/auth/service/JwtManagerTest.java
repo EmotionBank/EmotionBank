@@ -34,7 +34,7 @@ public class JwtManagerTest {
 	private static final String INVALID_SECRET_KEY
 		= "abcedfghijklmopqrstuvwxyzabcedfghijklmopqrstuvwxyabcedfghijklmopqrstuvwabcedfghijklmopqrstuv";
 
-	private String createInvalidToken(final String tokenType, final Long userId, final Date expirationTime) {
+	private String createInvalidToken(final String tokenType, final Date expirationTime) {
 		final Date now = new Date();
 		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(INVALID_SECRET_KEY));
 
@@ -43,7 +43,7 @@ public class JwtManagerTest {
 			.setSubject(tokenType)
 			.setIssuedAt(now)
 			.setExpiration(expirationTime)
-			.claim("userId", userId)
+			.claim("userId", SAMPLE_USER_ID)
 			.signWith(key, SignatureAlgorithm.HS512)
 			.compact();
 	}
@@ -118,8 +118,7 @@ public class JwtManagerTest {
 		// given
 		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
-		final String refreshToken = createInvalidToken(TokenType.REFRESH.name(), SAMPLE_USER_ID,
-			refreshTokenExpirationTime);
+		final String refreshToken = createInvalidToken(TokenType.REFRESH.name(), refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String accessToken = jwtManager.createAccessToken(SAMPLE_USER_ID, accessTokenExpirationTime);
 		jwtTokens.setAccessToken(accessToken);
@@ -141,8 +140,7 @@ public class JwtManagerTest {
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
-		final String accessToken = createInvalidToken(TokenType.ACCESS.name(), SAMPLE_USER_ID,
-			accessTokenExpirationTime);
+		final String accessToken = createInvalidToken(TokenType.ACCESS.name(), accessTokenExpirationTime);
 		jwtTokens.setAccessToken(accessToken);
 		jwtTokens.setRefreshToken(refreshToken);
 		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
