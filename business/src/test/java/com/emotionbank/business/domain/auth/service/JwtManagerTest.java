@@ -4,6 +4,7 @@ import static com.emotionbank.business.global.error.ErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.Key;
 import java.util.Date;
 
 import org.junit.jupiter.api.DisplayName;
@@ -11,8 +12,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.emotionbank.business.domain.auth.constant.TokenType;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
 import com.emotionbank.business.global.error.exception.JwtTokenException;
+
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 @SpringBootTest
 public class JwtManagerTest {
@@ -23,6 +31,22 @@ public class JwtManagerTest {
 	private static final Long SAMPLE_USER_ID = 1L;
 	private static final Long VALID_EXPIRATION_TIME = 100000L;
 	private static final Long INVALID_EXPIRATION_TIME = 0L;
+	private static final String INVALID_SECRET_KEY
+		= "abcedfghijklmopqrstuvwxyzabcedfghijklmopqrstuvwxyabcedfghijklmopqrstuvwabcedfghijklmopqrstuv";
+
+	private String createInvalidToken(final String tokenType, final Long userId, final Date expirationTime) {
+		final Date now = new Date();
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(INVALID_SECRET_KEY));
+
+		return Jwts.builder()
+			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+			.setSubject(tokenType)
+			.setIssuedAt(now)
+			.setExpiration(expirationTime)
+			.claim("userId", userId)
+			.signWith(key, SignatureAlgorithm.HS512)
+			.compact();
+	}
 
 	@Test
 	@DisplayName("jwt 토큰 생성을 성공한다.")
@@ -76,7 +100,7 @@ public class JwtManagerTest {
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
-		final String accessToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, accessTokenExpirationTime);
+		final String accessToken = jwtManager.createAccessToken(SAMPLE_USER_ID, accessTokenExpirationTime);
 		jwtTokens.setAccessToken(accessToken);
 		jwtTokens.setRefreshToken(refreshToken);
 		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
@@ -86,6 +110,27 @@ public class JwtManagerTest {
 		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(ACCESS_TOKEN_EXPIRED.getMessage());
+	}
+
+	@Test
+	@DisplayName("refreshToken이 유효하지 않은 형식일 때 예외처리 한다.")
+	public void refreshToken_Invalid() {
+		// given
+		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
+		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
+		final String refreshToken = createInvalidToken(TokenType.REFRESH.name(), SAMPLE_USER_ID,
+			refreshTokenExpirationTime);
+		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
+		final String accessToken = jwtManager.createAccessToken(SAMPLE_USER_ID, accessTokenExpirationTime);
+		jwtTokens.setAccessToken(accessToken);
+		jwtTokens.setRefreshToken(refreshToken);
+		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
+		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		// when & then
+		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+			.isInstanceOf(JwtTokenException.class)
+			.hasMessage(REFRESH_TOKEN_INVALID.getMessage());
 	}
 
 }
