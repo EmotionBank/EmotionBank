@@ -11,7 +11,7 @@ const AppRouter = () => {
       children: [
         {
           path: '',
-          element: <Main></Main>,
+          element: <Main />,
         },
       ],
     },

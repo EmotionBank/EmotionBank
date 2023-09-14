@@ -23,29 +23,33 @@ module.exports = (env, argv) => {
             }
           : false,
     }),
-    new WebpackPwaManifest({
-      name: 'EmotionBank',
-      description: 'EmotionBank',
-      background_color: '#ffffff',
-      crossOrigin: 'use-credentials',
-      theme_color: '#eeeeee',
-      icons: [
-        {
-          src: path.resolve('public/logo192.png'),
-          sizes: [16, 24, 32, 64],
-        },
-        {
-          src: path.resolve('public/logo192.png'),
-          sizes: '192x192',
-        },
-        {
-          src: path.resolve('public/logo512.png'),
-          sizes: '512x512',
-        },
-      ],
-    }),
   ];
 
+  if (prod) {
+    plugins.push(
+      new WebpackPwaManifest({
+        name: 'EmotionBank',
+        description: 'EmotionBank',
+        background_color: '#ffffff',
+        crossOrigin: 'use-credentials',
+        theme_color: '#eeeeee',
+        icons: [
+          {
+            src: path.resolve('public/logo192.png'),
+            sizes: [16, 24, 32, 64],
+          },
+          {
+            src: path.resolve('public/logo192.png'),
+            sizes: '192x192',
+          },
+          {
+            src: path.resolve('public/logo512.png'),
+            sizes: '512x512',
+          },
+        ],
+      }),
+    );
+  }
   if (prod) {
     plugins.push(
       new GenerateSW({
@@ -66,6 +70,7 @@ module.exports = (env, argv) => {
     devServer: {
       port: PORT,
       hot: true,
+      historyApiFallback: true,
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
