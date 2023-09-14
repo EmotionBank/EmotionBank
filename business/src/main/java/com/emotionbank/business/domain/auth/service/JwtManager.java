@@ -7,9 +7,13 @@ import org.springframework.stereotype.Component;
 
 import com.emotionbank.business.domain.auth.constant.TokenType;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
+import com.emotionbank.business.global.error.ErrorCode;
+import com.emotionbank.business.global.error.exception.JwtTokenException;
 import com.emotionbank.business.global.properties.JwtProperties;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -45,7 +49,7 @@ public class JwtManager {
 		return createToken(TokenType.REFRESH.name(), userId, expirationTime);
 	}
 
-	private String createToken(String tokenType, Long userId, Date expirationTime) {
+	private String createToken(final String tokenType, final Long userId, final Date expirationTime) {
 		final Date now = new Date();
 		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
 
@@ -67,4 +71,36 @@ public class JwtManager {
 		return new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpirationTime());
 	}
 
+	public void validateTokens(final JwtTokens jwtTokens) {
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+		validateRefreshToken(jwtTokens.getRefreshToken(), key);
+		validateAccessToken(jwtTokens.getAccessToken(), key);
+	}
+
+	private void validateRefreshToken(final String refreshToken, final Key key) {
+		try {
+			Jwts.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(refreshToken);
+		} catch (final ExpiredJwtException e) {
+			throw new JwtTokenException(ErrorCode.REFRESH_TOKEN_EXPIRED);
+		} catch (final JwtException | IllegalArgumentException e) {
+			throw new JwtTokenException(ErrorCode.REFRESH_TOKEN_INVALID);
+		}
+	}
+
+	private void validateAccessToken(final String accessToken, final Key key) {
+		try {
+			Jwts.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(accessToken);
+		} catch (final ExpiredJwtException e) {
+			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_EXPIRED);
+		} catch (final JwtException | IllegalArgumentException e) {
+			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_INVALID);
+		}
+
+	}
 }
