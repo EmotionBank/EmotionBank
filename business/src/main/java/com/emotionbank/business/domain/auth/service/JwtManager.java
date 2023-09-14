@@ -1,6 +1,6 @@
 package com.emotionbank.business.domain.auth.service;
 
-import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
@@ -12,6 +12,8 @@ import com.emotionbank.business.global.properties.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +47,7 @@ public class JwtManager {
 
 	private String createToken(String tokenType, Long userId, Date expirationTime) {
 		final Date now = new Date();
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
 
 		return Jwts.builder()
 			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -52,7 +55,7 @@ public class JwtManager {
 			.setIssuedAt(now)
 			.setExpiration(expirationTime)
 			.claim("userId", userId)
-			.signWith(SignatureAlgorithm.HS512, jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8))
+			.signWith(key, SignatureAlgorithm.HS512)
 			.compact();
 	}
 
@@ -63,4 +66,5 @@ public class JwtManager {
 	private Date createRefreshTokenExpireTime() {
 		return new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpirationTime());
 	}
+
 }
