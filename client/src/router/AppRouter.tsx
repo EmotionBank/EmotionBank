@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout/Layout';
 import { PATH } from '@/constants/path';
+import Detail from '@/pages/Detail/Detail';
 import Main from '@/pages/Main/Main';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
@@ -13,6 +14,10 @@ const AppRouter = () => {
         {
           path: PATH.ROOT,
           element: <Main />,
+        },
+        {
+          path: PATH.DETAIL(':transactionId'),
+          element: <Detail />,
         },
       ],
     },
