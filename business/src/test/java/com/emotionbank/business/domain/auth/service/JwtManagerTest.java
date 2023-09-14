@@ -117,7 +117,7 @@ public class JwtManagerTest {
 	public void refreshToken_Invalid() {
 		// given
 		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
-		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
+		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = createInvalidToken(TokenType.REFRESH.name(), SAMPLE_USER_ID,
 			refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
@@ -131,6 +131,27 @@ public class JwtManagerTest {
 		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(REFRESH_TOKEN_INVALID.getMessage());
+	}
+
+	@Test
+	@DisplayName("accessToken이 유효하지 않은 형식일 때 예외처리 한다.")
+	public void accessToken_Invalid() {
+		// given
+		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
+		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
+		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
+		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
+		final String accessToken = createInvalidToken(TokenType.ACCESS.name(), SAMPLE_USER_ID,
+			accessTokenExpirationTime);
+		jwtTokens.setAccessToken(accessToken);
+		jwtTokens.setRefreshToken(refreshToken);
+		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
+		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		// when & then
+		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+			.isInstanceOf(JwtTokenException.class)
+			.hasMessage(ACCESS_TOKEN_INVALID.getMessage());
 	}
 
 }
