@@ -68,4 +68,24 @@ public class JwtManagerTest {
 			.hasMessage(REFRESH_TOKEN_EXPIRED.getMessage());
 	}
 
+	@Test
+	@DisplayName("accessToken의 기한이 만료되었을 때 예외 처리한다.")
+	public void accessToken_Expired() {
+		// given
+		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
+		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
+		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
+		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
+		final String accessToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, accessTokenExpirationTime);
+		jwtTokens.setAccessToken(accessToken);
+		jwtTokens.setRefreshToken(refreshToken);
+		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
+		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		// when & then
+		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+			.isInstanceOf(JwtTokenException.class)
+			.hasMessage(ACCESS_TOKEN_EXPIRED.getMessage());
+	}
+
 }
