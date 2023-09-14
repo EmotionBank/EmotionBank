@@ -46,7 +46,7 @@ const Main = () => {
   return (
     <MainPageWrapper>
       <Calendar updateDate={updateDate} />
-      <TransactionList arr={dummy} />
+      <TransactionList transactionDatas={dummy} />
     </MainPageWrapper>
   );
 };

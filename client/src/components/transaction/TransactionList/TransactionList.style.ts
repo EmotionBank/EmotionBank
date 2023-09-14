@@ -7,9 +7,15 @@ export const TransactionListWrapper = styled(Flex)`
   gap: 0.5rem;
 `;
 export const TransactionListContainer = styled(Flex)`
-  flex-direction: column;
+  padding: 0 2rem;
+  width: 100%;
+  min-height: 5.5rem;
   justify-content: space-between;
-  gap: 0.5rem;
-  background-color: ${({ theme }) => theme.color.lightgray};
-  color: ${({ theme }) => theme.color.darkgray};
+  color: ${({ theme }) => theme.color.gray};
+  border-radius: 8px;
+  font-size: ${({ theme }) => theme.fontSize.s};
+  font-weight: bold;
+  background-color: whitesmoke;
 `;
+
+export const EmotionImage = styled.img``;
