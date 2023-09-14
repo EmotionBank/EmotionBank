@@ -3,48 +3,48 @@ package com.emotionbank.business.domain.user.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.emotionbank.business.domain.account.entity.Account;
-import com.emotionbank.business.domain.user.dto.Type;
+import com.emotionbank.business.domain.user.dto.Role;
+import com.emotionbank.business.domain.user.dto.SocialType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
 	private Long userId;
 
 	private String nickname;
 
-	@Column(name="birthday")
-	private LocalDate birthDay;
+	private LocalDate birthday;
 
-	private String email;
+	private Role role;
 
-	@Column(name="member_type")
-	private Type memberType;
+	private String socialId;
 
-	@Column(name="created_time")
+	@Enumerated(EnumType.STRING)
+	private SocialType socialType;
+
 	private LocalDate createdTime;
 
-	@Column(name="last_login_time")
 	private LocalDate lastLoginTime;
 
-	@Column(name="withdrawal_time")
 	private LocalDate withdrawalTime;
 
 	@OneToMany(mappedBy = "user")
@@ -55,6 +55,8 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	private List<Category> category;
+
+	private String image;
 
 	// @OneToMany(mappedBy = "user")
 	// private List<Calendar> calendar;
