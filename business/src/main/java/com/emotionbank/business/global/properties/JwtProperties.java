@@ -18,10 +18,10 @@ public class JwtProperties {
 	private String secretKey;
 
 	@NotEmpty
-	private String accessTokenExpirationTime;
+	private Long accessTokenExpirationTime;
 
 	@NotEmpty
-	private String refreshTokenExpirationTime;
+	private Long refreshTokenExpirationTime;
 
 	@NotEmpty
 	private String accessTokenHeader;

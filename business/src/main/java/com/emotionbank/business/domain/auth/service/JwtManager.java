@@ -52,8 +52,7 @@ public class JwtManager {
 			.setIssuedAt(now)
 			.setExpiration(expirationTime)
 			.claim("userId", userId)
-			.signWith(SignatureAlgorithm.ES512, jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8))
-			.setHeaderParam("typ", "JWT")
+			.signWith(SignatureAlgorithm.HS512, jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8))
 			.compact();
 	}
 
