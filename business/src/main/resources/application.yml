@@ -1,14 +1,46 @@
 spring:
-    config:
-        import:
-            - optional:application-secret.yml
-    jpa:
-        open-in-view: true
-        hibernate:
-            ddl-auto: create-drop
-        properties:
-            hibernate:
-                diarect: org.hibernate.dialect.MySQL5InnoDBDialect
-                format_sql: true
-                use_sql_comments: true
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: test
+    password: test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 7
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      jdbc:
+        lob:
+          non_contextual_creation: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+
+logging:
+  level:
+    org:
+      hibernate:sql: DEBUG
+      springframework:
+        security: DEBUG
+    type:
+      descriptor:
+        sql:
+          BasicBinder: TRACE
+
+jwt:
+  secret-key: testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+  access-token-header: Authorization
+  refresh-token-header: Authorization-refresh
+  access-token-expiration-time: 600000
+  refresh-token-expiration-time: 36000000
+
 
