@@ -71,13 +71,8 @@ public class JwtManager {
 		return new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpirationTime());
 	}
 
-	public void validateTokens(final JwtTokens jwtTokens) {
+	public void validateRefreshToken(final String refreshToken) {
 		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
-		validateRefreshToken(jwtTokens.getRefreshToken(), key);
-		validateAccessToken(jwtTokens.getAccessToken(), key);
-	}
-
-	private void validateRefreshToken(final String refreshToken, final Key key) {
 		try {
 			Jwts.parserBuilder()
 				.setSigningKey(key)
@@ -90,7 +85,8 @@ public class JwtManager {
 		}
 	}
 
-	private void validateAccessToken(final String accessToken, final Key key) {
+	public void validateAccessToken(final String accessToken) {
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
 		try {
 			Jwts.parserBuilder()
 				.setSigningKey(key)
