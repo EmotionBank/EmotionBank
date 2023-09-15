@@ -24,7 +24,7 @@ public class UserDto {
 
 	private String email;
 
-	private Type memberType;
+	private SocialType memberType;
 
 	private LocalDate createdTime;
 

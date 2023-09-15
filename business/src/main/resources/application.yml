@@ -1,42 +1,29 @@
 spring:
-  config:
-    import:
-      - optional:application-secret.yml
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        diarect: org.hibernate.dialect.MySQL5InnoDBDialect
-        format_sql: true
-        use_sql_comments: true
-  data:
-    web:
-      pageable:
-        default-page-size: 5
-        max-page-size: 100
   jackson:
     deserialization:
       fail-on-unknown-properties: true
 
   datasource:
     url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-    username: test
-    password: test
+    username: user
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 7
 
   jpa:
     hibernate:
       ddl-auto: create
-      jdbc:
-        lob:
-          non_contextual_creation: true
     properties:
       hibernate:
         format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
+
+  data:
+    web:
+      pageable:
+        default-page-size: 5
+        max-page-size: 100
 
 server:
   port: 8080
@@ -58,6 +45,9 @@ jwt:
   access-token-header: Authorization
   refresh-token-header: Authorization-refresh
   access-token-expiration-time: 600000
-  refresh-token-expiration-time: 36000000
+  refresh-token-expiration-time: 1209600000
 
-
+redis:
+  host: redis
+  port: 6379
+  password: password
