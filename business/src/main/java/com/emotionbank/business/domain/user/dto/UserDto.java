@@ -6,6 +6,7 @@ import java.util.List;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.entity.Agreement;
 import com.emotionbank.business.domain.user.entity.Category;
+import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,6 +53,13 @@ public class UserDto {
 			return UserSearchResultDto.builder()
 				.nickname(nickname)
 				.image(image)
+				.build();
+		}
+
+		public static UserDto.UserSearchResultDto from(User user) {
+			return UserDto.UserSearchResultDto.builder()
+				.nickname(user.getNickname())
+				.image(user.getImage())
 				.build();
 		}
 	}

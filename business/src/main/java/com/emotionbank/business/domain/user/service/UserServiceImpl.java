@@ -20,10 +20,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto.UserSearchResultDto> searchUser(String userNickname, Pageable pageable) {
-		List<User> users = userRepository.findByNicknameContains("%" + userNickname + "%", pageable)
+		List<User> users = userRepository.findByNicknameContains(userNickname, pageable)
 			.orElseThrow(NullPointerException::new);
 		List<UserDto.UserSearchResultDto> userSearchResultDtos = users.stream()
-			.map(User::toUserSearchResultDto)
+			.map(UserDto.UserSearchResultDto::from)
 			.collect(Collectors.toList());
 		return userSearchResultDtos;
 	}

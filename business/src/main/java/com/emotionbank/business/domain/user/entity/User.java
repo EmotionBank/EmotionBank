@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.dto.Type;
-import com.emotionbank.business.domain.user.dto.UserDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,10 +61,5 @@ public class User {
 
 	// @OneToMany(mappedBy = "user")
 	// private List<Calendar> calendar;
-	public static UserDto.UserSearchResultDto toUserSearchResultDto(User user) {
-		return UserDto.UserSearchResultDto.builder()
-			.nickname(user.getNickname())
-			.image(user.getImage())
-			.build();
-	}
+
 }
