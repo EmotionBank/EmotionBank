@@ -41,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService{
 		Long balance = receiverAccount.getBalance();
 
 		// 거래 내역 저장
-		Transaction transaction = Transaction.of(transactionDto,senderAccount, receiverAccount,balance);
+		Transaction transaction = Transaction.of(transactionDto,senderAccount, receiverAccount, balance);
 		transactionRepository.save(transaction);
 		return TransactionDto.from(transaction);
 	}
