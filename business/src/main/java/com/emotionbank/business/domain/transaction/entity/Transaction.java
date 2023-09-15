@@ -1,9 +1,7 @@
 package com.emotionbank.business.domain.transaction.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +12,8 @@ import javax.persistence.OneToOne;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.transaction.dto.Emoticon;
+import com.emotionbank.business.domain.transaction.dto.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.Visibility;
-import com.emotionbank.business.domain.user.dto.Type;
 import com.emotionbank.business.domain.user.entity.Category;
 
 import lombok.AllArgsConstructor;
@@ -29,11 +27,9 @@ import lombok.NoArgsConstructor;
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "transaction_id")
 	private Long transactionId;
 
-	@Column(name = "transaction_type")
-	private Type transactionType;
+	private TransactionType transactionType;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -44,9 +40,7 @@ public class Transaction {
 	private String title;
 	private String content;
 
-	@Column(name="transaction_time")
 	private LocalDateTime transactionTime;
-
 	private Emoticon emoticon;
 
 	@OneToOne
@@ -54,7 +48,7 @@ public class Transaction {
 	private Account sender;
 
 	@OneToOne
-	@JoinColumn(name="receiver")
+	@JoinColumn(name = "receiver")
 	private Account receiver;
 
 	private Visibility visibility;
