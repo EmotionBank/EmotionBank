@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 	TEST(HttpStatus.INTERNAL_SERVER_ERROR, "001", "businessExceptionTest"),
+
+	ACCOUNT_NOT_EXIST(HttpStatus.BAD_GATEWAY,"A-001","계좌가 없습니다")
 	;
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
