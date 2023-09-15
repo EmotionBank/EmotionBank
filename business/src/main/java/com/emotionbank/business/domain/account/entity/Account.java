@@ -18,10 +18,12 @@ import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
@@ -39,6 +41,7 @@ public class Account {
 	@Column(name = "account_number")
 	private String accountNumber;
 
+	private Long balance;
 	@Column(name="created_time")
 	private LocalDateTime createdTime;
 
@@ -47,4 +50,8 @@ public class Account {
 
 	@OneToOne(mappedBy = "receiver")
 	private Transaction receiver;
+
+	public void updateBalance(Long amount) {
+		this.balance += amount;
+	}
 }
