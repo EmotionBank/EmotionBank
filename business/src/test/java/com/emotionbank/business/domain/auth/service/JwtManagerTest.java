@@ -63,13 +63,13 @@ public class JwtManagerTest {
 	}
 
 	@Test
-	@DisplayName("accessToken과 refreshToken이 모두 유효한 로직일때 성공한다.")
-	public void validateTokenSuccess() {
+	@DisplayName("refreshToken이 유효한 로직일때 성공한다.")
+	public void validateRefreshTokenSuccess() {
 		// given
 		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 
 		// when & then
-		assertDoesNotThrow(() -> jwtManager.validateTokens(jwtTokens));
+		assertDoesNotThrow(() -> jwtManager.validateAccessToken(jwtTokens.getRefreshToken()));
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class JwtManagerTest {
 		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
 
 		// when & then
-		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+		assertThatThrownBy(() -> jwtManager.validateRefreshToken(jwtTokens.getRefreshToken()))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(REFRESH_TOKEN_EXPIRED.getMessage());
 	}
@@ -107,7 +107,7 @@ public class JwtManagerTest {
 		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
 
 		// when & then
-		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+		assertThatThrownBy(() -> jwtManager.validateAccessToken(jwtTokens.getAccessToken()))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(ACCESS_TOKEN_EXPIRED.getMessage());
 	}
@@ -127,7 +127,7 @@ public class JwtManagerTest {
 		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
 
 		// when & then
-		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+		assertThatThrownBy(() -> jwtManager.validateRefreshToken(jwtTokens.getRefreshToken()))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(REFRESH_TOKEN_INVALID.getMessage());
 	}
@@ -147,7 +147,7 @@ public class JwtManagerTest {
 		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
 
 		// when & then
-		assertThatThrownBy(() -> jwtManager.validateTokens(jwtTokens))
+		assertThatThrownBy(() -> jwtManager.validateAccessToken(jwtTokens.getAccessToken()))
 			.isInstanceOf(JwtTokenException.class)
 			.hasMessage(ACCESS_TOKEN_INVALID.getMessage());
 	}
