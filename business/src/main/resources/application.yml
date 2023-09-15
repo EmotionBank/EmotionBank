@@ -5,18 +5,13 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-    username: test
-    password: test
+    username: user
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 7
 
   jpa:
     hibernate:
       ddl-auto: create
-      jdbc:
-        lob:
-          non_contextual_creation: true
     properties:
       hibernate:
         format_sql: true
