@@ -1,19 +1,17 @@
 package com.emotionbank.business.api.user.dto.response;
 
-import java.time.LocalDate;
-
 import com.emotionbank.business.domain.user.dto.UserDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
+@Getter
 public class UserResponseDto {
-	@Data
 	@Builder
+	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor
 	public static class UserSearchResponseDto {

@@ -10,7 +10,6 @@ import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,9 +41,9 @@ public class UserDto {
 	private String image;
 
 	@Builder
+	@Getter
 	@NoArgsConstructor
 	@AllArgsConstructor
-	@Data
 	public static class UserSearchResultDto {
 		private String nickname;
 		private String image;
