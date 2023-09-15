@@ -18,13 +18,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableRedisRepositories
 public class RedisConfig {
-	@Value(value = "${spring.data.redis.host}")
+	@Value(value = "${redis.host}")
 	private String host;
 
-	@Value(value = "${spring.data.redis.port}")
+	@Value(value = "${redis.port}")
 	private int port;
 
-	@Value(value = "${spring.data.redis.password}")
+	@Value(value = "${redis.password}")
 	private String redisPwd;
 
 	@Bean
