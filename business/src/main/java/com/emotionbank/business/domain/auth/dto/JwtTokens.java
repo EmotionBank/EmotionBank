@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JwtTokens {
 
-	private static String GRANT_TYPE_BEARER = "Bearer";
+	private static final String GRANT_TYPE_BEARER = "Bearer";
 
 	private String grantType;
 	private String accessToken;
