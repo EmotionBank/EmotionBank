@@ -1,3 +1,4 @@
+import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
 
 export const LayoutWrapper = styled.section`
@@ -7,4 +8,10 @@ export const LayoutWrapper = styled.section`
   max-width: 480px;
   margin: 0 auto;
   box-shadow: 0px 0px 5px 2px gray;
+`;
+
+export const OutletWrapper = styled(Flex)`
+  width: 100%;
+  flex-direction: column;
+  padding: 2rem 3rem;
 `;
