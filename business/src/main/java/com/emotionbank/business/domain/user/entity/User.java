@@ -58,6 +58,12 @@ public class User {
 
 	private String image;
 
+	@OneToMany(mappedBy = "follower")
+	private List<Follow> followerList;
+
+	@OneToMany(mappedBy = "followee")
+	private List<Follow> followeeList;
+
 	// @OneToMany(mappedBy = "user")
 	// private List<Calendar> calendar;
 
