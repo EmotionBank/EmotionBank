@@ -74,7 +74,7 @@ class TransactionServiceImplTest {
 			.thenReturn(Optional.of(category));
 
 		// When
-		TransactionDto resultDto = transactionService.changeBalance(transactionDto);
+		TransactionDto resultDto = transactionService.updateBalance(transactionDto);
 
 		// Then
 		assertThat(resultDto).isNotNull();
