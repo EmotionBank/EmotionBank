@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
@@ -47,7 +45,6 @@ public class Transaction {
 	private String title;
 	private String content;
 
-	@CreatedDate
 	private LocalDateTime transactionTime;
 
 	@Enumerated(value = EnumType.STRING)
