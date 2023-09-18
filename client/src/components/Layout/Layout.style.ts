@@ -13,5 +13,5 @@ export const LayoutWrapper = styled.section`
 export const OutletWrapper = styled(Flex)`
   width: 100%;
   flex-direction: column;
-  padding: 2rem;
+  padding: 0 2rem;
 `;
