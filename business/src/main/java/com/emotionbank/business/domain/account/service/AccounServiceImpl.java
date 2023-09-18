@@ -1,6 +1,9 @@
 package com.emotionbank.business.domain.account.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
@@ -31,6 +34,15 @@ public class AccounServiceImpl implements AccountService {
 	public AccountDto getAccountBalance(String accountNumber) {
 		Account account = accountRepository.findByAccountNumber(accountNumber)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		return AccountDto.from(account);
+	}
+
+	@Override
+	public AccountDto updateAccountName(String accountNumber, String accountName) {
+		Account account = accountRepository.findByAccountNumber(accountNumber)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		account.updateAccountName(accountName);
+		// accountRepository.save(account);
 		return AccountDto.from(account);
 	}
 }
