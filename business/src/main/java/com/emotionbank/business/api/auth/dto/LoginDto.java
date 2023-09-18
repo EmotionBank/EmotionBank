@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LoginDto {
-	private String code;
+	private final String code;
 
 	@Builder
 	public LoginDto(String code) {
