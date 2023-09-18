@@ -44,7 +44,7 @@ public class Transaction {
 	private String title;
 	private String content;
 
-	@Column(name="transaction_time")
+	@Column(name = "transaction_time")
 	private LocalDateTime transactionTime;
 
 	private Emoticon emoticon;
@@ -54,13 +54,14 @@ public class Transaction {
 	private Account sender;
 
 	@OneToOne
-	@JoinColumn(name="receiver")
+	@JoinColumn(name = "receiver")
 	private Account receiver;
 
 	private Visibility visibility;
 
 	@Builder
-	public Transaction(Long transactionId, TransactionType transactionType, Category category, Long amount, Long balance,
+	public Transaction(Long transactionId, TransactionType transactionType, Category category, Long amount,
+		Long balance,
 		String title,
 		String content, LocalDateTime transactionTime, Emoticon emoticon, Account sender, Account receiver,
 		Visibility visibility) {
@@ -77,7 +78,8 @@ public class Transaction {
 		this.receiver = receiver;
 		this.visibility = visibility;
 	}
-	public static Transaction of(TransactionDto transactionDto,Account sender, Account receiver,Long balance){
+
+	public static Transaction of(TransactionDto transactionDto, Account sender, Account receiver, Long balance) {
 		return Transaction.builder()
 			.transactionId(transactionDto.getTransactionId())
 			.transactionType(transactionDto.getTransactionType())
