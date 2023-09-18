@@ -8,4 +8,11 @@ import lombok.Getter;
 public class FollowDto {
 	String followee;
 	String follower;
+
+	public static FollowDto of(String followee, String follower) {
+		return FollowDto.builder()
+			.followee(followee)
+			.follower(follower)
+			.build();
+	}
 }

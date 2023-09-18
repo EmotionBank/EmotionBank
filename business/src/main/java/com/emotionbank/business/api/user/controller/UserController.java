@@ -1,7 +1,6 @@
 package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +27,13 @@ public class UserController {
 	@GetMapping("/{nickname}")
 	public ResponseEntity<?> searchUser(@PathVariable String nickname, Pageable pageable) {
 		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
-		List<UserSearchDto.Response> userSearchResponse = userDtos.stream()
-			.map(UserSearchDto.Response::of)
-			.collect(Collectors.toList());
-		return ResponseEntity.ok(userSearchResponse);
+		UserSearchDto.Response response = UserSearchDto.Response.of(userDtos);
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/follow/{nickname}")
 	public ResponseEntity<?> followUser(@PathVariable String nickname) {
-		FollowDto followDto = FollowDto.builder()
-			.follower("nickname")
-			.followee(nickname)
-			.build();
-		userService.followUser(followDto);
+		userService.followUser(FollowDto.of("followee", nickname));
 		return ResponseEntity.ok().build();
 	}
 
