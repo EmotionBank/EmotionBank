@@ -17,9 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class KakaoSocialLoginServiceImpl implements SocialLoginService {
 	private static final String PROVIDER = "kakao";
+	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf-8";
 
 	private final KakaoInfoClient kakaoInfoClient;
-	private final String contentType = "application/x-www-form-urlencoded;charset=utf-8";
 
 	@Override
 	public boolean is(final String serviceName) {
@@ -28,7 +28,7 @@ public class KakaoSocialLoginServiceImpl implements SocialLoginService {
 
 	@Override
 	public OAuthDto getMemberInfo(String token) {
-		KakaoInfoResponseDto kakaoInfoResponseDto = kakaoInfoClient.getKakaoMemberInfo(contentType, token);
+		KakaoInfoResponseDto kakaoInfoResponseDto = kakaoInfoClient.getKakaoMemberInfo(CONTENT_TYPE, token);
 		return OAuthDto.from(kakaoInfoResponseDto.getKakaoId());
 	}
 }

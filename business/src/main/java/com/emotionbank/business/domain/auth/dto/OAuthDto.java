@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class OAuthDto {
-	private String id;
+	private final String id;
 
 	@Builder
 	public OAuthDto(String id) {
