@@ -45,7 +45,7 @@ public class TransactionDto {
 	}
 
 	public static TransactionDto from(Transaction transaction) {
-		return com.emotionbank.business.domain.transaction.dto.TransactionDto.builder()
+		return TransactionDto.builder()
 			.transactionId(transaction.getTransactionId())
 			.transactionType(transaction.getTransactionType())
 			.amount(transaction.getAmount())
@@ -61,7 +61,7 @@ public class TransactionDto {
 	}
 
 	public static TransactionDto from(UpdateBalanceDto.Request request) {
-		return com.emotionbank.business.domain.transaction.dto.TransactionDto.builder()
+		return TransactionDto.builder()
 			.transactionType(TransactionType.valueOf(request.getTransactionType()))
 			.categoryId(request.getCategoryId())
 			.amount(request.getAmount())
