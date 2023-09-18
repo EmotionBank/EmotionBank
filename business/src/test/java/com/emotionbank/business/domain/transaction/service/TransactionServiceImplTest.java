@@ -5,22 +5,20 @@ import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
-import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
-import com.emotionbank.business.global.error.exception.BusinessException;
+import com.emotionbank.business.domain.user.entity.Category;
+import com.emotionbank.business.domain.user.repository.CategoryRepository;
 
 class TransactionServiceImplTest {
 
@@ -33,8 +31,11 @@ class TransactionServiceImplTest {
 	@Mock
 	private AccountRepository accountRepository;
 
+	@Mock
+	private CategoryRepository categoryRepository;
+
 	@BeforeEach
-	public void beforeEach(){
+	public void beforeEach() {
 		MockitoAnnotations.openMocks(this);
 	}
 
@@ -42,31 +43,41 @@ class TransactionServiceImplTest {
 	@DisplayName("입금을 성공적으로 처리한다")
 	void depositSuccessfully() {
 		TransactionDto transactionDto = TransactionDto.builder()
-			.amount(100L)
+			.transactionType(TransactionType.DEPOSIT)
+			.amount(1000L)
+			.balance(20000L)
+			.categoryId(1L)
 			.sender("777-7777")
 			.receiver("999-9999")
 			.build();
 
 		Account senderAccount = Account.builder()
 			.accountNumber("777-7777")
-			.balance(1000L)
+			.balance(10000L)
 			.build();
 
 		Account receiverAccount = Account.builder()
 			.accountNumber("999-9999")
-			.balance(2000L)
+			.balance(20000L)
+			.build();
+
+		Category category = Category.builder()
+			.categoryId(1L)
+			.categoryName("회사")
 			.build();
 
 		when(accountRepository.findByAccountNumber("777-7777"))
 			.thenReturn(Optional.of(senderAccount));
 		when(accountRepository.findByAccountNumber("999-9999"))
 			.thenReturn(Optional.of(receiverAccount));
+		when(categoryRepository.findByCategoryId(1L))
+			.thenReturn(Optional.of(category));
 
 		// When
-		TransactionDto resultDto = transactionService.deposit(transactionDto);
+		TransactionDto resultDto = transactionService.changeBalance(transactionDto);
 
 		// Then
 		assertThat(resultDto).isNotNull();
-		assertThat(resultDto.getBalance()).isEqualTo(2100L);
+		assertThat(resultDto.getBalance()).isEqualTo(21000L);
 	}
 }
