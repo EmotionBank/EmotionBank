@@ -22,10 +22,8 @@ public enum ErrorCode {
 	// Account
 	SENDER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-001", "Sender 계좌가 없습니다"),
 	RECEIVER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-002", "Receiver 계좌가 없습니다"),
-	ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-003", "존재하지 않는 계좌 번호입니다.");
-	SENDER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-001", "Sender 계좌가 없습니다"),
-	RECEIVER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-002", "Receiver 계좌가 없습니다"),
-	BALANCE_NOT_EQUAL(HttpStatus.BAD_REQUEST, "A-003", "잔액이 일치하지 않습니다.");
+	ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-003", "존재하지 않는 계좌 번호입니다."),
+	BALANCE_NOT_EQUAL(HttpStatus.BAD_REQUEST, "A-004", "잔액이 일치하지 않습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
