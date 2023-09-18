@@ -26,4 +26,11 @@ public class AccounServiceImpl implements AccountService {
 		Account account = accountRepository.save(Account.of(accountName, user));
 		return AccountDto.from(account);
 	}
+
+	@Override
+	public AccountDto getAccountBalance(String accountNumber) {
+		Account account = accountRepository.findByAccountNumber(accountNumber)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		return AccountDto.from(account);
+	}
 }
