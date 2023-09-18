@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.emotionbank.business.api.user.dto.response.UserResponseDto;
-import com.emotionbank.business.domain.user.dto.UserDto;
+import com.emotionbank.business.api.user.dto.response.UserSearchResponseDto;
+import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,9 +26,9 @@ public class UserController {
 
 	@GetMapping("/{nickname}")
 	public ResponseEntity<?> searchUser(@PathVariable String nickname, Pageable pageable) {
-		List<UserDto.UserSearchResultDto> userSearchResultDtos = userService.searchUser(nickname, pageable);
-		List<UserResponseDto.UserSearchResponseDto> userSearchResponseDtos = userSearchResultDtos.stream()
-			.map(UserResponseDto.UserSearchResponseDto::of)
+		List<UserSearchResultDto> userSearchResultDtos = userService.searchUser(nickname, pageable);
+		List<UserSearchResponseDto> userSearchResponseDtos = userSearchResultDtos.stream()
+			.map(UserSearchResponseDto::of)
 			.collect(Collectors.toList());
 		return ResponseEntity.ok(userSearchResponseDtos);
 	}

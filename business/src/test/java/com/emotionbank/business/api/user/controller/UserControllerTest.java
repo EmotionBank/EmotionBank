@@ -26,7 +26,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.emotionbank.business.common.BaseControllerTest;
-import com.emotionbank.business.domain.user.dto.UserDto;
+import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 @SpringBootTest
@@ -63,7 +63,7 @@ class UserControllerTest extends BaseControllerTest {
 	public void checkBody() {
 		String nickname = "닉네임";
 		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
-		List<UserDto.UserSearchResultDto> responseBody = (List<UserDto.UserSearchResultDto>)responseEntity.getBody();
+		List<UserSearchResultDto> responseBody = (List<UserSearchResultDto>)responseEntity.getBody();
 		assertNotNull(responseBody);
 		assertTrue(responseBody.isEmpty());
 	}

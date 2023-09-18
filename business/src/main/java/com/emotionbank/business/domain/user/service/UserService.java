@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import com.emotionbank.business.domain.user.dto.UserDto;
+import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
 
 public interface UserService {
-	List<UserDto.UserSearchResultDto> searchUser(String userId, Pageable pageable);
+	List<UserSearchResultDto> searchUser(String userId, Pageable pageable);
 
 	void followUser(String userId);
 
