@@ -16,6 +16,7 @@ export const TransactionListContainer = styled(Flex)`
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: bold;
   background-color: whitesmoke;
+  cursor: pointer;
 `;
 
 export const EmotionImage = styled.img``;

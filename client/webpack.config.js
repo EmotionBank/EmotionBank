@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
-  ];  
+  ];
   if (prod) {
     plugins.push(
       new WebpackPwaManifest({
@@ -69,6 +69,7 @@ module.exports = (env, argv) => {
       path: path.join(__dirname, '/dist'),
       filename: 'app.bundle.js',
       clean: true,
+      publicPath: '/',
     },
     devServer: {
       port: PORT,

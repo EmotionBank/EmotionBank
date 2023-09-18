@@ -1,4 +1,6 @@
 import Layout from '@/components/Layout/Layout';
+import { PATH } from '@/constants/path';
+import Detail from '@/pages/Detail/Detail';
 import Main from '@/pages/Main/Main';
 import Login from '@/pages/Login/Login';
 import Signup from '@/pages/Login/Signup';
@@ -13,20 +15,21 @@ const AppRouter = () => {
       errorElement: <></>,
       children: [
         {
-          path: '',
+          path: PATH.ROOT,
           element: <Main />,
         },
         {
-          path:'/login',
-          element:<Login></Login>
+          path: PATH.DETAIL(':transactionId'),
+          element: <Detail />,
+        },
+        { path: '/login', element: <Login></Login> },
+        {
+          path: '/redirection',
+          element: <Redirection />,
         },
         {
-          path:'/redirection',
-          element:<Redirection />
-        },
-        {
-          path:'/signup',
-          element:<Signup />
+          path: '/signup',
+          element: <Signup />,
         },
       ],
     },

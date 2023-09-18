@@ -1,7 +1,5 @@
 export interface NicknameCheckType {
-    isPossible: boolean;
+  isPossible: boolean;
 }
 
-export interface SignupType {
-    
-}
+export interface SignupType {}

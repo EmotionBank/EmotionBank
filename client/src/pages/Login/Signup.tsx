@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   let [index, setIndex] = useState(0);
   const navigate = useNavigate();
-  const [ inputs, setInputs ] = useState(['','','',''])
+  const [inputs, setInputs] = useState(['', '', '', '']);
 
   useEffect(() => {
     if (index === -1) {
@@ -15,11 +15,11 @@ const Signup = () => {
       navigate('/login');
     }
     if (index === 4) {
-        console.log(inputs)
-        // signupUser(inputs).then((res) => {
-        //     console.log(res)
-            navigate('/')
-        // })
+      console.log(inputs);
+      // signupUser(inputs).then((res) => {
+      //     console.log(res)
+      navigate('/');
+      // })
     }
   }, [index]);
 
@@ -27,36 +27,35 @@ const Signup = () => {
     setIndex(index - 1);
   };
   const handleIndexNext = () => {
-    if(inputs[index]===''){
-      alert('내용을 입력해주세요.')
+    if (inputs[index] === '') {
+      alert('내용을 입력해주세요.');
     } else {
       setIndex(index + 1);
     }
   };
 
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputs(prevInputs => {
+      const updatedInputs = [...prevInputs];
+      updatedInputs[index] = value;
+      return updatedInputs;
+    });
+  };
 
-  const handleInput = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target
-    setInputs((prevInputs) => {
-      const updatedInputs = [...prevInputs]
-      updatedInputs[index] = value
-      return updatedInputs
-    })
-  }
-  
   const handleNicknameCheck = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(inputs[index])
+    console.log(inputs[index]);
     try {
-      const response = nicknameCheck( inputs[index] )
+      const response = nicknameCheck(inputs[index]);
 
-      if (response.data.isPossible){
-        alert('해당 닉네임을 사용할 수 있습니다.')
+      if (response.isPossible) {
+        alert('해당 닉네임을 사용할 수 있습니다.');
       } else {
-        alert('해당 닉네임이 이미 존재합니다.')
+        alert('해당 닉네임이 이미 존재합니다.');
       }
     } catch (error) {
-      console.log('Error:', error)
+      console.log('Error:', error);
     }
   };
 
@@ -65,17 +64,31 @@ const Signup = () => {
       <span className="material-icons-outlined" onClick={handleIndexBack}>
         뒤로
       </span>
-        {index===0 && <><input type="checkbox" onChange={handleInput}/>약관 동의 1</>} 
-        {index===1 &&
-         <>
-         <form onSubmit={handleNicknameCheck}>
-          <input type="text" name="nickname" onChange={ handleInput } value={inputs[index]}/>
-          <button type='submit'>중복검사</button>
-         </form>
-         </>}
-        {index===2 && <><input type="text" name="birthday" onChange={ handleInput } value={inputs[index]}/></>}
-        {index===3 && <><input type="text" name="account" onChange={ handleInput } value={inputs[index]}/></>}
-        <Button onClick={ handleIndexNext }>다음</Button>
+      {index === 0 && (
+        <>
+          <input type="checkbox" onChange={handleInput} />
+          약관 동의 1
+        </>
+      )}
+      {index === 1 && (
+        <>
+          <form onSubmit={handleNicknameCheck}>
+            <input type="text" name="nickname" onChange={handleInput} value={inputs[index]} />
+            <button type="submit">중복검사</button>
+          </form>
+        </>
+      )}
+      {index === 2 && (
+        <>
+          <input type="text" name="birthday" onChange={handleInput} value={inputs[index]} />
+        </>
+      )}
+      {index === 3 && (
+        <>
+          <input type="text" name="account" onChange={handleInput} value={inputs[index]} />
+        </>
+      )}
+      <Button onClick={handleIndexNext}>다음</Button>
     </>
   );
 };
