@@ -3,13 +3,13 @@ import { DepositTransactionType } from '@/types/bank';
 
 // 계좌 입출금 (본인에게 +/-)
 export interface PostDepositTransaction {
-  transactionType: string;
+  transactionType: string; // DEPOSIT | WITHDRAWL
   categoryId: string;
   amount: number;
   balance: number;
   emotion: string;
   content: string;
-  visibility: string;
+  visibility: string; // PRIVATE | PUBLIC | FOLLOWER
   transactionDate: Date;
 }
 export const postTransaction = async (transactionData: PostDepositTransaction) => {
