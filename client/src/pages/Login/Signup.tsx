@@ -1,3 +1,4 @@
+import { createAccount } from '@/apis/bank/createAccount';
 import { nicknameCheck } from '@/apis/user/nicknameCheck';
 import { signupUser } from '@/apis/user/signupUser';
 import { Button } from '@components/common/Button/Button';
@@ -14,12 +15,20 @@ const Signup = () => {
       index++;
       navigate('/login');
     }
+    if (index === 3) {
+      const userInfo = {
+        // agree: inputs[0],
+        nickname: inputs[1],
+        birthday: inputs[2],
+      };
+      const response = signupUser(userInfo);
+      console.log(response);
+    }
     if (index === 4) {
       console.log(inputs);
-      // signupUser(inputs).then((res) => {
-      //     console.log(res)
+      const response = createAccount(inputs[index - 1]);
+      console.log(response);
       navigate('/');
-      // })
     }
   }, [index]);
 
@@ -43,11 +52,11 @@ const Signup = () => {
     });
   };
 
-  const handleNicknameCheck = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNicknameCheck = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(inputs[index]);
     try {
-      const response = nicknameCheck(inputs[index]);
+      const response = await nicknameCheck(inputs[index]);
 
       if (response.isPossible) {
         alert('해당 닉네임을 사용할 수 있습니다.');
