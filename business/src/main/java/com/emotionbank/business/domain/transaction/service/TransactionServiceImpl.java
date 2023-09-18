@@ -28,11 +28,11 @@ public class TransactionServiceImpl implements TransactionService{
 	public TransactionDto deposit(TransactionDto transactionDto) {
 		// sender 계좌 유무 확인
 		Account senderAccount = accountRepository.findByAccountNumber(transactionDto.getSender())
-			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+			.orElseThrow(() -> new BusinessException(SENDER_ACCOUNT_NOT_EXIST));
 
 		// receiver 계좌 유무 확인
 		Account receiverAccount = accountRepository.findByAccountNumber(transactionDto.getReceiver())
-			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+			.orElseThrow(() -> new BusinessException(RECEIVER_ACCOUNT_NOT_EXIST));
 
 		// receiver 계좌에 입금
 		receiverAccount.updateBalance(transactionDto.getAmount());
