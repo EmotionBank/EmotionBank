@@ -31,40 +31,35 @@ public class TransactionServiceImpl implements TransactionService {
 	@Transactional
 	@Override
 	public TransactionDto updateBalance(TransactionDto transactionDto) {
-		// sender 계좌 유무 확인
-		Account senderAccount = accountRepository.findByAccountNumber(transactionDto.getSender())
-			.orElseThrow(() -> new BusinessException(SENDER_ACCOUNT_NOT_EXIST));
+		// 계좌 존재 유무 확인
+		Account account = accountRepository.findByAccountNumber(transactionDto.getReceiver())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
-		// receiver 계좌 유무 확인
-		Account receiverAccount = accountRepository.findByAccountNumber(transactionDto.getReceiver())
-			.orElseThrow(() -> new BusinessException(RECEIVER_ACCOUNT_NOT_EXIST));
-
-		// receiver 카테고리 조회
+		// 카테고리 조회
 		Category category = categoryRepository.findByCategoryId(transactionDto.getCategoryId())
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 
+		// 잔액 일치 여부 조회
+		validateBalance(account, transactionDto.getBalance());
+		
 		// 입금, 출금
-		Long balance = 0L;
 		if (TransactionType.DEPOSIT.equals(transactionDto.getTransactionType())) {
-			// 잔액 일치하는지 비교
-			if (!receiverAccount.getBalance().equals(transactionDto.getBalance())) {
-				throw new BusinessException(BALANCE_NOT_EQUAL);
-			}
-			receiverAccount.updateBalance(transactionDto.getAmount());
-			// 변경된 잔액 불러오기
-			balance = receiverAccount.getBalance();
+			account.updateBalance(transactionDto.getAmount());
 		} else if (TransactionType.WITHDRAWL.equals(transactionDto.getTransactionType())) {
-			// 잔액 일치하는지 비교
-			if (!senderAccount.getBalance().equals(transactionDto.getBalance())) {
-				throw new BusinessException(BALANCE_NOT_EQUAL);
-			}
-			senderAccount.updateBalance(-transactionDto.getAmount());
-			balance = senderAccount.getBalance();
+			account.updateBalance(-transactionDto.getAmount());
 		}
+		Long balance = account.getBalance();
+
 		// 거래 내역 저장
-		Transaction transaction = Transaction.of(transactionDto, category, senderAccount, receiverAccount, balance);
+		Transaction transaction = Transaction.of(transactionDto, category, account, balance);
 		transactionRepository.save(transaction);
 		return TransactionDto.from(transaction);
+	}
+
+	private void validateBalance(Account account, Long expectedBalance) {
+		if (!expectedBalance.equals(account.getBalance())) {
+			throw new BusinessException(BALANCE_NOT_EQUAL);
+		}
 	}
 
 }

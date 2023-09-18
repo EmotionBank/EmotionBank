@@ -48,16 +48,11 @@ class TransactionServiceImplTest {
 			.balance(20000L)
 			.categoryId(1L)
 			.sender("777-7777")
-			.receiver("999-9999")
+			.receiver("777-7777")
 			.build();
 
-		Account senderAccount = Account.builder()
+		Account account = Account.builder()
 			.accountNumber("777-7777")
-			.balance(10000L)
-			.build();
-
-		Account receiverAccount = Account.builder()
-			.accountNumber("999-9999")
 			.balance(20000L)
 			.build();
 
@@ -67,9 +62,7 @@ class TransactionServiceImplTest {
 			.build();
 
 		when(accountRepository.findByAccountNumber("777-7777"))
-			.thenReturn(Optional.of(senderAccount));
-		when(accountRepository.findByAccountNumber("999-9999"))
-			.thenReturn(Optional.of(receiverAccount));
+			.thenReturn(Optional.of(account));
 		when(categoryRepository.findByCategoryId(1L))
 			.thenReturn(Optional.of(category));
 

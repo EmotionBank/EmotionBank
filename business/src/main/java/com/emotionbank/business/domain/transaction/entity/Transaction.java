@@ -81,7 +81,7 @@ public class Transaction {
 		this.visibility = visibility;
 	}
 
-	public static Transaction of(TransactionDto transactionDto, Category category, Account sender, Account receiver,
+	public static Transaction of(TransactionDto transactionDto, Category category, Account account,
 		Long balance) {
 		return Transaction.builder()
 			.transactionId(transactionDto.getTransactionId())
@@ -93,8 +93,8 @@ public class Transaction {
 			.content(transactionDto.getContent())
 			.transactionTime(LocalDateTime.now())
 			.emoticon(transactionDto.getEmoticon())
-			.sender(sender)
-			.receiver(receiver)
+			.sender(account)
+			.receiver(account)
 			.visibility(transactionDto.getVisibility())
 			.build();
 	}
