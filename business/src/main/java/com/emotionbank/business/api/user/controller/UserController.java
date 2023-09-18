@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserSearchDto;
+import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
@@ -27,15 +28,19 @@ public class UserController {
 	@GetMapping("/{nickname}")
 	public ResponseEntity<?> searchUser(@PathVariable String nickname, Pageable pageable) {
 		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
-		List<UserSearchDto.Response> userSearchResponseDtos = userDtos.stream()
+		List<UserSearchDto.Response> userSearchResponse = userDtos.stream()
 			.map(UserSearchDto.Response::of)
 			.collect(Collectors.toList());
-		return ResponseEntity.ok(userSearchResponseDtos);
+		return ResponseEntity.ok(userSearchResponse);
 	}
 
 	@PostMapping("/follow/{nickname}")
 	public ResponseEntity<?> followUser(@PathVariable String nickname) {
-		userService.followUser(nickname);
+		FollowDto followDto = FollowDto.builder()
+			.follower("nickname")
+			.followee(nickname)
+			.build();
+		userService.followUser(followDto);
 		return ResponseEntity.ok().build();
 	}
 
