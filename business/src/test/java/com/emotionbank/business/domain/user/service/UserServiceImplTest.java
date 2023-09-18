@@ -39,7 +39,7 @@ class UserServiceImplTest {
 		Pageable pageable = PageRequest.of(0, 1);
 		when(userRepository.findByNicknameContains("%user%", pageable)).thenReturn((fakeUsers));
 
-		List<UserDto.UserSearchResultDto> result = userService.searchUser("user", pageable);
+		List<UserDto> result = userService.searchUser("user", pageable);
 
 		assertThat(result).hasSize(3);
 

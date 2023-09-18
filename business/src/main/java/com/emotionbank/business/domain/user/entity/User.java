@@ -32,11 +32,9 @@ public class User {
 
 	private String nickname;
 
-
 	private LocalDate birthday;
 
 	private Role role;
-
 
 	private String socialId;
 

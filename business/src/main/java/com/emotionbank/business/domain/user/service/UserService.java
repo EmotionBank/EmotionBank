@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import com.emotionbank.business.domain.user.dto.UserDto;
 
 public interface UserService {
-	List<UserDto.UserSearchResultDto> searchUser(String userId, Pageable pageable);
+	List<UserDto> searchUser(String userId, Pageable pageable);
 
 	void followUser(String userId);
 
