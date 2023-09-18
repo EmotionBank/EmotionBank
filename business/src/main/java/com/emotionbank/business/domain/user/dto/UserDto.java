@@ -6,60 +6,51 @@ import java.util.List;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.entity.Agreement;
 import com.emotionbank.business.domain.user.entity.Category;
-import com.emotionbank.business.domain.user.entity.User;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 public class UserDto {
-	private Long userId;
+	private final Long userId;
 
-	private String nickname;
+	private final String nickname;
 
-	private LocalDate birthDay;
+	private final LocalDate birthDay;
 
-	private String email;
+	private final String email;
 
-	private Type memberType;
+	private final SocialType socialType;
 
-	private LocalDate createdTime;
+	private final LocalDate createdTime;
 
-	private LocalDate lastLoginTime;
+	private final LocalDate lastLoginTime;
 
-	private LocalDate withdrawalTime;
+	private final LocalDate withdrawalTime;
 
-	private List<Account> accounts;
+	private final List<Account> accounts;
 
-	private List<Agreement> agreement;
+	private final List<Agreement> agreement;
 
-	private List<Category> category;
+	private final List<Category> category;
 
-	private String image;
+	private final String image;
 
 	@Builder
-	@Getter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class UserSearchResultDto {
-		private String nickname;
-		private String image;
-
-		public static UserSearchResultDto of(String nickname, String image) {
-			return UserSearchResultDto.builder()
-				.nickname(nickname)
-				.image(image)
-				.build();
-		}
-
-		public static UserDto.UserSearchResultDto from(User user) {
-			return UserDto.UserSearchResultDto.builder()
-				.nickname(user.getNickname())
-				.image(user.getImage())
-				.build();
-		}
+	public UserDto(Long userId, String nickname, LocalDate birthDay, String email, SocialType socialType,
+		LocalDate createdTime, LocalDate lastLoginTime, LocalDate withdrawalTime, List<Account> accounts,
+		List<Agreement> agreement, List<Category> category, String image) {
+		this.userId = userId;
+		this.nickname = nickname;
+		this.birthDay = birthDay;
+		this.email = email;
+		this.socialType = socialType;
+		this.createdTime = createdTime;
+		this.lastLoginTime = lastLoginTime;
+		this.withdrawalTime = withdrawalTime;
+		this.accounts = accounts;
+		this.agreement = agreement;
+		this.category = category;
+		this.image = image;
 	}
 }
