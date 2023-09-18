@@ -20,7 +20,7 @@ public class TransactionController {
 	private final TransactionService transactionService;
 
 	@PostMapping
-	public ResponseEntity<UpdateBalanceDto.Response> deposit(
+	public ResponseEntity<UpdateBalanceDto.Response> updateBalance(
 		@RequestBody UpdateBalanceDto.Request request) {
 		TransactionDto transactionDto = transactionService.updateBalance(TransactionDto.from(request));
 		return ResponseEntity.ok(UpdateBalanceDto.Response.from(transactionDto));
