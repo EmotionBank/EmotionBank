@@ -15,10 +15,12 @@ import com.emotionbank.business.domain.transaction.entity.Transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
@@ -34,8 +36,7 @@ public class Category {
 	@OneToMany(mappedBy = "category")
 	private List<Transaction> transactions;
 
-
-	@Column(name="category_name")
+	@Column(name = "category_name")
 	private String categoryName;
 
 }
