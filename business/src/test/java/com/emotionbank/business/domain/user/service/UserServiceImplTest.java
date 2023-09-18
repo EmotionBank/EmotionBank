@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.emotionbank.business.domain.user.dto.UserDto;
+import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 
@@ -39,7 +39,7 @@ class UserServiceImplTest {
 		Pageable pageable = PageRequest.of(0, 1);
 		when(userRepository.findByNicknameContains("%user%", pageable)).thenReturn((fakeUsers));
 
-		List<UserDto.UserSearchResultDto> result = userService.searchUser("user", pageable);
+		List<UserSearchResultDto> result = userService.searchUser("user", pageable);
 
 		assertThat(result).hasSize(3);
 

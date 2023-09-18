@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class OAuthRequestDto {
-	private final String GRANT_TYPE = "authorization_code";
+	private final String grantType = "authorization_code";
 	private final String clientId;
 	private final String clientSecret;
 	private final String redirectUri;
