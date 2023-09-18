@@ -66,6 +66,7 @@ module.exports = (env, argv) => {
       path: path.join(__dirname, '/dist'),
       filename: 'app.bundle.js',
       clean: true,
+      publicPath: '/',
     },
     devServer: {
       port: PORT,
