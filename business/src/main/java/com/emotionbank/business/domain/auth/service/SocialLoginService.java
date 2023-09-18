@@ -1,10 +1,10 @@
 package com.emotionbank.business.domain.auth.service;
 
-import com.emotionbank.business.domain.auth.dto.OAuthDto;
+import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 
 public interface SocialLoginService {
 
 	boolean is(final String serviceName);
 
-	OAuthDto getMemberInfo(final String code);
+	GetOAuthInfoDto getMemberInfo(final String code);
 }

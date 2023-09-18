@@ -3,7 +3,7 @@ package com.emotionbank.business.domain.auth.kakao.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.emotionbank.business.domain.auth.dto.OAuthDto;
+import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoInfoClient;
 import com.emotionbank.business.domain.auth.kakao.dto.KakaoInfoResponseDto;
 import com.emotionbank.business.domain.auth.service.SocialLoginService;
@@ -27,8 +27,8 @@ public class KakaoSocialLoginServiceImpl implements SocialLoginService {
 	}
 
 	@Override
-	public OAuthDto getMemberInfo(String token) {
+	public GetOAuthInfoDto getMemberInfo(String token) {
 		KakaoInfoResponseDto kakaoInfoResponseDto = kakaoInfoClient.getKakaoMemberInfo(CONTENT_TYPE, token);
-		return OAuthDto.from(kakaoInfoResponseDto.getKakaoId());
+		return GetOAuthInfoDto.from(kakaoInfoResponseDto.getKakaoId());
 	}
 }

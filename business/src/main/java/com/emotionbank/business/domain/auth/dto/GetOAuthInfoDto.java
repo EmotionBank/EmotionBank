@@ -4,16 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class OAuthDto {
+public class GetOAuthInfoDto {
 	private final String id;
 
 	@Builder
-	public OAuthDto(String id) {
+	public GetOAuthInfoDto(String id) {
 		this.id = id;
 	}
 
-	public static OAuthDto from(String id) {
-		return OAuthDto.builder()
+	public static GetOAuthInfoDto from(String id) {
+		return GetOAuthInfoDto.builder()
 			.id(id)
 			.build();
 	}
