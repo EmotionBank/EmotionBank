@@ -4,7 +4,7 @@ spring:
       fail-on-unknown-properties: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
