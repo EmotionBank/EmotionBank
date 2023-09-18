@@ -1,4 +1,64 @@
 package com.emotionbank.business.domain.transaction.dto;
 
+import java.time.LocalDateTime;
+
+import com.emotionbank.business.api.transaction.dto.request.TransactionRequestDto;
+import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.transaction.constant.Emoticon;
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
+import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.user.entity.Category;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
 public class TransactionDto {
+	private Long transactionId;
+	private TransactionType transactionType;
+	private Category category;
+	private Long amount;
+	private Long balance;
+	private String title;
+	private String content;
+	private LocalDateTime transactionTime;
+	private Emoticon emoticon;
+	private String sender;
+	private String receiver;
+	private Visibility visibility;
+
+	@Builder
+	public TransactionDto(Long transactionId, TransactionType transactionType, Category category, Long amount, Long balance, String title, String content, LocalDateTime transactionTime, Emoticon emoticon, String sender, String receiver, Visibility visibility) {
+		this.transactionId = transactionId;
+		this.transactionType = transactionType;
+		this.category = category;
+		this.amount = amount;
+		this.balance = balance;
+		this.title = title;
+		this.content = content;
+		this.transactionTime = transactionTime;
+		this.emoticon = emoticon;
+		this.sender = sender;
+		this.receiver = receiver;
+		this.visibility = visibility;
+	}
+
+	public static TransactionDto from(Transaction transaction){
+		return TransactionDto.builder()
+			.transactionId(transaction.getTransactionId())
+			.transactionType(transaction.getTransactionType())
+			.category(transaction.getCategory())
+			.amount(transaction.getAmount())
+			.balance(transaction.getBalance())
+			.title(transaction.getTitle())
+			.content(transaction.getContent())
+			.transactionTime(transaction.getTransactionTime())
+			.emoticon(transaction.getEmoticon())
+			.sender(transaction.getSender().getAccountNumber())
+			.receiver(transaction.getReceiver().getAccountNumber())
+			.visibility(transaction.getVisibility())
+			.build();
+	}
+
 }

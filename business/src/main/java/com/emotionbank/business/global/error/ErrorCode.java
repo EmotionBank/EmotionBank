@@ -12,8 +12,13 @@ public enum ErrorCode {
 	REFRESH_TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "J-002", "유효하지 않은 Refresh Token 입니다."),
 	ACCESS_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "J-003", "Access Token 이 만료되었습니다."),
 	ACCESS_TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "J-004", "유효하지 않은 Access Token 입니다."),
+
 	// User
-	USER_NOT_FOUND(HttpStatus.NOT_FOUND,"U-001","존재하지 않는 회원입니다.");
+	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U-001", "존재하지 않는 회원입니다."),
+
+	// Account
+	SENDER_ACCOUNT_NOT_EXIST(HttpStatus.BAD_GATEWAY, "A-001", "Sender 계좌가 없습니다"),
+	RECEIVER_ACCOUNT_NOT_EXIST(HttpStatus.BAD_GATEWAY, "A-002", "Receiver 계좌가 없습니다");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
