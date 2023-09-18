@@ -1,30 +1,14 @@
 import { nicknameCheck } from '@/apis/user/nicknameCheck';
 import { signupUser } from '@/apis/user/signupUser';
 import { Button } from '@components/common/Button/Button';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// type CheckboxType = {children: JSX.Element, isChecked:boolean}
-// const Checkbox = ({children, isChecked}:CheckboxType) => {
-//   const handleChecked = (isChecked:boolean) => {
-//     isChecked = !isChecked
-//   }
-//   return(
-//     <label>
-//       <input 
-//       type='checkbox'
-//       checked={isChecked}
-//       onChange={(target: {isChecked}) => handleChecked(isChecked)}
-//       />
-//       {children}
-//     </label>
-//   )
-// }
 
 const Signup = () => {
   let [index, setIndex] = useState(0);
   const navigate = useNavigate();
-    const [ inputs, setInputs ] = useState(['','','',''])
+  const [ inputs, setInputs ] = useState(['','','',''])
+
   useEffect(() => {
     if (index === -1) {
       index++;
@@ -53,19 +37,20 @@ const Signup = () => {
 
   const handleInput = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
-    console.log(value)
     setInputs((prevInputs) => {
       const updatedInputs = [...prevInputs]
       updatedInputs[index] = value
       return updatedInputs
     })
   }
+  
   const handleNicknameCheck = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(inputs[index])
     try {
-      const res = nicknameCheck( inputs[index] )
+      const response = nicknameCheck( inputs[index] )
 
-      if (res.available){
+      if (response.data.isPossible){
         alert('해당 닉네임을 사용할 수 있습니다.')
       } else {
         alert('해당 닉네임이 이미 존재합니다.')
@@ -96,51 +81,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-// type PropsType = {
-//     props:string;
-// }
-// const ChildComponent = ({props}:PropsType) => {
-//     const [agree, setAgree] = useRecoilState(agreeState)
-//     const [nickname, setNickname] = useRecoilState(nicknameState)
-//     const [birthday, setBirthday] = useRecoilState(birthdayState)
-//     const [account, setAccount] = useRecoilState(accountState)
-//     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         const { name, value} = e.target;
-//         setNickname(value)
-//     };
-//     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//         e.preventDefault();
-        
-//     }
-
-//     switch (props) {
-//     case 'agree':
-//       return <div>agree</div>;
-//     case 'nickname':
-//       return (
-//         <>
-//         <form onSubmit={handleSubmit}>
-//           <input name="nickname"type="text" onChange={ handleInputChange } required />
-//           {nickname}
-//             <Button type="submit">다음</Button>
-
-//         </form>
-//         </>
-//       );
-//     case 'birthday':
-//       return (
-//         <>
-//           {/* <input type="text" onChange={onChange} value={inputs.birthday} /> */}
-//           {birthday}
-//         </>
-//       );
-//     case 'account':
-//       return (
-//         <>
-//           {/* <input type="text" onChange={onChange} value={inputs.account} /> */}
-//           {account}
-//         </>
-//       );
-//   }
-// };
