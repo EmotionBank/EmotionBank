@@ -39,10 +39,9 @@ public class AccounServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	public AccountDto updateAccountName(String accountNumber, String accountName) {
-		Account account = accountRepository.findByAccountNumber(accountNumber)
+	public void updateAccountName(AccountDto accountDto) {
+		Account account = accountRepository.findByAccountNumber(accountDto.getAccountNumber())
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
-		account.updateAccountName(accountName);
-		return AccountDto.from(account);
+		account.updateAccountName(accountDto.getAccountName());
 	}
 }

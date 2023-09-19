@@ -28,7 +28,7 @@ public class AccountController {
 
 	@PutMapping
 	public ResponseEntity<?> updateAccountName(@RequestBody UpdateAccountDto.Request request) {
-		accountService.updateAccountName(request.getAccountNumber(), request.getAccountName());
+		accountService.updateAccountName(AccountDto.from(request));
 		return ResponseEntity.ok().build();
 	}
 }

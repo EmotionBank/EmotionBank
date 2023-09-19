@@ -8,5 +8,5 @@ public interface AccountService {
 
 	AccountDto getAccountBalance(String accountNumber);
 
-	AccountDto updateAccountName(String accountNumber, String accountName);
+	void updateAccountName(AccountDto accountDto);
 }

@@ -39,6 +39,7 @@ class AccountServiceTest {
 			.nickname("TEST NAME")
 			.build());
 		String accountName = "테스트용계좌";
+
 		// When
 		AccountDto accountDto = accountService.createAccount(user.getUserId(), accountName);
 
@@ -60,6 +61,7 @@ class AccountServiceTest {
 	@Test
 	@DisplayName("잔액조회")
 	void getAccountBalance() {
+		// Given
 		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		Account account = Account.builder()
@@ -70,6 +72,7 @@ class AccountServiceTest {
 			.accountNumber("123-4567")
 			.balance(10000L)
 			.build();
+
 		// When
 		accountRepository.save(account);
 
@@ -83,6 +86,7 @@ class AccountServiceTest {
 	@DisplayName("계좌명 변경")
 	@Transactional
 	void changeAccountName() {
+		// Given
 		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		Account account = Account.builder()
@@ -96,13 +100,16 @@ class AccountServiceTest {
 		accountRepository.save(account);
 
 		// When
-		String accountName = "지은이 계좌";
-		AccountDto accountDto = accountService.updateAccountName("123-4567", accountName);
+		AccountDto accountDto = AccountDto.builder()
+			.accountNumber("123-4567")
+			.accountName("지은이 계좌")
+			.build();
+		accountService.updateAccountName(accountDto);
 
 		// Then
 		Account findAccount = accountRepository.findByAccountNumber(accountDto.getAccountNumber())
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
 		System.out.println(findAccount.getAccountName());
-		assertEquals(findAccount.getAccountName(), accountName);
+		assertEquals(findAccount.getAccountName(), accountDto.getAccountName());
 	}
 }
