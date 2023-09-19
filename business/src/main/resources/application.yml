@@ -59,7 +59,7 @@ jwt:
   access-token-header: Authorization
   refresh-token-header: Authorization-refresh
   access-token-expiration-time: 600000
-  refresh-token-expiration-time: 36000000
+  refresh-token-expiration-time: 1209600000
 
 feign:
   client:
