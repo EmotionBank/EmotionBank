@@ -15,6 +15,7 @@ import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.dto.Role;
 import com.emotionbank.business.domain.user.dto.SocialType;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
 	@Id
