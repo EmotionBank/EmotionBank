@@ -32,22 +32,22 @@ public class UserController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/follow/{nickname}")
-	public ResponseEntity<?> followUser(@PathVariable String nickname) {
-		userService.followUser(FollowDto.of("followee", nickname));
+	@PostMapping("/follow/{userId}")
+	public ResponseEntity<?> followUser(@PathVariable Long userId) {
+		userService.followUser(FollowDto.of(1L, userId));
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/followee/{nickname}")
-	public ResponseEntity<?> getFollowees(@PathVariable String nickname) {
-		List<UserDto> followees = userService.getFollowees(nickname);
+	@GetMapping("/followee/{userId}")
+	public ResponseEntity<?> getFollowees(@PathVariable Long userId) {
+		List<UserDto> followees = userService.getFollowees(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/follower/{nickname}")
-	public ResponseEntity<?> getFollowers(@PathVariable String nickname) {
-		List<UserDto> followers = userService.getFollowers(nickname);
+	@GetMapping("/follower/{userId}")
+	public ResponseEntity<?> getFollowers(@PathVariable Long userId) {
+		List<UserDto> followers = userService.getFollowers(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
 	}

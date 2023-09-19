@@ -38,9 +38,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void followUser(FollowDto followDto) {
-		User follower = userRepository.findByNickname(followDto.getFollower())
+		User follower = userRepository.findById(followDto.getFollower())
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
-		User followee = userRepository.findByNickname(followDto.getFollowee())
+		User followee = userRepository.findById(followDto.getFollowee())
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
 
 		followRepository.findByFolloweeAndFollower(followee, follower)
@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> getFollowees(String userNickname) {
-		User user = userRepository.findByNickname(userNickname)
+	public List<UserDto> getFollowees(Long userId) {
+		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
 		List<Follow> follows = followRepository.findByFollower(user).orElse(new ArrayList<>());
 		List<User> users = follows.stream().map(Follow::getFollowee).collect(Collectors.toList());
@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> getFollowers(String userNickname) {
-		User user = userRepository.findByNickname(userNickname)
+	public List<UserDto> getFollowers(Long userId) {
+		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
 		List<Follow> follows = followRepository.findByFollowee(user).orElse(new ArrayList<>());
 		List<User> users = follows.stream().map(Follow::getFollower).collect(Collectors.toList());

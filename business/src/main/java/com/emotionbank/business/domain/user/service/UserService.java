@@ -12,7 +12,7 @@ public interface UserService {
 
 	void followUser(FollowDto followDto);
 
-	List<UserDto> getFollowees(String userNickname);
+	List<UserDto> getFollowees(Long userId);
 
-	List<UserDto> getFollowers(String userNickname);
+	List<UserDto> getFollowers(Long userId);
 }

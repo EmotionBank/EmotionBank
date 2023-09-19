@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 @Builder
 public class FollowDto {
-	String followee;
-	String follower;
+	Long followee;
+	Long follower;
 
-	public static FollowDto of(String followee, String follower) {
+	public static FollowDto of(Long followee, Long follower) {
 		return FollowDto.builder()
 			.followee(followee)
 			.follower(follower)
