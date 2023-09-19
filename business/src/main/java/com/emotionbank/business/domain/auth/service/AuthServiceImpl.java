@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
@@ -39,6 +40,7 @@ public class AuthServiceImpl implements AuthService {
 	private String redirectUri;
 
 	@Override
+	@Transactional
 	public JwtTokens loginOrRegister(String loginType, String code) {
 		String redirect = redirectUri + loginType + "/callback";
 
