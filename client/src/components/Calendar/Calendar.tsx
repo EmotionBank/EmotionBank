@@ -10,9 +10,10 @@ interface currnetDateInterface extends DateType {
 }
 interface Props {
   updateDate: (newDate: DateType) => void;
+  selectCalendarDate: (select: DateType) => void;
 }
 
-const Calendar = ({ updateDate }: Props) => {
+const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
     date: 0,
     day: 0,
@@ -57,7 +58,11 @@ const Calendar = ({ updateDate }: Props) => {
           <S.WeekContainer key={idx}>
             {week.map((day, i) => {
               return (
-                <S.DayContainer key={i} $thisMonth={currentDate.month === day.month}>
+                <S.DayContainer
+                  key={i}
+                  $thisMonth={currentDate.month === day.month}
+                  onClick={() => selectCalendarDate(day)}
+                >
                   <span>{day.date}</span>
                   {/* <S.EmotionImage src=""/> */}
                 </S.DayContainer>
