@@ -8,11 +8,11 @@ import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 
 public interface UserService {
-	List<UserDto> searchUser(String userId, Pageable pageable);
+	List<UserDto> searchUser(String userNickname, Pageable pageable);
 
 	void followUser(FollowDto followDto);
 
-	void getFollowees(String userId);
+	List<UserDto> getFollowees(String userNickname);
 
-	void getFollowers(String userId);
+	List<UserDto> getFollowers(String userNickname);
 }

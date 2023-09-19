@@ -1,5 +1,6 @@
 package com.emotionbank.business.domain.user.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
 	Optional<Follow> findByFolloweeAndFollower(User followee, User follower);
 
+	Optional<List<Follow>> findByFollowee(User followee);
+
+	Optional<List<Follow>> findByFollower(User followee);
 }
