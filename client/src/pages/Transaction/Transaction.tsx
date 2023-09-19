@@ -3,6 +3,7 @@ import { PostDepositTransaction } from '@/apis/bank/postTransaction';
 import CommentStep from '@/components/transaction/TransactionStep/CommentStep/CommentStep';
 import EmotionStep from '@/components/transaction/TransactionStep/EmotionStep/EmotionStep';
 import * as S from '@/pages/Transaction/Transaction.style';
+import { usePostTransaction } from '@/hooks/apiHooks/usePostTransaction';
 
 const Transaction = () => {
   const initRequestdata = {
@@ -15,15 +16,16 @@ const Transaction = () => {
     visibility: 'PUBLIC',
     transactionDate: new Date(),
   };
-  const [step, setStep] = useState<'emotion' | 'comment'>('comment');
+  const [step, setStep] = useState<'emotion' | 'comment'>('emotion');
   const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
+  const postTransactionMutation = usePostTransaction();
 
   const confirmEmotionStep = (newData: string) => {
     setRequestData(prev => ({ ...prev, emotion: newData }));
     setStep('comment');
   };
   const confirmDiaryStep = (amount: number, content: string) => {
-    setRequestData(prev => ({ ...prev, amount, content }));
+    postTransactionMutation.mutate({ ...requsetData, amount, content });
   };
 
   return (
