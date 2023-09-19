@@ -26,7 +26,7 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping("/{nickname}")
-	public ResponseEntity<?> searchUser(@PathVariable String nickname, Pageable pageable) {
+	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {
 		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
 		UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
 		return ResponseEntity.ok(response);
@@ -39,17 +39,16 @@ public class UserController {
 	}
 
 	@GetMapping("/followee/{userId}")
-	public ResponseEntity<?> getFollowees(@PathVariable Long userId) {
+	public ResponseEntity<UserFollowsDto.Response> getFollowees(@PathVariable Long userId) {
 		List<UserDto> followees = userService.getFollowees(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/follower/{userId}")
-	public ResponseEntity<?> getFollowers(@PathVariable Long userId) {
+	public ResponseEntity<UserFollowsDto.Response> getFollowers(@PathVariable Long userId) {
 		List<UserDto> followers = userService.getFollowers(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
 	}
-
 }
