@@ -7,7 +7,7 @@ import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoInfoClient;
 import com.emotionbank.business.domain.auth.kakao.dto.KakaoInfoResponseDto;
 import com.emotionbank.business.domain.auth.service.SocialLoginService;
-import com.emotionbank.business.domain.user.dto.SocialType;
+import com.emotionbank.business.domain.user.constant.SocialType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

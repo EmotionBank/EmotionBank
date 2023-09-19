@@ -9,10 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.emotionbank.business.domain.user.dto.State;
+import com.emotionbank.business.domain.user.constant.State;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,15 +28,15 @@ public class Agreement {
 	private Long agreementId;
 
 	@ManyToOne
-	@JoinColumn(name= "user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@OneToOne
-	@JoinColumn(name="terms_id")
+	@JoinColumn(name = "terms_id")
 	private Terms terms;
 
 	private State state;
 
-	@Column(name= "agreement_time")
+	@Column(name = "agreement_time")
 	private LocalDate agreementTime;
 }

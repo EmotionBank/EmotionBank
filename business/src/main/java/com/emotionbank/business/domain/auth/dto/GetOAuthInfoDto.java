@@ -1,6 +1,6 @@
 package com.emotionbank.business.domain.auth.dto;
 
-import com.emotionbank.business.domain.user.dto.SocialType;
+import com.emotionbank.business.domain.user.constant.SocialType;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.emotionbank.business.domain.user.dto.Mandatory;
+import com.emotionbank.business.domain.user.constant.Mandatory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,10 +31,10 @@ public class Terms {
 
 	private Mandatory mandatory;
 
-	@Column(name="create_time")
+	@Column(name = "create_time")
 	private LocalDate createTime;
 
-	@Column(name="update_time")
+	@Column(name = "update_time")
 	private LocalDate updateTime;
 
 	@OneToOne(mappedBy = "terms")

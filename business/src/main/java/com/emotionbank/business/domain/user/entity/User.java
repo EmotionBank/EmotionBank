@@ -16,8 +16,8 @@ import javax.persistence.OneToMany;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.emotionbank.business.domain.account.entity.Account;
-import com.emotionbank.business.domain.user.dto.Role;
-import com.emotionbank.business.domain.user.dto.SocialType;
+import com.emotionbank.business.domain.user.constant.Role;
+import com.emotionbank.business.domain.user.constant.SocialType;
 
 import lombok.Builder;
 import lombok.Getter;

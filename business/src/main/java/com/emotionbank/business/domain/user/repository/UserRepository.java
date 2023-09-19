@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.emotionbank.business.domain.user.dto.SocialType;
+import com.emotionbank.business.domain.user.constant.SocialType;
 import com.emotionbank.business.domain.user.entity.User;
 
 @Repository
