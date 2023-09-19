@@ -1,4 +1,4 @@
-package com.emotionbank.business.domain.user.entity;
+package com.emotionbank.business.domain.category.entity;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

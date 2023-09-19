@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.user.constant.SocialType;
 import com.emotionbank.business.domain.user.entity.Agreement;
-import com.emotionbank.business.domain.user.entity.Category;
 
 import lombok.Builder;
 import lombok.Getter;
