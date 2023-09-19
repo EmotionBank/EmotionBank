@@ -8,12 +8,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
+import com.emotionbank.business.global.error.ErrorCode;
+import com.emotionbank.business.global.error.exception.BusinessException;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -30,12 +33,13 @@ class AccountServiceTest {
 	@DisplayName("계좌생성")
 	void createAccount() {
 		// Given
-		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		User user = userRepository.save(User.builder()
 			.nickname("TEST NAME")
 			.build());
 		String accountName = "테스트용계좌";
+
 		// When
 		AccountDto accountDto = accountService.createAccount(user.getUserId(), accountName);
 
@@ -57,7 +61,8 @@ class AccountServiceTest {
 	@Test
 	@DisplayName("잔액조회")
 	void getAccountBalance() {
-		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
+		// Given
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		Account account = Account.builder()
 			.accountName("테스트용 계좌")
@@ -67,6 +72,7 @@ class AccountServiceTest {
 			.accountNumber("123-4567")
 			.balance(10000L)
 			.build();
+
 		// When
 		accountRepository.save(account);
 
@@ -74,5 +80,36 @@ class AccountServiceTest {
 		AccountDto accountDto = accountService.getAccountBalance(account.getAccountNumber());
 		assertEquals(accountDto.getAccountId(), 1L);
 		assertEquals(accountDto.getBalance(), 10000L);
+	}
+
+	@Test
+	@DisplayName("계좌명 변경")
+	@Transactional
+	void changeAccountName() {
+		// Given
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
+		assertNotNull(accountService);
+		Account account = Account.builder()
+			.accountName("테스트용 계좌")
+			.user(userRepository.save(User.builder()
+				.nickname("TEST NAME")
+				.build()))
+			.accountNumber("123-4567")
+			.balance(10000L)
+			.build();
+		accountRepository.save(account);
+
+		// When
+		AccountDto accountDto = AccountDto.builder()
+			.accountNumber("123-4567")
+			.accountName("지은이 계좌")
+			.build();
+		accountService.updateAccountName(accountDto);
+
+		// Then
+		Account findAccount = accountRepository.findByAccountNumber(accountDto.getAccountNumber())
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		System.out.println(findAccount.getAccountName());
+		assertEquals(findAccount.getAccountName(), accountDto.getAccountName());
 	}
 }
