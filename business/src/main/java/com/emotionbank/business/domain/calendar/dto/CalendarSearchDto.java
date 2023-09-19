@@ -1,6 +1,5 @@
 package com.emotionbank.business.domain.calendar.dto;
 
-import java.time.LocalDate;
 import java.util.StringTokenizer;
 
 import com.emotionbank.business.api.calendar.dto.GetCalendarDto;
