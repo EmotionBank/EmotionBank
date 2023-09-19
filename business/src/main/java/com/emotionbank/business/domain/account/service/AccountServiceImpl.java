@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AccounServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
 	private final AccountRepository accountRepository;
 	private final UserRepository userRepository;

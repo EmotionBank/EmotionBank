@@ -33,7 +33,7 @@ class AccountServiceTest {
 	@DisplayName("계좌생성")
 	void createAccount() {
 		// Given
-		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		User user = userRepository.save(User.builder()
 			.nickname("TEST NAME")
@@ -62,7 +62,7 @@ class AccountServiceTest {
 	@DisplayName("잔액조회")
 	void getAccountBalance() {
 		// Given
-		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		Account account = Account.builder()
 			.accountName("테스트용 계좌")
@@ -87,7 +87,7 @@ class AccountServiceTest {
 	@Transactional
 	void changeAccountName() {
 		// Given
-		AccountService accountService = new AccounServiceImpl(accountRepository, userRepository);
+		AccountService accountService = new AccountServiceImpl(accountRepository, userRepository);
 		assertNotNull(accountService);
 		Account account = Account.builder()
 			.accountName("테스트용 계좌")
