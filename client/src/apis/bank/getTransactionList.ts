@@ -3,8 +3,7 @@ import { TransactionListType } from '@/types/bank';
 
 export interface PostTransactionList {
   accountNumber: string;
-  year: number;
-  month: number;
+  date: string; // 2023-09-04
 }
 
 // 입/출금내역 조회

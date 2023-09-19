@@ -8,12 +8,11 @@ import { useEffect, useState } from 'react';
 
 const Main = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
-  const getTransactionListMutation = useGetTransactionList();
+  const getTransactionListMutation = useGetTransactionList(); // 특정 날짜 조회
 
   // useEffect(() => {
   //   getTransactionListMutation.mutate({
-  //     year: date.year,
-  //     month: date.month,
+  //     date: '고른날짜',
   //     accountNumber: 'asdf',
   //   });
   // }, [date]);
@@ -23,20 +22,18 @@ const Main = () => {
       {
         transactionId: 1,
         emotion: 'emotion',
-        date: new Date(),
-        type: 'type',
+        date: '2023-09-04 09:00:00',
+        transactionType: 'type',
         title: 'title',
-        money: 1000,
-        balance: 1000,
+        amount: 1000,
       },
       {
         transactionId: 2,
         emotion: 'emotion',
-        date: new Date(),
-        type: 'type',
-        title: 'title2',
-        money: 500,
-        balance: 100120,
+        date: '2023-09-05 09:00:00',
+        transactionType: 'type',
+        title: 'title',
+        amount: 3000,
       },
     ],
   };

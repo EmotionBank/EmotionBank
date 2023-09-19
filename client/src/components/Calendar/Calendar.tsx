@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import * as S from '@/components/Calendar/Calendar.style';
 import { DAY } from '@/constants/calendar';
-import { DateInterface } from '@/types/date';
+import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 
-interface currnetDateInterface extends DateInterface {
-  weeokList: DateInterface[][];
+interface currnetDateInterface extends DateType {
+  weeokList: DateType[][];
 }
 interface Props {
-  updateDate: (newDate: DateInterface) => void;
+  updateDate: (newDate: DateType) => void;
 }
 
 const Calendar = ({ updateDate }: Props) => {

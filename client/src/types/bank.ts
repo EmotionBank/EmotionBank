@@ -14,11 +14,10 @@ export interface WithdrawTransactionType {
 export interface TransactionType {
   transactionId: number;
   emotion: string;
-  date: Date;
-  type: string;
+  date: string;
+  transactionType: string;
   title: string;
-  money: number;
-  balance: number;
+  amount: number;
 }
 
 export interface TransactionListType {
