@@ -20,18 +20,28 @@ spring:
     open-in-view: true
 
   data:
-    redis:
-      host: redis
-      port: 6379
-      password: password
     web:
       pageable:
         default-page-size: 5
         max-page-size: 100
 
+redis:
+  host: redis
+  port: 6379
+  password: password
+
 server:
   port: 8080
 
+social:
+  context-type: application/x-www-form-urlencoded;charset=utf-8
+
+redirect-uri: "http://localhost:8080/auth/login/"
+
+kakao:
+  client:
+    id: client-id
+    secret: client-secret
 
 logging:
   level:
@@ -51,4 +61,10 @@ jwt:
   access-token-expiration-time: 600000
   refresh-token-expiration-time: 36000000
 
-
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
