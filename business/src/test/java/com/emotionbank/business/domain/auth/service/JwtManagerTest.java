@@ -76,15 +76,13 @@ public class JwtManagerTest {
 	@DisplayName("refreshToken의 기한이 만료되었을 때 예외 처리한다.")
 	public void refreshToken_Expired() {
 		// given
-		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
 		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String accessToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, accessTokenExpirationTime);
-		jwtTokens.setAccessToken(accessToken);
-		jwtTokens.setRefreshToken(refreshToken);
-		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
-		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		final JwtTokens jwtTokens = JwtTokens.createBearer(accessToken, refreshToken, accessTokenExpirationTime,
+			refreshTokenExpirationTime);
 
 		// when & then
 		assertThatThrownBy(() -> jwtManager.validateRefreshToken(jwtTokens.getRefreshToken()))
@@ -96,15 +94,13 @@ public class JwtManagerTest {
 	@DisplayName("accessToken의 기한이 만료되었을 때 예외 처리한다.")
 	public void accessToken_Expired() {
 		// given
-		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + INVALID_EXPIRATION_TIME);
 		final String accessToken = jwtManager.createAccessToken(SAMPLE_USER_ID, accessTokenExpirationTime);
-		jwtTokens.setAccessToken(accessToken);
-		jwtTokens.setRefreshToken(refreshToken);
-		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
-		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		final JwtTokens jwtTokens = JwtTokens.createBearer(accessToken, refreshToken, accessTokenExpirationTime,
+			refreshTokenExpirationTime);
 
 		// when & then
 		assertThatThrownBy(() -> jwtManager.validateAccessToken(jwtTokens.getAccessToken()))
@@ -116,15 +112,13 @@ public class JwtManagerTest {
 	@DisplayName("refreshToken이 유효하지 않은 형식일 때 예외처리 한다.")
 	public void refreshToken_Invalid() {
 		// given
-		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = createInvalidToken(TokenType.REFRESH.name(), refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String accessToken = jwtManager.createAccessToken(SAMPLE_USER_ID, accessTokenExpirationTime);
-		jwtTokens.setAccessToken(accessToken);
-		jwtTokens.setRefreshToken(refreshToken);
-		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
-		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		final JwtTokens jwtTokens = JwtTokens.createBearer(accessToken, refreshToken, accessTokenExpirationTime,
+			refreshTokenExpirationTime);
 
 		// when & then
 		assertThatThrownBy(() -> jwtManager.validateRefreshToken(jwtTokens.getRefreshToken()))
@@ -136,15 +130,13 @@ public class JwtManagerTest {
 	@DisplayName("accessToken이 유효하지 않은 형식일 때 예외처리 한다.")
 	public void accessToken_Invalid() {
 		// given
-		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 		final Date refreshTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String refreshToken = jwtManager.createRefreshToken(SAMPLE_USER_ID, refreshTokenExpirationTime);
 		final Date accessTokenExpirationTime = new Date(System.currentTimeMillis() + VALID_EXPIRATION_TIME);
 		final String accessToken = createInvalidToken(TokenType.ACCESS.name(), accessTokenExpirationTime);
-		jwtTokens.setAccessToken(accessToken);
-		jwtTokens.setRefreshToken(refreshToken);
-		jwtTokens.setAccessTokenExpirationTime(accessTokenExpirationTime);
-		jwtTokens.setRefreshTokenExpirationTime(refreshTokenExpirationTime);
+
+		final JwtTokens jwtTokens = JwtTokens.createBearer(accessToken, refreshToken, accessTokenExpirationTime,
+			refreshTokenExpirationTime);
 
 		// when & then
 		assertThatThrownBy(() -> jwtManager.validateAccessToken(jwtTokens.getAccessToken()))
