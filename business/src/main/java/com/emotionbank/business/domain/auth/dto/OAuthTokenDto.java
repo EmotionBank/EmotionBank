@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 
 public class OAuthTokenDto {
 	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 	public static class Request {
 		private final String grantType = "authorization_code";
-		private final String clientId;
-		private final String clientSecret;
-		private final String redirectUri;
-		private final String code;
+		private String clientId;
+		private String clientSecret;
+		private String redirectUri;
+		private String code;
 
 		@Builder
 		public Request(String clientId, String clientSecret, String redirectUri, String code) {
@@ -42,13 +44,18 @@ public class OAuthTokenDto {
 		private String tokenType;
 		private String accessToken;
 		private Integer expiresIn;
+		private String refreshToken;
+		private Integer refreshTokenExpiresIn;
 		private String scope;
 
 		@Builder
-		public Response(String tokenType, String accessToken, Integer expiresIn, String scope) {
+		public Response(String tokenType, String accessToken, Integer expiresIn, String refreshToken,
+			Integer refreshTokenExpiresIn, String scope) {
 			this.tokenType = tokenType;
 			this.accessToken = accessToken;
 			this.expiresIn = expiresIn;
+			this.refreshToken = refreshToken;
+			this.refreshTokenExpiresIn = refreshTokenExpiresIn;
 			this.scope = scope;
 		}
 	}
