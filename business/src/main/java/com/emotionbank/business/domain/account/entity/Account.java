@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.emotionbank.business.domain.calendar.entity.Calendar;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.user.entity.User;
 
@@ -51,6 +52,9 @@ public class Account {
 
 	@OneToMany(mappedBy = "receiver")
 	private List<Transaction> receiver;
+
+	@OneToMany(mappedBy = "account")
+	private List<Calendar> calendars;
 
 	public void updateBalance(Long amount) {
 		this.balance += amount;
