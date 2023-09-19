@@ -23,6 +23,7 @@ public class AccounServiceImpl implements AccountService {
 	private final UserRepository userRepository;
 
 	@Override
+	@Transactional
 	public AccountDto createAccount(Long userId, String accountName) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -31,6 +32,7 @@ public class AccounServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AccountDto getAccountBalance(String accountNumber) {
 		Account account = accountRepository.findByAccountNumber(accountNumber)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
@@ -38,6 +40,7 @@ public class AccounServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional
 	public AccountDto updateAccountName(String accountNumber, String accountName) {
 		Account account = accountRepository.findByAccountNumber(accountNumber)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
