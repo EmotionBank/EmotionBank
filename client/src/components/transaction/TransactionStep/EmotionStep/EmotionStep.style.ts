@@ -3,10 +3,10 @@ import { Flex } from '@/components/common/Flex/Flex';
 import { Button } from '@/components/common/Button/Button';
 
 export const EmotionStepWrapper = styled(Flex)`
-  height: calc(100vh - 6rem);
+  height: 100%;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
-  padding: 4rem 0;
 `;
 
 export const EmotionHeader = styled.h1`
