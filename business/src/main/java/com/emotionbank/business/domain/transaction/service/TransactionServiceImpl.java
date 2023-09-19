@@ -12,37 +12,54 @@ import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.domain.user.entity.Category;
+import com.emotionbank.business.domain.user.repository.CategoryRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-public class TransactionServiceImpl implements TransactionService{
+@Slf4j
+public class TransactionServiceImpl implements TransactionService {
 
 	private final TransactionRepository transactionRepository;
 	private final AccountRepository accountRepository;
+	private final CategoryRepository categoryRepository;
 
 	@Transactional
 	@Override
-	public TransactionDto deposit(TransactionDto transactionDto) {
-		// sender 계좌 유무 확인
-		Account senderAccount = accountRepository.findByAccountNumber(transactionDto.getSender())
-			.orElseThrow(() -> new BusinessException(SENDER_ACCOUNT_NOT_EXIST));
+	public TransactionDto updateBalance(TransactionDto transactionDto) {
+		// 계좌 존재 유무 확인
+		Account account = accountRepository.findByAccountNumber(transactionDto.getReceiver())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
-		// receiver 계좌 유무 확인
-		Account receiverAccount = accountRepository.findByAccountNumber(transactionDto.getReceiver())
-			.orElseThrow(() -> new BusinessException(RECEIVER_ACCOUNT_NOT_EXIST));
+		// 카테고리 조회
+		Category category = categoryRepository.findByCategoryId(transactionDto.getCategoryId())
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 
-		// receiver 계좌에 입금
-		receiverAccount.updateBalance(transactionDto.getAmount());
-
-		// 변경된 잔액 불러오기
-		Long balance = receiverAccount.getBalance();
+		// 잔액 일치 여부 조회
+		validateBalance(account, transactionDto.getBalance());
+		
+		// 입금, 출금
+		if (TransactionType.DEPOSIT.equals(transactionDto.getTransactionType())) {
+			account.updateBalance(transactionDto.getAmount());
+		} else if (TransactionType.WITHDRAWL.equals(transactionDto.getTransactionType())) {
+			account.updateBalance(-transactionDto.getAmount());
+		}
+		Long balance = account.getBalance();
 
 		// 거래 내역 저장
-		Transaction transaction = Transaction.of(transactionDto,senderAccount, receiverAccount, balance);
+		Transaction transaction = Transaction.of(transactionDto, category, account, balance);
 		transactionRepository.save(transaction);
 		return TransactionDto.from(transaction);
 	}
+
+	private void validateBalance(Account account, Long expectedBalance) {
+		if (!expectedBalance.equals(account.getBalance())) {
+			throw new BusinessException(BALANCE_NOT_EQUAL);
+		}
+	}
+
 }

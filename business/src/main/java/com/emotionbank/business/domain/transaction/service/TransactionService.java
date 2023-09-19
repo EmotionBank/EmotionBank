@@ -4,6 +4,6 @@ import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 public interface TransactionService {
 	// 입금
-	TransactionDto deposit(TransactionDto transactionDto);
+	TransactionDto updateBalance(TransactionDto transactionDto);
 
 }

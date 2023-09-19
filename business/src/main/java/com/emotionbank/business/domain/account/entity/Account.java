@@ -2,6 +2,7 @@ package com.emotionbank.business.domain.account.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.user.entity.User;
@@ -33,7 +34,7 @@ public class Account {
 	private Long accountId;
 
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@Column(name = "account_name")
@@ -42,14 +43,14 @@ public class Account {
 	private String accountNumber;
 
 	private Long balance;
-	@Column(name="created_time")
+	@Column(name = "created_time")
 	private LocalDateTime createdTime;
 
-	@OneToOne(mappedBy = "sender")
-	private Transaction sender;
+	@OneToMany(mappedBy = "sender")
+	private List<Transaction> sender;
 
-	@OneToOne(mappedBy = "receiver")
-	private Transaction receiver;
+	@OneToMany(mappedBy = "receiver")
+	private List<Transaction> receiver;
 
 	public void updateBalance(Long amount) {
 		this.balance += amount;
@@ -69,7 +70,7 @@ public class Account {
 		this.createdTime = createdTime;
 	}
 
-	public static Account of(String accountName, User user){
+	public static Account of(String accountName, User user) {
 		return Account.builder()
 			.user(user)
 			.accountName(accountName)
