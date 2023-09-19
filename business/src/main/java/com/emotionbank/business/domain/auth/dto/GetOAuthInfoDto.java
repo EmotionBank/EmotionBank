@@ -16,7 +16,7 @@ public class GetOAuthInfoDto {
 		this.socialType = socialType;
 	}
 
-	public static GetOAuthInfoDto from(String id, SocialType socialType) {
+	public static GetOAuthInfoDto of(String id, SocialType socialType) {
 		return GetOAuthInfoDto.builder()
 			.id(id)
 			.socialType(socialType)

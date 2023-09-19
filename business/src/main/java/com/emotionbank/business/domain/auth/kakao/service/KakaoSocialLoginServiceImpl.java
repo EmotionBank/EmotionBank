@@ -30,6 +30,6 @@ public class KakaoSocialLoginServiceImpl implements SocialLoginService {
 	@Override
 	public GetOAuthInfoDto getMemberInfo(String token) {
 		KakaoInfoResponseDto kakaoInfoResponseDto = kakaoInfoClient.getKakaoMemberInfo(CONTENT_TYPE, token);
-		return GetOAuthInfoDto.from(kakaoInfoResponseDto.getKakaoId(), SocialType.KAKAO);
+		return GetOAuthInfoDto.of(kakaoInfoResponseDto.getKakaoId(), SocialType.KAKAO);
 	}
 }
