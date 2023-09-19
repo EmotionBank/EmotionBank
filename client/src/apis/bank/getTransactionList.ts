@@ -1,5 +1,5 @@
 import { axiosInstance } from '@/apis';
-import { TransactionListData } from '@/types/bank';
+import { TransactionListType } from '@/types/bank';
 
 export interface PostTransactionList {
   accountNumber: string;
@@ -9,6 +9,6 @@ export interface PostTransactionList {
 
 // 입/출금내역 조회
 export const getTransactionList = async (inputTransaction: PostTransactionList) => {
-  const { data } = await axiosInstance.post<TransactionListData>('/transactions', inputTransaction);
+  const { data } = await axiosInstance.post<TransactionListType>('/transactions', inputTransaction);
   return data;
 };
