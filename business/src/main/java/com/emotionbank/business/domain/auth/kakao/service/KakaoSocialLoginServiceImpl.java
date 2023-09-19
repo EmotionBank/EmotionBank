@@ -7,6 +7,7 @@ import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoInfoClient;
 import com.emotionbank.business.domain.auth.kakao.dto.KakaoInfoResponseDto;
 import com.emotionbank.business.domain.auth.service.SocialLoginService;
+import com.emotionbank.business.domain.user.dto.SocialType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,6 @@ public class KakaoSocialLoginServiceImpl implements SocialLoginService {
 	@Override
 	public GetOAuthInfoDto getMemberInfo(String token) {
 		KakaoInfoResponseDto kakaoInfoResponseDto = kakaoInfoClient.getKakaoMemberInfo(CONTENT_TYPE, token);
-		return GetOAuthInfoDto.from(kakaoInfoResponseDto.getKakaoId());
+		return GetOAuthInfoDto.from(kakaoInfoResponseDto.getKakaoId(), SocialType.KAKAO);
 	}
 }
