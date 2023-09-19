@@ -1,17 +1,23 @@
 package com.emotionbank.business.global.config;
 
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import feign.Logger;
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
 
 @Configuration
 @EnableFeignClients
-@Import(FeignClientsConfiguration.class)
 public class FeignConfig {
+	@Bean
+	Encoder formEncoder(ObjectFactory<HttpMessageConverters> converters) {
+		return new SpringFormEncoder(new SpringEncoder(converters));
+	}
 
 	@Bean
 	Logger.Level feignLoggerLevel() {
