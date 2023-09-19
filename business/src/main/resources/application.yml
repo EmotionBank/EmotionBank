@@ -4,7 +4,7 @@ spring:
       fail-on-unknown-properties: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -54,17 +54,16 @@ logging:
         sql:
           BasicBinder: TRACE
 
-jwt:
-  secret-key: testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
-  access-token-header: Authorization
-  refresh-token-header: Authorization-refresh
-  access-token-expiration-time: 600000
-  refresh-token-expiration-time: 1209600000
-
 feign:
   client:
     config:
       default:
         connectTimeout: 5000
         readTimeout: 5000
-        loggerLevel: full
+
+jwt:
+  secret-key: testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+  access-token-header: Authorization
+  refresh-token-header: Authorization-refresh
+  access-token-expiration-time: 600000
+  refresh-token-expiration-time: 1209600000
