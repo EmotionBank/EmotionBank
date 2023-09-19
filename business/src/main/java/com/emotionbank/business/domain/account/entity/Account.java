@@ -56,6 +56,10 @@ public class Account {
 		this.balance += amount;
 	}
 
+	public void updateAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
 	@Builder
 	public Account(User user, String accountName, String accountNumber, Long balance,
 		LocalDateTime createdTime) {

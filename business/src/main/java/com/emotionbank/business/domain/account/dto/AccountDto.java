@@ -2,6 +2,7 @@ package com.emotionbank.business.domain.account.dto;
 
 import java.time.LocalDateTime;
 
+import com.emotionbank.business.api.account.dto.UpdateAccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
 
 import lombok.Builder;
@@ -41,6 +42,13 @@ public class AccountDto
 			.accountNumber(account.getAccountNumber())
 			.balance(account.getBalance())
 			.createdTime(account.getCreatedTime())
+			.build();
+	}
+
+	public static AccountDto from(UpdateAccountDto.Request request) {
+		return AccountDto.builder()
+			.accountNumber(request.getAccountNumber())
+			.accountName(request.getAccountName())
 			.build();
 	}
 }
