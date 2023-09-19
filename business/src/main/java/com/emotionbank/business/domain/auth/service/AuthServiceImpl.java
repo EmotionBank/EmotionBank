@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
-import com.emotionbank.business.domain.auth.dto.JwtTokens;
+import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.OAuthTokenDto;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoTokenClient;
 import com.emotionbank.business.domain.user.entity.User;
@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	@Transactional
-	public JwtTokens loginOrRegister(String loginType, String code) {
+	public LoginJwtDto loginOrRegister(String loginType, String code) {
 		String redirect = redirectUri + loginType + "/callback";
 
 		OAuthTokenDto.Request oAuthRequestDto = OAuthTokenDto.Request.of(kakaoClientId, kakaoClientSecret,
@@ -60,12 +60,12 @@ public class AuthServiceImpl implements AuthService {
 
 			User savedUser = userRepository.save(user);
 
-			return jwtManager.createJwtTokens(savedUser.getUserId());
+			return LoginJwtDto.of(user.getRole(), jwtManager.createJwtTokens(savedUser.getUserId()));
 		} else {
 			User user = optionalUser.get();
 			user.updateLastLoginTime(LocalDateTime.now());
 
-			return jwtManager.createJwtTokens(user.getUserId());
+			return LoginJwtDto.of(user.getRole(), jwtManager.createJwtTokens(user.getUserId()));
 		}
 	}
 

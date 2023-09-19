@@ -1,8 +1,8 @@
 package com.emotionbank.business.domain.auth.service;
 
-import com.emotionbank.business.domain.auth.dto.JwtTokens;
+import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 
 public interface AuthService {
 
-	JwtTokens loginOrRegister(String loginType, String code);
+	LoginJwtDto loginOrRegister(String loginType, String code);
 }

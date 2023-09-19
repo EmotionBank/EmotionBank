@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.auth.dto.AccessTokenDto;
+import com.emotionbank.business.api.auth.dto.LoginAccessTokenDto;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
+import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,11 +28,12 @@ public class AuthController {
 	private final AuthService authService;
 
 	@GetMapping("/login/{loginType}/callback")
-	public ResponseEntity<AccessTokenDto> login(
+	public ResponseEntity<LoginAccessTokenDto> login(
 		@PathVariable final String loginType,
 		String code,
 		final HttpServletResponse response) {
-		final JwtTokens jwtTokens = authService.loginOrRegister(loginType, code);
+		final LoginJwtDto loginJwtDto = authService.loginOrRegister(loginType, code);
+		final JwtTokens jwtTokens = loginJwtDto.getJwtTokens();
 		final ResponseCookie cookie = ResponseCookie.from("refresh-token", jwtTokens.getRefreshToken())
 			.maxAge(COOKIE_AGE_SECOND)
 			.sameSite("None")
@@ -39,6 +42,7 @@ public class AuthController {
 			.path("/")
 			.build();
 		response.addHeader(SET_COOKIE, cookie.toString());
-		return ResponseEntity.ok(AccessTokenDto.from(jwtTokens.getAccessToken()));
+		return ResponseEntity.ok(
+			LoginAccessTokenDto.of(AccessTokenDto.from(jwtTokens.getAccessToken()), loginJwtDto.getRole()));
 	}
 }
