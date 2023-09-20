@@ -31,8 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public AccountDto getAccountBalance(String accountNumber) {
-		Account account = accountRepository.findByAccountNumber(accountNumber)
+	public AccountDto getAccountBalance(Long accountId) {
+		Account account = accountRepository.findByAccountId(accountId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
 		return AccountDto.from(account);
 	}
