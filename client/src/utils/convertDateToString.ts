@@ -1,4 +1,6 @@
-export const convertYYYYMM = (year: number, month: number) => String(year) + '-' + String(month);
+import { DateType } from '@/types/date';
 
-export const convertYYYYMMDD = (year: number, month: number, date: number) =>
-  String(year) + '-' + String(month) + '-' + String(date);
+export const convertYYYYMM = (date: DateType) => String(date.year) + '-' + String(date.month);
+
+export const convertYYYYMMDD = (date: DateType) =>
+  String(date.year) + '-' + String(date.month) + '-' + String(date.date);

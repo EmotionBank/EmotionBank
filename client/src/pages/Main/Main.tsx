@@ -3,22 +3,19 @@ import TransactionList from '@/components/transaction/TransactionList/Transactio
 import { useGetTransactionList } from '@/hooks/apiHooks/useGetTransactionList';
 import { MainPageWrapper } from '@/pages/Main/Main.style';
 import { DateType } from '@/types/date';
+import { convertYYYYMMDD } from '@/utils/convertDateToString';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 import { useEffect, useState } from 'react';
 
 const Main = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
-  // const getTransactionListMutation = useGetTransactionList(); // 특정 날짜 조회
   const [selectedDate, setSelectedDate] = useState<DateType>(getNewDateObj(new Date())); // 거래내역 조회 시 사용
-  // console.log({ ...date });
-  console.log(selectedDate);
-  // useEffect(() => {
-  //   getTransactionListMutation.mutate({
-  //     date: '고른날짜',
-  //     accountNumber: 'asdf',
-  //   });
-  // }, [date]);
-
+  const initTransactionData = {
+    accountId: '1',
+    startDate: convertYYYYMMDD(selectedDate),
+    endDate: convertYYYYMMDD(selectedDate),
+  };
+  // const getTransactionListMutation = useGetTransactionList(initTransactionData); // 특정 날짜 조회
   const dummy = {
     transactions: [
       {
