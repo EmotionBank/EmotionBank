@@ -46,20 +46,15 @@ public class TransactionController {
 	@GetMapping("/{transactionId}")
 	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId) {
 		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId);
+		TransactionType transactionType = transactionDto.getTransactionType();
 
-		GetTransactionDetailDto.Response response = null;
-
-		if (TransactionType.DEPOSIT.equals(transactionDto.getTransactionType())) {
-			response = GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getSender());
-		} else if (TransactionType.WITHDRAWL.equals(transactionDto.getTransactionType())) {
-			response = GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getReceiver());
+		if (TransactionType.DEPOSIT.equals(transactionType)) {
+			return ResponseEntity.ok(GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getSender()));
+		} else if (TransactionType.WITHDRAWL.equals(transactionType)) {
+			return ResponseEntity.ok(GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getReceiver()));
 		}
-
-		if (response == null) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		return ResponseEntity.ok(response);
+		
+		return ResponseEntity.badRequest().build();
 	}
 
 }
