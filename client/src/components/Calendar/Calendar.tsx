@@ -1,24 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
 import * as S from '@/components/Calendar/Calendar.style';
 import { DAY } from '@/constants/calendar';
-import { DateInterface } from '@/types/date';
+import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-
-interface currnetDateInterface extends DateInterface {
-  weeokList: DateInterface[][];
+import happy from '@/assets/png/happy.png';
+interface currnetDateInterface extends DateType {
+  weekList: DateType[][];
 }
 interface Props {
-  updateDate: (newDate: DateInterface) => void;
+  updateDate: (newDate: DateType) => void;
+  selectCalendarDate: (select: DateType) => void;
 }
 
-const Calendar = ({ updateDate }: Props) => {
+const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
     date: 0,
     day: 0,
     year: 0,
     month: 0,
-    weeokList: [],
+    weekList: [],
   });
   const [monthState, setMonthState] = useState<number>(0);
 
@@ -41,11 +42,13 @@ const Calendar = ({ updateDate }: Props) => {
   return (
     <S.CalendarWrapper>
       <S.CalendarControllerWrapper>
-        <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
         <S.CalendarController>
           {currentDate.year}. {convertDateFormat(currentDate.month)}
         </S.CalendarController>
-        <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
+        <S.CalendarControllerContainer>
+          <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
+          <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
+        </S.CalendarControllerContainer>
       </S.CalendarControllerWrapper>
       <S.CalendarHeader>
         {DAY.map(item => (
@@ -53,13 +56,17 @@ const Calendar = ({ updateDate }: Props) => {
         ))}
       </S.CalendarHeader>
       <S.CalendarBody>
-        {currentDate.weeokList.map((week, idx) => (
+        {currentDate.weekList.map((week, idx) => (
           <S.WeekContainer key={idx}>
             {week.map((day, i) => {
               return (
-                <S.DayContainer key={i} $thisMonth={currentDate.month === day.month}>
-                  <span>{day.date}</span>
-                  {/* <S.EmotionImage src=""/> */}
+                <S.DayContainer
+                  key={i}
+                  $thisMonth={currentDate.month === day.month}
+                  onClick={() => selectCalendarDate(day)}
+                >
+                  {/* <span>{day.date}</span> */}
+                  <S.EmotionImage src={happy} />
                 </S.DayContainer>
               );
             })}
