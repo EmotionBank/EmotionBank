@@ -34,10 +34,6 @@ const AppRouter = () => {
           element: <Signup />,
         },
         {
-          path: '/menu',
-          element: <Menu />,
-        },
-        {
           path: '/transaction',
           element: <Transaction />,
         },
