@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.category.entity.Category;
+import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
-import com.emotionbank.business.domain.user.entity.Category;
-import com.emotionbank.business.domain.user.repository.CategoryRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;

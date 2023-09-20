@@ -32,14 +32,12 @@ public class CheckAccountBalanceDto {
 			this.balance = balance;
 		}
 
-		public static Response from(AccountDto accountDto){
+		public static Response from(AccountDto accountDto) {
 			return Response.builder()
 				.accountName(accountDto.getAccountName())
 				.balance(accountDto.getBalance())
 				.build();
 		}
 	}
-
-
 
 }

@@ -13,11 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
-import com.emotionbank.business.domain.user.entity.Category;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -27,6 +27,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.common.BaseControllerTest;
+import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 @SpringBootTest

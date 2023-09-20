@@ -21,6 +21,8 @@ import com.emotionbank.business.domain.calendar.dto.CalendarSearchDto;
 import com.emotionbank.business.domain.calendar.entity.Calendar;
 import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
+import com.emotionbank.business.domain.user.constant.Role;
+import com.emotionbank.business.domain.user.constant.SocialType;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.ErrorCode;
@@ -48,13 +50,17 @@ class CalendarServiceTest {
 		assertNotNull(calendarService);
 		User user = userRepository.save(User.builder()
 			.nickname("TEST NAME")
+			.birthday(LocalDate.now())
+			.role(Role.USER)
+			.socialId("123123")
+			.socialType(SocialType.KAKAO)
 			.build());
 		String accountName = "테스트용계좌";
 		AccountDto accountDto = accountService.createAccount(user.getUserId(), accountName);
 		String accountNumber = accountDto.getAccountNumber();
 		Account account = accountRepository.findByAccountNumber(accountNumber)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
-		for (int i=0;i<20;i++){
+		for (int i = 0; i < 20; i++) {
 			calendarRepository.save(
 				Calendar.builder()
 					.account(account)
@@ -74,7 +80,7 @@ class CalendarServiceTest {
 
 		// Then
 		assertEquals(calendarByMonth.size(), 12);
-		for(CalendarDto calendarDto:calendarByMonth){
+		for (CalendarDto calendarDto : calendarByMonth) {
 			assertEquals(2023, calendarDto.getDate().getYear());
 			assertEquals(Month.SEPTEMBER, calendarDto.getDate().getMonth());
 		}
@@ -90,13 +96,17 @@ class CalendarServiceTest {
 		assertNotNull(calendarService);
 		User user = userRepository.save(User.builder()
 			.nickname("TEST NAME")
+			.birthday(LocalDate.now())
+			.role(Role.USER)
+			.socialId("123123")
+			.socialType(SocialType.KAKAO)
 			.build());
 		String accountName = "테스트용계좌";
 		AccountDto accountDto = accountService.createAccount(user.getUserId(), accountName);
 		String accountNumber = accountDto.getAccountNumber();
 		Account account = accountRepository.findByAccountNumber(accountNumber)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
-		for (int i=0;i<20;i++){
+		for (int i = 0; i < 20; i++) {
 			calendarRepository.save(
 				Calendar.builder()
 					.account(account)

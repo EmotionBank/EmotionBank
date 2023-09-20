@@ -1,6 +1,6 @@
-package com.emotionbank.business.domain.user.entity;
+package com.emotionbank.business.domain.category.entity;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,34 +10,34 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.emotionbank.business.domain.user.dto.State;
+import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Agreement {
+public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "agreement_id")
-	private Long agreementId;
+	@Column(name = "category_id")
+	private Long categoryId;
 
 	@ManyToOne
-	@JoinColumn(name= "user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToOne
-	@JoinColumn(name="terms_id")
-	private Terms terms;
+	@OneToMany(mappedBy = "category")
+	private List<Transaction> transactions;
 
-	private State state;
+	@Column(name = "category_name")
+	private String categoryName;
 
-	@Column(name= "agreement_time")
-	private LocalDate agreementTime;
 }

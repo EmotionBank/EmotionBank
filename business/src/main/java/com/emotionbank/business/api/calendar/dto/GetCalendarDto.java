@@ -28,8 +28,8 @@ public class GetCalendarDto {
 
 	@Getter
 	public static class CalendarInfo {
-		private LocalDate date;
-		private Emoticon emoticon;
+		private final LocalDate date;
+		private final Emoticon emoticon;
 
 		@Builder
 		public CalendarInfo(LocalDate date, Emoticon emoticon) {
@@ -37,7 +37,7 @@ public class GetCalendarDto {
 			this.emoticon = emoticon;
 		}
 
-		public static CalendarInfo from(CalendarDto calendarDto){
+		public static CalendarInfo from(CalendarDto calendarDto) {
 			return CalendarInfo.builder()
 				.date(calendarDto.getDate())
 				.emoticon(calendarDto.getEmoticon())
@@ -55,7 +55,7 @@ public class GetCalendarDto {
 			this.calendarInfoList = calendarInfoList;
 		}
 
-		public static Response from(List<CalendarDto> calendarDtoList){
+		public static Response from(List<CalendarDto> calendarDtoList) {
 			return Response.builder()
 				.calendarInfoList(calendarDtoList.stream()
 					.map(CalendarInfo::from)
