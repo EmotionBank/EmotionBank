@@ -12,7 +12,6 @@ const Signup = () => {
 
   useEffect(() => {
     if (index === -1) {
-      index++;
       navigate('/login');
     }
     if (index === 3) {

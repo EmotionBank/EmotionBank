@@ -1,4 +1,4 @@
-import { Button } from '@/components/common/Button/Button';
+import { KakaoLoginButton } from './Login.style';
 const Login = () => {
   const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT;
@@ -9,9 +9,9 @@ const Login = () => {
   };
 
   return (
-    <Button onClick={handleLogin} $kakao>
+    <KakaoLoginButton onClick={handleLogin} $kakao>
       카카오로 로그인 하기
-    </Button>
+    </KakaoLoginButton>
   );
 };
 
