@@ -6,7 +6,6 @@ import Login from '@/pages/Login/Login';
 import Signup from '@/pages/Login/Signup';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
-import { Menu } from '@/pages/Menu/Menu';
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -31,10 +30,6 @@ const AppRouter = () => {
         {
           path: '/signup',
           element: <Signup />,
-        },
-        {
-          path: '/menu',
-          element: <Menu />,
         },
       ],
     },
