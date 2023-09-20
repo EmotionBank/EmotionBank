@@ -66,4 +66,11 @@ public class UserServiceImpl implements UserService {
 		List<UserDto> userDtos = users.stream().map(UserDto::from).collect(Collectors.toList());
 		return userDtos;
 	}
+
+	@Override
+	public UserDto getUserInfo(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		UserDto userDto = UserDto.from(user);
+		return userDto;
+	}
 }

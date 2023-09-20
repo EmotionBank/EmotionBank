@@ -1,7 +1,6 @@
 package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
+import com.emotionbank.business.api.user.dto.UserInfoDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
@@ -25,6 +25,13 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+
+	@GetMapping
+	public ResponseEntity<UserInfoDto.Response> myInfo() {
+		// todo : 유저 가지고오기
+		UserDto userInfo = userService.getUserInfo(1L);
+		return ResponseEntity.ok(UserInfoDto.Response.from(userInfo));
+	}
 
 	@GetMapping("/{nickname}")
 	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {

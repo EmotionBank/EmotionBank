@@ -15,4 +15,6 @@ public interface UserService {
 	List<UserDto> getFollowees(Long userId);
 
 	List<UserDto> getFollowers(Long userId);
+
+	UserDto getUserInfo(Long userId);
 }
