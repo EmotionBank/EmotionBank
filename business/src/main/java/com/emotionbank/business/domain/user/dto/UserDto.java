@@ -8,10 +8,8 @@ import com.emotionbank.business.domain.user.entity.Agreement;
 import com.emotionbank.business.domain.user.entity.Category;
 import com.emotionbank.business.domain.user.entity.User;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -40,26 +38,17 @@ public class UserDto {
 
 	private String image;
 
-	@Builder
-	@Getter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class UserSearchResultDto {
-		private String nickname;
-		private String image;
+	public static UserDto of(String nickname, String image) {
+		return UserDto.builder()
+			.nickname(nickname)
+			.image(image)
+			.build();
+	}
 
-		public static UserSearchResultDto of(String nickname, String image) {
-			return UserSearchResultDto.builder()
-				.nickname(nickname)
-				.image(image)
-				.build();
-		}
-
-		public static UserDto.UserSearchResultDto from(User user) {
-			return UserDto.UserSearchResultDto.builder()
-				.nickname(user.getNickname())
-				.image(user.getImage())
-				.build();
-		}
+	public static UserDto from(User user) {
+		return UserDto.builder()
+			.nickname(user.getNickname())
+			.image(user.getImage())
+			.build();
 	}
 }

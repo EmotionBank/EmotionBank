@@ -15,6 +15,7 @@ import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.dto.Role;
 import com.emotionbank.business.domain.user.dto.SocialType;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
 	@Id
@@ -32,11 +33,9 @@ public class User {
 
 	private String nickname;
 
-
 	private LocalDate birthday;
 
 	private Role role;
-
 
 	private String socialId;
 
@@ -59,6 +58,12 @@ public class User {
 	private List<Category> category;
 
 	private String image;
+
+	@OneToMany(mappedBy = "follower")
+	private List<Follow> followerList;
+
+	@OneToMany(mappedBy = "followee")
+	private List<Follow> followeeList;
 
 	// @OneToMany(mappedBy = "user")
 	// private List<Calendar> calendar;
