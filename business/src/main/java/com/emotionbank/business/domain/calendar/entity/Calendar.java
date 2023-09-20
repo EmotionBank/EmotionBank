@@ -47,4 +47,21 @@ public class Calendar {
 		this.amount = amount;
 		this.account = account;
 	}
+
+	public void updateAmount(Long amount, Emoticon emoticon) {
+		if (Math.abs(amount) > this.amount) {
+			this.amount = amount;
+			this.emoticon = emoticon;
+		}
+	}
+
+	public static Calendar of(LocalDate localDate, Emoticon emoticon, Long amount, Account account) {
+		return Calendar.builder()
+			.date(localDate)
+			.emoticon(emoticon)
+			.amount(amount)
+			.account(account)
+			.build();
+	}
+
 }
