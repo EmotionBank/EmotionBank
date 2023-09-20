@@ -33,4 +33,10 @@ public class Follow implements Serializable {
 	@JoinColumn(name = "followee")
 	private User followee;
 
+	public static Follow of(User follower, User followee) {
+		return Follow.builder()
+			.follower(follower)
+			.followee(followee)
+			.build();
+	}
 }
