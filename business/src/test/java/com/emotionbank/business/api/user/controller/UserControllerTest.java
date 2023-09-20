@@ -26,8 +26,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.emotionbank.business.api.user.dto.UserSearchDto;
+import com.emotionbank.business.api.user.dto.UserSimpleDto;
 import com.emotionbank.business.common.BaseControllerTest;
-import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 @SpringBootTest
@@ -64,17 +64,11 @@ class UserControllerTest extends BaseControllerTest {
 	public void checkBody() {
 		String nickname = "닉네임";
 		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
-		List<UserSearchDto.Response> responseBody = (List<UserSearchDto.Response>)responseEntity.getBody();
+		UserSearchDto.Response responseBody = (UserSearchDto.Response)responseEntity.getBody();
 		assertNotNull(responseBody);
-		assertTrue(responseBody.isEmpty());
+		List<UserSimpleDto> users = responseBody.getUsers();
+		assertTrue(users.isEmpty());
 	}
-	// @Test
-	// @DisplayName("UserService 호출 확인")
-	// public void checkCallUserService() {
-	// 	String nickname = "닉네임";
-	// 	userController.searchUser(nickname);
-	// 	verify(userService, times(1)).searchUser(nickname);
-	// }
 
 	@Test
 	@DisplayName("유저를 검색한다")
