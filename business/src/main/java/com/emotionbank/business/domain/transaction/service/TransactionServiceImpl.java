@@ -66,8 +66,8 @@ public class TransactionServiceImpl implements TransactionService {
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
 		// 계좌번호와 날짜로 거래내역 조회
-		List<Transaction> transactions = transactionRepository.searchByAccountAndDate(
-			account, transactionSearchDto.getDate());
+		List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDate(
+			account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate());
 
 		List<TransactionDto> transactionList = transactions.stream()
 			.map(TransactionDto::from)

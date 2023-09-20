@@ -10,6 +10,9 @@ import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND date(t.transactionTime) = :date")
-	List<Transaction> searchByAccountAndDate(Account account, Date date);
+	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
+	List<Transaction> searchTransactionByAccountAndDate(Account account,
+		Date startDate,
+		Date endDate
+	);
 }

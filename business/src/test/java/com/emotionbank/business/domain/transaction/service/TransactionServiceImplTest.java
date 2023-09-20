@@ -88,7 +88,8 @@ class TransactionServiceImplTest {
 		// Given
 		TransactionSearchDto transactionSearchDto = TransactionSearchDto.builder()
 			.accountNumber("777-7777")
-			.date(Date.valueOf(LocalDate.now()))
+			.startDate(Date.valueOf(LocalDate.now()))
+			.endDate(Date.valueOf(LocalDate.now()))
 			.build();
 
 		Account account = Account.builder()
@@ -107,7 +108,8 @@ class TransactionServiceImplTest {
 
 		when(accountRepository.findByAccountNumber("777-7777"))
 			.thenReturn(Optional.of(account));
-		when(transactionRepository.searchByAccountAndDate(account, Date.valueOf(LocalDate.now())))
+		when(transactionRepository.searchTransactionByAccountAndDate(account, Date.valueOf(LocalDate.now()),
+			Date.valueOf(LocalDate.now())))
 			.thenReturn((transactionList));
 
 		// When
