@@ -46,7 +46,10 @@ public class UserServiceImpl implements UserService {
 		followRepository.findByFolloweeAndFollower(followee, follower)
 			.ifPresentOrElse(
 				followRepository::delete,
-				() -> followRepository.save(new Follow(follower, followee))
+				() -> followRepository.save(Follow.builder()
+					.followee(followee)
+					.follower(follower)
+					.build())
 			);
 	}
 

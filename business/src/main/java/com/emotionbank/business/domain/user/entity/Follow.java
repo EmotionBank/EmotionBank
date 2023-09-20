@@ -12,6 +12,7 @@ import com.emotionbank.business.domain.user.dto.FollowId;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @AllArgsConstructor
+@Builder
 @IdClass(FollowId.class)
 public class Follow implements Serializable {
 	@Id
@@ -30,4 +32,5 @@ public class Follow implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "followee")
 	private User followee;
+
 }
