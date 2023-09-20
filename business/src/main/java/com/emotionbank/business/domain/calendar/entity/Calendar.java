@@ -49,7 +49,7 @@ public class Calendar {
 	}
 
 	public void updateAmount(Long amount, Emoticon emoticon) {
-		if (Math.abs(amount) > this.amount) {
+		if (amount >= this.amount) {
 			this.amount = amount;
 			this.emoticon = emoticon;
 		}
