@@ -1,9 +1,10 @@
 import Calendar from '@/components/Calendar/Calendar';
 import TransactionList from '@/components/transaction/TransactionList/TransactionList';
+import { useGetCalendarInfo } from '@/hooks/apiHooks/useGetCalendarInfo';
 import { useGetTransactionList } from '@/hooks/apiHooks/useGetTransactionList';
 import { MainPageWrapper } from '@/pages/Main/Main.style';
 import { DateType } from '@/types/date';
-import { convertYYYYMMDD } from '@/utils/convertDateToString';
+import { convertYYYYMM, convertYYYYMMDD } from '@/utils/convertDateToString';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 import { useEffect, useState } from 'react';
 
@@ -15,7 +16,12 @@ const Main = () => {
     startDate: convertYYYYMMDD(selectedDate),
     endDate: convertYYYYMMDD(selectedDate),
   };
-  // const getTransactionListMutation = useGetTransactionList(initTransactionData); // 특정 날짜 조회
+  const initCalendarData = {
+    accountId: '1',
+    date: convertYYYYMM(date),
+  };
+  const transactionListData = useGetTransactionList(initTransactionData); // 특정 날짜 조회
+  // const getCalendarInfoData = useGetCalendarInfo(initCalendarData);
   const dummy = {
     transactions: [
       {

@@ -6,7 +6,7 @@ export interface GetCalendar {
 }
 
 // 달력에 뿌릴 데이터
-export const getCalendarData = async (calendarParams: GetCalendar) => {
+export const getCalendarInfo = async (calendarParams: GetCalendar) => {
   const { data } = await axios.get('/calendar', { params: { ...calendarParams } });
   return data;
 };

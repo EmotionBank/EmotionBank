@@ -2,6 +2,6 @@ import { PostTransactionList, getTransactionList } from '@/apis/bank/getTransact
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetTransactionList = (inputTransaction: PostTransactionList) => {
-  const getTransactionListMutation = useQuery(['transactionList'], () => getTransactionList(inputTransaction));
-  return getTransactionListMutation;
+  const { data } = useQuery(['transactionList'], () => getTransactionList(inputTransaction));
+  return { transactionListData: data };
 };
