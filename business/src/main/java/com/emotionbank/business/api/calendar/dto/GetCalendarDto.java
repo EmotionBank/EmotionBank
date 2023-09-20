@@ -16,13 +16,15 @@ public class GetCalendarDto {
 	@Getter
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Request {
-		private String accountNumber;
-		private String date;
+		private Long accountId;
+		private Integer year;
+		private Integer month;
 
 		@Builder
-		public Request(String accountNumber, String date) {
-			this.accountNumber = accountNumber;
-			this.date = date;
+		public Request(Long accountId, Integer year, Integer month) {
+			this.accountId = accountId;
+			this.year = year;
+			this.month = month;
 		}
 	}
 

@@ -25,7 +25,7 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	public List<CalendarDto> getCalendarByMonth(CalendarSearchDto calendarSearchDto) {
-		Account account = accountRepository.findByAccountNumber(calendarSearchDto.getAccountNumber())
+		Account account = accountRepository.findByAccountId(calendarSearchDto.getAccountId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
 		List<Calendar> calendars = calendarRepository.findByYearAndMonth(
 			account.getAccountId(), calendarSearchDto.getYear(), calendarSearchDto.getMonth());

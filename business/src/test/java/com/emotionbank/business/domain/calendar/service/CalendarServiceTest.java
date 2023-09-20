@@ -72,7 +72,7 @@ class CalendarServiceTest {
 
 		// When
 		CalendarSearchDto calendarSearchDto = CalendarSearchDto.builder()
-			.accountNumber(accountNumber)
+			.accountId(accountDto.getAccountId())
 			.year(2023)
 			.month(9)
 			.build();
