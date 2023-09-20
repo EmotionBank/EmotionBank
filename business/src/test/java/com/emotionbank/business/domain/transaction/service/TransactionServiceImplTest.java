@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
@@ -48,6 +49,7 @@ class TransactionServiceImplTest {
 
 	@Test
 	@DisplayName("입금을 성공적으로 처리한다")
+	@Transactional
 	void depositSuccessfully() {
 		// Given
 		TransactionDto transactionDto = TransactionDto.builder()
@@ -84,10 +86,11 @@ class TransactionServiceImplTest {
 
 	@Test
 	@DisplayName("거래 내역을 성공적으로 조회한다")
+	@Transactional(readOnly = true)
 	void getTransactionsTest() {
 		// Given
 		TransactionSearchDto transactionSearchDto = TransactionSearchDto.builder()
-			.accountNumber("777-7777")
+			.accountId(1L)
 			.startDate(Date.valueOf(LocalDate.now()))
 			.endDate(Date.valueOf(LocalDate.now()))
 			.build();
@@ -106,7 +109,7 @@ class TransactionServiceImplTest {
 
 		List<Transaction> transactionList = Arrays.asList(transaction, transaction);
 
-		when(accountRepository.findByAccountNumber("777-7777"))
+		when(accountRepository.findByAccountId(1L))
 			.thenReturn(Optional.of(account));
 		when(transactionRepository.searchTransactionByAccountAndDate(account, Date.valueOf(LocalDate.now()),
 			Date.valueOf(LocalDate.now())))

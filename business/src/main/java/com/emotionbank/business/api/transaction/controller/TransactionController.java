@@ -1,7 +1,6 @@
 package com.emotionbank.business.api.transaction.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +34,9 @@ public class TransactionController {
 
 	@GetMapping
 	public ResponseEntity<GetTransactionListDto.Response> getTransactions(
-		@RequestParam Map<String, String> paramMap) {
+		@RequestParam Long accountId, @RequestParam String startDate, @RequestParam String endDate) {
 		List<TransactionDto> transactionList = transactionService.getTransactions(
-			TransactionSearchDto.from(paramMap));
+			TransactionSearchDto.of(accountId, startDate, endDate));
 		return ResponseEntity.ok(GetTransactionListDto.Response.from(transactionList));
 	}
 }
