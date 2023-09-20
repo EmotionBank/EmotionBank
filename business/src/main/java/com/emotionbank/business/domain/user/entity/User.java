@@ -68,6 +68,12 @@ public class User {
 
 	private String image;
 
+	@OneToMany(mappedBy = "follower")
+	private List<Follow> followerList;
+
+	@OneToMany(mappedBy = "followee")
+	private List<Follow> followeeList;
+
 	@Builder
 	public User(Long userId, String nickname, LocalDate birthday, Role role, String socialId, SocialType socialType,
 		LocalDateTime createdTime, LocalDateTime lastLoginTime, LocalDateTime withdrawalTime, String image) {
@@ -100,8 +106,5 @@ public class User {
 	public void updateLastLoginTime(LocalDateTime lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
-
-	// @OneToMany(mappedBy = "user")
-	// private List<Calendar> calendar;
 
 }

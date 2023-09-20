@@ -25,6 +25,10 @@ public enum ErrorCode {
 	ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-003", "존재하지 않는 계좌 번호입니다."),
 	BALANCE_NOT_EQUAL(HttpStatus.BAD_REQUEST, "A-004", "잔액이 일치하지 않습니다."),
 
+	// Calendar
+	CALENDAR_NOT_EXIST(HttpStatus.NOT_FOUND, "L-001", "해당 일자에 기록이 존재하지 않습니다."),
+
+	// OAuth
 	NOT_SUPPORT_LOGIN_EXCEPTION(HttpStatus.BAD_REQUEST, "O-001", "지원하지 않는 로그인 방식입니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {

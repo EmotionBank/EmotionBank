@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.emotionbank.business.api.user.dto.response.UserSearchResponseDto;
-import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
+import com.emotionbank.business.api.user.dto.UserFollowsDto;
+import com.emotionbank.business.api.user.dto.UserSearchDto;
+import com.emotionbank.business.domain.user.dto.FollowDto;
+import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,30 +27,23 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping("/{nickname}")
-	public ResponseEntity<?> searchUser(@PathVariable String nickname, Pageable pageable) {
-		List<UserSearchResultDto> userSearchResultDtos = userService.searchUser(nickname, pageable);
-		List<UserSearchResponseDto> userSearchResponseDtos = userSearchResultDtos.stream()
-			.map(UserSearchResponseDto::of)
-			.collect(Collectors.toList());
-		return ResponseEntity.ok(userSearchResponseDtos);
+	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {
+		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
+		UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
+		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/follow/{nickname}")
-	public ResponseEntity<?> followUser(@PathVariable String nickname) {
-		userService.followUser(nickname);
+	@PostMapping("/follow/{userId}")
+	public ResponseEntity<?> followUser(@PathVariable Long userId) {
+		userService.followUser(FollowDto.of(1L, userId));
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/followee/{nickname}")
-	public ResponseEntity<?> getFollowees(@PathVariable String nickname) {
-		userService.getFollowees(nickname);
-		return ResponseEntity.ok().build();
-	}
-
-	@GetMapping("/follower/{nickname}")
-	public ResponseEntity<?> getFollowers(@PathVariable String nickname) {
-		userService.getFollowers(nickname);
-		return ResponseEntity.ok().build();
+	@GetMapping("/followee/{userId}")
+	public ResponseEntity<UserFollowsDto.Response> getFollowees(@PathVariable Long userId) {
+		List<UserDto> followees = userService.getFollowees(userId);
+		UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
+		return ResponseEntity.ok(response);
 	}
 
 }

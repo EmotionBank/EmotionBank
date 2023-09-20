@@ -12,7 +12,9 @@ import com.emotionbank.business.domain.user.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	Optional<List<User>> findByNicknameContains(String nickname, Pageable pageable);
+	List<User> findByNicknameContains(String nickname, Pageable pageable);
+
+	Optional<User> findByNickname(String nickname);
 
 	Optional<User> findBySocialIdAndSocialType(String socialId, SocialType socialType);
 }

@@ -54,4 +54,18 @@ public class UserDto {
 		this.category = category;
 		this.image = image;
 	}
+
+	public static UserDto of(String nickname, String image) {
+		return UserDto.builder()
+			.nickname(nickname)
+			.image(image)
+			.build();
+
+	public static UserDto from(User user) {
+		return UserDto.builder()
+			.nickname(user.getNickname())
+			.image(user.getImage())
+			.build();
+	}
+
 }

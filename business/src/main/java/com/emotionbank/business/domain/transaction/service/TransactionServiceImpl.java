@@ -2,9 +2,11 @@ package com.emotionbank.business.domain.transaction.service;
 
 import static com.emotionbank.business.global.error.ErrorCode.*;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
@@ -12,6 +14,7 @@ import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
@@ -54,6 +57,22 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = Transaction.of(transactionDto, category, account, balance);
 		transactionRepository.save(transaction);
 		return TransactionDto.from(transaction);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<TransactionDto> getTransactions(TransactionSearchDto transactionSearchDto) {
+		Account account = accountRepository.findByAccountNumber(transactionSearchDto.getAccountNumber())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+
+		// 계좌번호와 날짜로 거래내역 조회
+		List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDate(
+			account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate());
+
+		List<TransactionDto> transactionList = transactions.stream()
+			.map(TransactionDto::from)
+			.collect(Collectors.toList());
+		return transactionList;
 	}
 
 	private void validateBalance(Account account, Long expectedBalance) {

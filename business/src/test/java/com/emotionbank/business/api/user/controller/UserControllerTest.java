@@ -25,8 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.common.BaseControllerTest;
-import com.emotionbank.business.domain.user.dto.UserSearchResultDto;
+import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 
 @SpringBootTest
@@ -63,7 +64,7 @@ class UserControllerTest extends BaseControllerTest {
 	public void checkBody() {
 		String nickname = "닉네임";
 		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
-		List<UserSearchResultDto> responseBody = (List<UserSearchResultDto>)responseEntity.getBody();
+		List<UserSearchDto.Response> responseBody = (List<UserSearchDto.Response>)responseEntity.getBody();
 		assertNotNull(responseBody);
 		assertTrue(responseBody.isEmpty());
 	}
