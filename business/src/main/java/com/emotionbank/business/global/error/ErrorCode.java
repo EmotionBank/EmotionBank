@@ -29,7 +29,10 @@ public enum ErrorCode {
 	CALENDAR_NOT_EXIST(HttpStatus.NOT_FOUND, "L-001", "해당 일자에 기록이 존재하지 않습니다."),
 
 	// OAuth
-	NOT_SUPPORT_LOGIN_EXCEPTION(HttpStatus.BAD_REQUEST, "O-001", "지원하지 않는 로그인 방식입니다.");
+	NOT_SUPPORT_LOGIN_EXCEPTION(HttpStatus.BAD_REQUEST, "O-001", "지원하지 않는 로그인 방식입니다."),
+
+	// Transaction
+	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
