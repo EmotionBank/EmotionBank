@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.calendar.entity.Calendar;
+import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
@@ -30,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private final TransactionRepository transactionRepository;
 	private final AccountRepository accountRepository;
 	private final CategoryRepository categoryRepository;
+	private final CalendarRepository calendarRepository;
 
 	@Transactional
 	@Override
@@ -56,6 +59,16 @@ public class TransactionServiceImpl implements TransactionService {
 		// 거래 내역 저장
 		Transaction transaction = Transaction.of(transactionDto, category, account, balance);
 		transactionRepository.save(transaction);
+
+		// 캘린더 당일 기분 및 금액 업데이트
+		calendarRepository.findByDate(transaction.getTransactionTime().toLocalDate())
+			.ifPresentOrElse(
+				calendar -> calendar.updateAmount(transaction.getAmount(), transaction.getEmoticon()),
+				() -> calendarRepository.save(
+					Calendar.of(transaction.getTransactionTime().toLocalDate(), transaction.getEmoticon(),
+						transaction.getAmount(), account))
+			);
+
 		return TransactionDto.from(transaction);
 	}
 
