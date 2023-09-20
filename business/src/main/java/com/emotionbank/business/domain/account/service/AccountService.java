@@ -6,7 +6,7 @@ public interface AccountService {
 
 	AccountDto createAccount(Long userId, String accountName);
 
-	AccountDto getAccountBalance(String accountNumber);
+	AccountDto getAccountBalance(Long accountId);
 
 	void updateAccountName(AccountDto accountDto);
 }

@@ -33,6 +33,7 @@ class AccountServiceTest {
 	UserRepository userRepository;
 
 	@Test
+	@Transactional
 	@DisplayName("계좌생성")
 	void createAccount() {
 		// Given
@@ -52,21 +53,14 @@ class AccountServiceTest {
 		AccountDto accountDto = accountService.createAccount(user.getUserId(), accountName);
 
 		// Then
-		assertEquals(accountDto.getAccountId(), 1L);
-		assertEquals(accountDto.getAccountName(), accountName);
-		assertEquals(accountDto.getUserId(), user.getUserId());
-		assertEquals(accountDto.getAccountNumber().length(), "yyMM-ddHH-mmssSSS".length());
-		assertEquals(accountDto.getBalance(), 0L);
-
-		// 확인용 출력
-		// System.out.println(accountDto.getAccountId());
-		// System.out.println(accountDto.getAccountName());
-		// System.out.println(accountDto.getAccountNumber());
-		// System.out.println(accountDto.getBalance());
-		// System.out.println(accountDto.getCreatedTime());
+		assertEquals(accountName, accountDto.getAccountName());
+		assertEquals(user.getUserId(), accountDto.getUserId());
+		assertEquals("yyMM-ddHH-mmssSSS".length(), accountDto.getAccountNumber().length());
+		assertEquals(0L, accountDto.getBalance());
 	}
 
 	@Test
+	@Transactional
 	@DisplayName("잔액조회")
 	void getAccountBalance() {
 		// Given
@@ -89,9 +83,9 @@ class AccountServiceTest {
 		accountRepository.save(account);
 
 		// Then
-		AccountDto accountDto = accountService.getAccountBalance(account.getAccountNumber());
-		assertEquals(accountDto.getAccountId(), 1L);
-		assertEquals(accountDto.getBalance(), 10000L);
+		AccountDto accountDto = accountService.getAccountBalance(account.getAccountId());
+		assertEquals("123-4567", accountDto.getAccountNumber());
+		assertEquals(10000L, accountDto.getBalance());
 	}
 
 	@Test
@@ -125,7 +119,6 @@ class AccountServiceTest {
 		// Then
 		Account findAccount = accountRepository.findByAccountNumber(accountDto.getAccountNumber())
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
-		System.out.println(findAccount.getAccountName());
 		assertEquals(findAccount.getAccountName(), accountDto.getAccountName());
 	}
 }
