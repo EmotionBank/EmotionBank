@@ -1,5 +1,6 @@
 package com.emotionbank.business.api.transaction.dto;
 
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -40,11 +41,11 @@ public class UpdateBalanceDto {
 		private String accountName;
 		private Long amount;
 		private Long balance;
-		private String transactionType;
+		private TransactionType transactionType;
 		private String content;
 
 		@Builder
-		public Response(String accountName, Long amount, Long balance, String transactionType,
+		public Response(String accountName, Long amount, Long balance, TransactionType transactionType,
 			String content) {
 			this.accountName = accountName;
 			this.amount = amount;
@@ -58,7 +59,7 @@ public class UpdateBalanceDto {
 				.accountName(transactionDto.getReceiver())
 				.amount(transactionDto.getAmount())
 				.balance(transactionDto.getBalance())
-				.transactionType(transactionDto.getTransactionType().getMessage())
+				.transactionType(transactionDto.getTransactionType())
 				.content(transactionDto.getContent())
 				.build();
 		}

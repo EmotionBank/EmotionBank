@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.emotionbank.business.domain.transaction.constant.Emoticon;
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -29,14 +31,15 @@ public class GetTransactionListDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Info {
 		private Long transactionId;
-		private String emoticon;
+		private Emoticon emoticon;
 		private LocalDateTime date;
-		private String transactionType;
+		private TransactionType transactionType;
 		private String title;
 		private Long amount;
 
 		@Builder
-		public Info(Long transactionId, String emoticon, LocalDateTime date, String transactionType, String title,
+		public Info(Long transactionId, Emoticon emoticon, LocalDateTime date, TransactionType transactionType,
+			String title,
 			Long amount) {
 			this.transactionId = transactionId;
 			this.emoticon = emoticon;
@@ -49,9 +52,9 @@ public class GetTransactionListDto {
 		public static Info from(TransactionDto transactionDto) {
 			return Info.builder()
 				.transactionId(transactionDto.getTransactionId())
-				.emoticon(transactionDto.getEmoticon().getMessage())
+				.emoticon(transactionDto.getEmoticon())
 				.date(transactionDto.getTransactionTime())
-				.transactionType(transactionDto.getTransactionType().getMessage())
+				.transactionType(transactionDto.getTransactionType())
 				.title(transactionDto.getTitle())
 				.amount(transactionDto.getAmount())
 				.build();
