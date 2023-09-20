@@ -8,9 +8,10 @@ import { useEffect, useState } from 'react';
 
 const Main = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
-  const getTransactionListMutation = useGetTransactionList(); // 특정 날짜 조회
+  // const getTransactionListMutation = useGetTransactionList(); // 특정 날짜 조회
   const [selectedDate, setSelectedDate] = useState<DateType>(getNewDateObj(new Date())); // 거래내역 조회 시 사용
-
+  // console.log({ ...date });
+  console.log(selectedDate);
   // useEffect(() => {
   //   getTransactionListMutation.mutate({
   //     date: '고른날짜',
