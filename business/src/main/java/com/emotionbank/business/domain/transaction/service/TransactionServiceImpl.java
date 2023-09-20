@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Transactional(readOnly = true)
 	@Override
 	public List<TransactionDto> getTransactions(TransactionSearchDto transactionSearchDto) {
-		Account account = accountRepository.findByAccountNumber(transactionSearchDto.getAccountNumber())
+		Account account = accountRepository.findByAccountId(transactionSearchDto.getAccountId())
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
 		// 계좌번호와 날짜로 거래내역 조회
