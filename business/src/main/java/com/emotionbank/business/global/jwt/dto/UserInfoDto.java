@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class UserInfoDto {
-	private Long userId;
+	private final Long userId;
 
 	@Builder
 	public UserInfoDto(Long userId) {
