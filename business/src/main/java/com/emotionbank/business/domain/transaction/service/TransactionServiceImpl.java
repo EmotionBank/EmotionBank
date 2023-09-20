@@ -75,6 +75,14 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionList;
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public TransactionDto getTransactionDetail(Long transactionId) {
+		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
+			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
+		return TransactionDto.from(transaction);
+	}
+
 	private void validateBalance(Account account, Long expectedBalance) {
 		if (!expectedBalance.equals(account.getBalance())) {
 			throw new BusinessException(BALANCE_NOT_EQUAL);
