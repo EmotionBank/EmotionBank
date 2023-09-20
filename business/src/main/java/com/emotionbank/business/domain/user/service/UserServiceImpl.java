@@ -28,8 +28,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
-		List<User> users = userRepository.findByNicknameContains(userNickname, pageable)
-			.orElseThrow(NullPointerException::new);
+		List<User> users = userRepository.findByNicknameContains(userNickname, pageable);
 		List<UserDto> userDtos = users.stream()
 			.map(UserDto::from)
 			.collect(Collectors.toList());
