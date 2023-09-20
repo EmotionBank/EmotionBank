@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.calendar.entity.Calendar;
+import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
@@ -41,6 +43,9 @@ class TransactionServiceImplTest {
 
 	@Mock
 	private CategoryRepository categoryRepository;
+
+	@Mock
+	private CalendarRepository calendarRepository;
 
 	@BeforeEach
 	public void beforeEach() {
@@ -71,10 +76,18 @@ class TransactionServiceImplTest {
 			.categoryName("회사")
 			.build();
 
+		Calendar calendar = Calendar.builder()
+			.date(LocalDate.now().atStartOfDay().toLocalDate())
+			.amount(10000L)
+			.account(account)
+			.build();
+
 		when(accountRepository.findByAccountNumber("777-7777"))
 			.thenReturn(Optional.of(account));
 		when(categoryRepository.findByCategoryId(1L))
 			.thenReturn(Optional.of(category));
+		when(calendarRepository.findByDate(LocalDate.now().atStartOfDay().toLocalDate()))
+			.thenReturn(Optional.of(calendar));
 
 		// When
 		TransactionDto resultDto = transactionService.updateBalance(transactionDto);
