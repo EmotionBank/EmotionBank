@@ -4,6 +4,7 @@ import { DAY } from '@/constants/calendar';
 import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
+import { Flex } from '@/components/common/Flex/Flex';
 
 interface currnetDateInterface extends DateType {
   weekList: DateType[][];
@@ -42,11 +43,13 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
   return (
     <S.CalendarWrapper>
       <S.CalendarControllerWrapper>
-        <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
         <S.CalendarController>
           {currentDate.year}. {convertDateFormat(currentDate.month)}
         </S.CalendarController>
-        <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
+        <S.CalendarControllerContainer>
+          <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
+          <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
+        </S.CalendarControllerContainer>
       </S.CalendarControllerWrapper>
       <S.CalendarHeader>
         {DAY.map(item => (

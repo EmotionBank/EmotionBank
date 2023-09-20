@@ -14,6 +14,11 @@ export const CalendarControllerWrapper = styled(Flex)`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const CalendarControllerContainer = styled(Flex)`
+  gap: 2rem;
+`;
+
 export const CalendarController = styled.span`
   font-weight: bold;
   font-size: 2rem;
@@ -43,7 +48,8 @@ export const DayContainer = styled(Flex)<{ $thisMonth: boolean }>`
   text-align: center;
   width: 45px;
   height: 45px;
-  color: ${({ $thisMonth }) => ($thisMonth ? 'black' : 'gray')};
+  color: ${({ $thisMonth }) => ($thisMonth ? 'black' : 'lightgray')};
+  cursor: pointer;
 `;
 
 export const EmotionImage = styled.img`

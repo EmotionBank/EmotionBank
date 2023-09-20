@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export interface GetCalendar {
   accountId: string;
-  date: string; // 2023-09
+  year: number; // 2023
+  month: number; // 09
 }
 
 // 달력에 뿌릴 데이터

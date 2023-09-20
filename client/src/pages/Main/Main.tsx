@@ -18,10 +18,11 @@ const Main = () => {
   };
   const initCalendarData = {
     accountId: '1',
-    date: convertYYYYMM(date),
+    year: date.year,
+    month: date.month,
   };
-  const transactionListData = useGetTransactionList(initTransactionData); // 특정 날짜 조회
-  // const getCalendarInfoData = useGetCalendarInfo(initCalendarData);
+  // const transactionListData = useGetTransactionList(initTransactionData); // 특정 날짜 조회
+  const getCalendarInfoData = useGetCalendarInfo(initCalendarData);
   const dummy = {
     transactions: [
       {
