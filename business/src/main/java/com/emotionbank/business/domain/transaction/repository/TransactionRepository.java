@@ -2,6 +2,7 @@ package com.emotionbank.business.domain.transaction.repository;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 		Date startDate,
 		Date endDate
 	);
+
+	Optional<Transaction> findByTransactionId(Long transactionId);
 }
