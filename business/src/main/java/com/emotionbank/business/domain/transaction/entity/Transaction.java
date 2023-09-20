@@ -4,19 +4,20 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
-import com.emotionbank.business.domain.user.entity.Category;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,9 +30,9 @@ import lombok.NoArgsConstructor;
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "transaction_id")
 	private Long transactionId;
 
+	@Enumerated(value = EnumType.STRING)
 	@Column(name = "transaction_type")
 	private TransactionType transactionType;
 
@@ -44,19 +45,20 @@ public class Transaction {
 	private String title;
 	private String content;
 
-	@Column(name = "transaction_time")
 	private LocalDateTime transactionTime;
 
+	@Enumerated(value = EnumType.STRING)
 	private Emoticon emoticon;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "sender")
 	private Account sender;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "receiver")
 	private Account receiver;
 
+	@Enumerated(value = EnumType.STRING)
 	private Visibility visibility;
 
 	@Builder
@@ -79,19 +81,20 @@ public class Transaction {
 		this.visibility = visibility;
 	}
 
-	public static Transaction of(TransactionDto transactionDto, Account sender, Account receiver, Long balance) {
+	public static Transaction of(TransactionDto transactionDto, Category category, Account account,
+		Long balance) {
 		return Transaction.builder()
 			.transactionId(transactionDto.getTransactionId())
 			.transactionType(transactionDto.getTransactionType())
-			.category(transactionDto.getCategory())
+			.category(category)
 			.amount(transactionDto.getAmount())
 			.balance(balance)
 			.title(transactionDto.getTitle())
 			.content(transactionDto.getContent())
-			.transactionTime(transactionDto.getTransactionTime())
+			.transactionTime(LocalDateTime.now())
 			.emoticon(transactionDto.getEmoticon())
-			.sender(sender)
-			.receiver(receiver)
+			.sender(account)
+			.receiver(account)
 			.visibility(transactionDto.getVisibility())
 			.build();
 	}

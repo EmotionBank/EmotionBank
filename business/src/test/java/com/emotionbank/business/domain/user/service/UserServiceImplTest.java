@@ -42,6 +42,6 @@ class UserServiceImplTest {
 
 		assertThat(result).hasSize(3);
 
-		verify(userRepository, times(1)).findByNicknameContains("%user%", pageable);
+		verify(userRepository, times(1)).findByNicknameContains("user", pageable);
 	}
 }
