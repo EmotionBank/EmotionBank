@@ -6,7 +6,7 @@ import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 
 interface currnetDateInterface extends DateType {
-  weeokList: DateType[][];
+  weekList: DateType[][];
 }
 interface Props {
   updateDate: (newDate: DateType) => void;
@@ -19,7 +19,7 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
     day: 0,
     year: 0,
     month: 0,
-    weeokList: [],
+    weekList: [],
   });
   const [monthState, setMonthState] = useState<number>(0);
 
@@ -54,7 +54,7 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
         ))}
       </S.CalendarHeader>
       <S.CalendarBody>
-        {currentDate.weeokList.map((week, idx) => (
+        {currentDate.weekList.map((week, idx) => (
           <S.WeekContainer key={idx}>
             {week.map((day, i) => {
               return (
