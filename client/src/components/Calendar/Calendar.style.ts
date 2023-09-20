@@ -48,6 +48,7 @@ export const DayContainer = styled(Flex)<{ $thisMonth: boolean }>`
   text-align: center;
   width: 45px;
   height: 45px;
+  padding: 0.5rem;
   color: ${({ $thisMonth }) => ($thisMonth ? 'black' : 'lightgray')};
   cursor: pointer;
 `;

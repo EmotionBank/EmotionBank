@@ -4,8 +4,7 @@ import { DAY } from '@/constants/calendar';
 import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-import { Flex } from '@/components/common/Flex/Flex';
-
+import happy from '@/assets/png/happy.png';
 interface currnetDateInterface extends DateType {
   weekList: DateType[][];
 }
@@ -66,8 +65,8 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
                   $thisMonth={currentDate.month === day.month}
                   onClick={() => selectCalendarDate(day)}
                 >
-                  <span>{day.date}</span>
-                  {/* <S.EmotionImage src=""/> */}
+                  {/* <span>{day.date}</span> */}
+                  <S.EmotionImage src={happy} />
                 </S.DayContainer>
               );
             })}

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '@/apis';
 
 export interface GetCalendar {
   accountId: string;
@@ -8,6 +8,6 @@ export interface GetCalendar {
 
 // 달력에 뿌릴 데이터
 export const getCalendarInfo = async (calendarParams: GetCalendar) => {
-  const { data } = await axios.get('/calendar', { params: { ...calendarParams } });
+  const { data } = await axiosInstance.get('/calendar', { params: { ...calendarParams } });
   return data;
 };
