@@ -7,6 +7,7 @@ import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.agreement.entity.Agreement;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.user.constant.SocialType;
+import com.emotionbank.business.domain.user.entity.User;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -60,6 +61,7 @@ public class UserDto {
 			.nickname(nickname)
 			.image(image)
 			.build();
+	}
 
 	public static UserDto from(User user) {
 		return UserDto.builder()

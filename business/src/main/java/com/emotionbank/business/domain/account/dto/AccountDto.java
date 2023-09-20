@@ -9,19 +9,18 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class AccountDto
-{
-	private Long accountId;
+public class AccountDto {
+	private final Long accountId;
 
-	private Long userId;
+	private final Long userId;
 
-	private String accountName;
+	private final String accountName;
 
-	private String accountNumber;
+	private final String accountNumber;
 
-	private Long balance;
+	private final Long balance;
 
-	private LocalDateTime createdTime;
+	private final LocalDateTime createdTime;
 
 	@Builder
 	public AccountDto(Long accountId, Long userId, String accountName, String accountNumber, Long balance,

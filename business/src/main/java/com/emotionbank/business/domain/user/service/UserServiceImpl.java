@@ -12,6 +12,7 @@ import com.emotionbank.business.domain.user.entity.Follow;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.FollowRepository;
 import com.emotionbank.business.domain.user.repository.UserRepository;
+import com.emotionbank.business.global.error.ErrorCode;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
@@ -35,9 +36,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void followUser(FollowDto followDto) {
 		User follower = userRepository.findById(followDto.getFollower())
-			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		User followee = userRepository.findById(followDto.getFollowee())
-			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
 		followRepository.findByFolloweeAndFollower(followee, follower)
 			.ifPresentOrElse(
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDto> getFollowees(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		List<Follow> follows = followRepository.findByFollower(user);
 		List<User> users = follows.stream().map(Follow::getFollowee).collect(Collectors.toList());
 		List<UserDto> userDtos = users.stream().map(UserDto::from).collect(Collectors.toList());
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDto> getFollowers(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		List<Follow> follows = followRepository.findByFollowee(user);
 		List<User> users = follows.stream().map(Follow::getFollower).collect(Collectors.toList());
 		List<UserDto> userDtos = users.stream().map(UserDto::from).collect(Collectors.toList());
