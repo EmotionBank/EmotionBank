@@ -1,7 +1,6 @@
 package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +42,13 @@ public class UserController {
 	public ResponseEntity<UserFollowsDto.Response> getFollowees(@PathVariable Long userId) {
 		List<UserDto> followees = userService.getFollowees(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/follower/{userId}")
+	public ResponseEntity<UserFollowsDto.Response> getFollowers(@PathVariable Long userId) {
+		List<UserDto> followers = userService.getFollowers(userId);
+		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
 	}
 
