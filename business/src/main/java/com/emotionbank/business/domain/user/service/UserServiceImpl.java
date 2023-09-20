@@ -2,7 +2,6 @@ package com.emotionbank.business.domain.user.service;
 
 import static com.emotionbank.business.global.error.ErrorCode.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> getFollowees(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
-		List<Follow> follows = followRepository.findByFollower(user).orElse(new ArrayList<>());
+		List<Follow> follows = followRepository.findByFollower(user);
 		List<User> users = follows.stream().map(Follow::getFollowee).collect(Collectors.toList());
 		List<UserDto> userDtos = users.stream().map(UserDto::from).collect(Collectors.toList());
 		return userDtos;
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> getFollowers(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
-		List<Follow> follows = followRepository.findByFollowee(user).orElse(new ArrayList<>());
+		List<Follow> follows = followRepository.findByFollowee(user);
 		List<User> users = follows.stream().map(Follow::getFollower).collect(Collectors.toList());
 		List<UserDto> userDtos = users.stream().map(UserDto::from).collect(Collectors.toList());
 		return userDtos;
