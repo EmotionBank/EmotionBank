@@ -42,10 +42,8 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public LoginJwtDto loginOrRegister(String loginType, String code) {
-		String redirect = redirectUri + loginType + "/callback";
-
 		OAuthTokenDto.Request oAuthRequestDto = OAuthTokenDto.Request.of(kakaoClientId, kakaoClientSecret,
-			redirect, code);
+			redirectUri, code);
 		OAuthTokenDto.Response oAuthToken = requestKakaoToken(oAuthRequestDto);
 
 		SocialLoginService socialLoginService = socialLoginServices.mapping(loginType);
