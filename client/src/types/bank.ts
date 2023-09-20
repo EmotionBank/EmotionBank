@@ -3,12 +3,13 @@ export interface AccountBalanceType {
   balance: number;
 }
 
+//계좌 입출금 인터페이스
 export interface DepositTransactionType {
+  accountName: string;
+  amount: number;
   balance: number;
-}
-
-export interface WithdrawTransactionType {
-  balance: number;
+  transactionType: string;
+  content: string;
 }
 
 export interface TransactionType {
@@ -20,10 +21,12 @@ export interface TransactionType {
   amount: number;
 }
 
+// 거래내역
 export interface TransactionListType {
   transactions: TransactionType[];
 }
 
+// 거래내역 상세조회
 export interface TransactionDetailType {
   title: string;
   emotion: string;
