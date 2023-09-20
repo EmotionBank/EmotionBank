@@ -3,8 +3,6 @@ package com.emotionbank.business.domain.transaction.dto;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import com.emotionbank.business.api.transaction.dto.GetTransactionListDto;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,10 +17,10 @@ public class TransactionSearchDto {
 		this.date = date;
 	}
 
-	public static TransactionSearchDto from(GetTransactionListDto.Request request) {
+	public static TransactionSearchDto of(String accountNumber, String date) {
 		return TransactionSearchDto.builder()
-			.accountNumber(request.getAccountNumber())
-			.date(Date.valueOf(LocalDate.parse(request.getDate())))
+			.accountNumber(accountNumber)
+			.date(Date.valueOf(LocalDate.parse(date)))
 			.build();
 	}
 }
