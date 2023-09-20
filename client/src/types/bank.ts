@@ -3,28 +3,30 @@ export interface AccountBalanceType {
   balance: number;
 }
 
+//계좌 입출금 인터페이스
 export interface DepositTransactionType {
+  accountName: string;
+  amount: number;
   balance: number;
-}
-
-export interface WithdrawTransactionType {
-  balance: number;
+  transactionType: string;
+  content: string;
 }
 
 export interface TransactionType {
   transactionId: number;
   emotion: string;
-  date: Date;
-  type: string;
+  date: string;
+  transactionType: string;
   title: string;
-  money: number;
-  balance: number;
+  amount: number;
 }
 
+// 거래내역
 export interface TransactionListType {
   transactions: TransactionType[];
 }
 
+// 거래내역 상세조회
 export interface TransactionDetailType {
   title: string;
   emotion: string;

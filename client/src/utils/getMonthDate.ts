@@ -1,9 +1,8 @@
-import { DateInterface } from '@/types/date';
+import { DateType } from '@/types/date';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 
-export const getMonthDate = (newDate: DateInterface, page = 0) => {
+export const getMonthDate = (newDate: DateType, page = 0) => {
   const doMonth = getNewDateObj(new Date(newDate.year, newDate.month - 1 + page, 1));
-
   const prevMonthLastDate = getNewDateObj(new Date(doMonth.year, doMonth.month - 1, 0));
   const startDate =
     prevMonthLastDate.day === 0
@@ -29,10 +28,9 @@ export const getMonthDate = (newDate: DateInterface, page = 0) => {
   const isLastWeek4 = week4LastDate.month !== doMonth.month || !(week4LastDate.date < lastDate.getDate());
   const isLastWeek5 = week5LastDate.month !== doMonth.month || !(week5LastDate.date < lastDate.getDate());
   const dateArr = [week1, week2, week3, week4];
-
   return {
     year: doMonth.year,
     month: doMonth.month,
-    weeokList: isLastWeek4 ? dateArr : isLastWeek5 ? [...dateArr, week5] : [...dateArr, week5, week6],
+    weekList: isLastWeek4 ? dateArr : isLastWeek5 ? [...dateArr, week5] : [...dateArr, week5, week6],
   };
 };
