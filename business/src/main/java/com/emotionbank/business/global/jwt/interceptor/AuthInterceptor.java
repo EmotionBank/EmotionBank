@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		String token = authorizationHeader.split(" ")[1];
 		jwtManager.validateAccessToken(token);
 
-		Claims claims = jwtManager.getAccessTokenClaims(token);
+		Claims claims = jwtManager.getTokenClaims(token);
 		String type = claims.getSubject();
 
 		if (!TokenType.isAccessToken(type)) {
