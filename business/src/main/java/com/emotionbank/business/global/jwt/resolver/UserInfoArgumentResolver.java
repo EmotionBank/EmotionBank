@@ -36,7 +36,7 @@ public class UserInfoArgumentResolver implements HandlerMethodArgumentResolver {
 		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
 		String authorizationHeader = request.getHeader("Authorization");
 		String accessToken = authorizationHeader.split(" ")[1];
-		Claims claims = jwtManager.getAccessTokenClaims(accessToken);
+		Claims claims = jwtManager.getTokenClaims(accessToken);
 		Long userId = Long.valueOf((Integer)claims.get("userId"));
 
 		return UserInfoDto.from(userId);
