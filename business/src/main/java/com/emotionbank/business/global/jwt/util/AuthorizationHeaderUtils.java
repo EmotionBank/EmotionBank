@@ -20,7 +20,7 @@ public class AuthorizationHeaderUtils {
 	}
 
 	private static boolean authorizationTypeCheck(String[] authorizations) {
-		return authorizations.length < 2 || (bearer.equals(authorizations[0]));
+		return authorizations.length < 2 || !bearer.equals(authorizations[0]);
 	}
 
 }
