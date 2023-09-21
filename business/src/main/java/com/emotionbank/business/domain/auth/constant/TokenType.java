@@ -1,5 +1,9 @@
 package com.emotionbank.business.domain.auth.constant;
 
 public enum TokenType {
-	ACCESS, REFRESH
+	ACCESS, REFRESH;
+
+	public static boolean isAccessToken(String tokenType) {
+		return TokenType.ACCESS.name().equals(tokenType);
+	}
 }
