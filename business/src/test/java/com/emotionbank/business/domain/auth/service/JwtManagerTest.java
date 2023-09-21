@@ -69,7 +69,7 @@ public class JwtManagerTest {
 		final JwtTokens jwtTokens = jwtManager.createJwtTokens(SAMPLE_USER_ID);
 
 		// when & then
-		assertDoesNotThrow(() -> jwtManager.validateAccessToken(jwtTokens.getRefreshToken()));
+		assertDoesNotThrow(() -> jwtManager.validateRefreshToken(jwtTokens.getRefreshToken()));
 	}
 
 	@Test
