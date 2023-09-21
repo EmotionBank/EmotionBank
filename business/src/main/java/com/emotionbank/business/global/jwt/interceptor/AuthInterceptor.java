@@ -20,12 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
 
-	private final String authorization = "Authorization";
+	private static final String authorization = "Authorization";
 	private final JwtManager jwtManager;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
-		Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
 			return true;
 		}

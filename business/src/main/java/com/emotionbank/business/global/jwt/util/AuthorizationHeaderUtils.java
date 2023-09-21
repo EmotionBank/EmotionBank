@@ -7,7 +7,7 @@ import com.emotionbank.business.global.error.exception.AuthException;
 
 public class AuthorizationHeaderUtils {
 
-	private static String bearer = "Bearer";
+	private static final String bearer = "Bearer";
 
 	public static void validateAuthorization(String authorizationHeader) {
 		if (!StringUtils.hasText(authorizationHeader)) {
