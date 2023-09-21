@@ -12,18 +12,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginAccessTokenDto {
 	@JsonUnwrapped
-	private AccessTokenDto accessTokenDto;
+	private RenewalAccessTokenDto renewalAccessTokenDto;
 	private Role role;
 
 	@Builder
-	public LoginAccessTokenDto(AccessTokenDto accessTokenDto, Role role) {
-		this.accessTokenDto = accessTokenDto;
+	public LoginAccessTokenDto(RenewalAccessTokenDto renewalAccessTokenDto, Role role) {
+		this.renewalAccessTokenDto = renewalAccessTokenDto;
 		this.role = role;
 	}
 
-	public static LoginAccessTokenDto of(AccessTokenDto accessTokenDto, Role role) {
+	public static LoginAccessTokenDto of(RenewalAccessTokenDto renewalAccessTokenDto, Role role) {
 		return LoginAccessTokenDto.builder()
-			.accessTokenDto(accessTokenDto)
+			.renewalAccessTokenDto(renewalAccessTokenDto)
 			.role(role)
 			.build();
 	}
