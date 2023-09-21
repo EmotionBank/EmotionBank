@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInfoDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
+import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
@@ -32,6 +35,20 @@ public class UserController {
 		UserDto userInfo = userService.getUserInfo(1L);
 		return ResponseEntity.ok(UserInfoDto.Response.from(userInfo));
 	}
+
+	@PatchMapping
+	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request) {
+		// todo : 유저 가지고오기
+		long userId = 1L;
+		UserDto userDto = UserDto.of(userId, request.getNickname());
+		userService.updateUser(userDto);
+		return ResponseEntity.ok().build();
+	}
+
+	// @PostMapping
+	// public ResponseEntity<?> checkDuplicateNickname(@RequestBody UserNicknameCheckDto.Request request) {
+	// 	userService
+	// }
 
 	@GetMapping("/{nickname}")
 	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {

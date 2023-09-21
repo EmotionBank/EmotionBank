@@ -17,4 +17,8 @@ public interface UserService {
 	List<UserDto> getFollowers(Long userId);
 
 	UserDto getUserInfo(Long userId);
+
+	void updateUser(UserDto request);
+
+	boolean checkDuplicateNickname(String nickname);
 }

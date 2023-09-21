@@ -63,6 +63,13 @@ public class UserDto {
 			.build();
 	}
 
+	public static UserDto of(long userId, String nickname) {
+		return UserDto.builder()
+			.userId(userId)
+			.nickname(nickname)
+			.build();
+	}
+
 	public static UserDto from(User user) {
 		return UserDto.builder()
 			.nickname(user.getNickname())

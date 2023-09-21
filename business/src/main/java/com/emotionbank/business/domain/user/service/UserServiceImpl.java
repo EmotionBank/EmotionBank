@@ -3,6 +3,8 @@ package com.emotionbank.business.domain.user.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -73,4 +75,23 @@ public class UserServiceImpl implements UserService {
 		UserDto userDto = UserDto.from(user);
 		return userDto;
 	}
+
+	@Override
+	@Transactional
+	public void updateUser(UserDto userDto) {
+		User user = userRepository.findById(userDto.getUserId())
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		if (!checkDuplicateNickname(userDto.getNickname())) {
+			user.updateNickname(userDto.getNickname());
+		} else {
+			throw (new BusinessException(ErrorCode.NICKNAME_DUPLICATE));
+		}
+	}
+
+	@Override
+	public boolean checkDuplicateNickname(String nickname) {
+		// User user = userRepository.
+		return false;
+	}
+
 }
