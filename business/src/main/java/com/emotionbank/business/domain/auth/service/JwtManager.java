@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 import com.emotionbank.business.domain.auth.constant.TokenType;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
 import com.emotionbank.business.global.error.ErrorCode;
+import com.emotionbank.business.global.error.exception.AuthException;
 import com.emotionbank.business.global.error.exception.JwtTokenException;
 import com.emotionbank.business.global.properties.JwtProperties;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwtException;
@@ -97,6 +99,20 @@ public class JwtManager {
 		} catch (final JwtException | IllegalArgumentException e) {
 			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_INVALID);
 		}
+	}
 
+	public Claims getAccessTokenClaims(String token) {
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+		try {
+			Claims claims = Jwts.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
+			return claims;
+		} catch (Exception e) {
+			log.info("유효하지 않은 jwt", e);
+			throw new AuthException(ErrorCode.ACCESS_TOKEN_INVALID);
+		}
 	}
 }

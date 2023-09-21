@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.emotionbank.business.global.jwt.resolver.UserInfoArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 public class WebConfig implements WebMvcConfigurer {
 
 	private final ObjectMapper objectMapper;
+	private final UserInfoArgumentResolver userInfoArgumentResolver;
+
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
@@ -55,5 +59,10 @@ public class WebConfig implements WebMvcConfigurer {
 		ObjectMapper copy = objectMapper.copy();
 		copy.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
 		return new MappingJackson2HttpMessageConverter(copy);
+	}
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(userInfoArgumentResolver);
 	}
 }
