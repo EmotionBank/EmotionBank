@@ -10,6 +10,9 @@ import angry from '@assets/emotions/angry.png';
 
 export const emotionList = ['SUPER_HAPPY', 'HAPPY', 'FLUTTER', 'SOSO', 'SAD', 'TIRED', 'ANNOYING', 'ANGRY', 'GLOOMY'];
 
+export const positiveEmotion = ['SUPER_HAPPY', 'HAPPY', 'FLUTTER', 'SOSO'];
+export const negativeEmotion = ['SAD', 'TIRED', 'ANNOYING', 'ANGRY', 'GLOOMY'];
+
 export const emotionImageList = {
   SUPER_HAPPY: super_happy,
   HAPPY: happy,

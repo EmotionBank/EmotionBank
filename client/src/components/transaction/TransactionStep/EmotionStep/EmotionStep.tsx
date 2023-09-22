@@ -1,5 +1,5 @@
 import * as S from '@/components/transaction/TransactionStep/EmotionStep/EmotionStep.style';
-import { emotionImageList, emotionList } from '@/constants/emotions';
+import { emotionImageList } from '@/constants/emotions';
 import { useState } from 'react';
 
 interface IProps {
