@@ -4,7 +4,7 @@ import { DAY } from '@/constants/calendar';
 import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-import happy from '@/assets/png/happy.png';
+import happy from '@assets/emotions/happy.png';
 interface currnetDateInterface extends DateType {
   weekList: DateType[][];
 }

@@ -1,6 +1,6 @@
 import * as S from '@/components/transaction/TransactionStep/CommentStep/CommentStep.style';
 import { useState } from 'react';
-import happy from '@/assets/png/happy.png';
+import happy from '@/assets/emotions/happy.png';
 import { useInput } from '@/hooks/useInput';
 
 interface IProps {

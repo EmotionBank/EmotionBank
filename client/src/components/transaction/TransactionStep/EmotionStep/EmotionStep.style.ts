@@ -21,7 +21,11 @@ export const EmotionGrid = styled.div`
   gap: 0.5rem;
 `;
 
-export const EmotionImageContainer = styled(Flex)``;
+export const EmotionImageContainer = styled(Flex)`
+  flex-direction: column;
+  padding: 1rem;
+  cursor: pointer;
+`;
 
 export const EmotionImage = styled.img`
   width: 100%;

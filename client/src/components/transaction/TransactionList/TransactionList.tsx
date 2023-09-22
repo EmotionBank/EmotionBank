@@ -23,7 +23,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
         >
           <S.EmotionImage src="" />
           <span>{item.title}</span>
-          <span>{item.money}</span>
+          <span>{item.amount}</span>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>
