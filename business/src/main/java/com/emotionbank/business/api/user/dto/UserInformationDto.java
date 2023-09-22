@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserInfoDto {
+public class UserInformationDto {
 
 	@Builder
 	@Getter

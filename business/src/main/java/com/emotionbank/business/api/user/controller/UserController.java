@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
-import com.emotionbank.business.api.user.dto.UserInfoDto;
+import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
+import com.emotionbank.business.global.jwt.annotation.UserInfo;
+import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,16 +33,15 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping
-	public ResponseEntity<UserInfoDto.Response> myInfo() {
-		// todo : 유저 가지고오기
-		UserDto userInfo = userService.getUserInfo(1L);
-		return ResponseEntity.ok(UserInfoDto.Response.from(userInfo));
+	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
+		long userId = userInfoDto.getUserId();
+		UserDto userInfo = userService.getUserInfo(userId);
+		return ResponseEntity.ok(UserInformationDto.Response.from(userInfo));
 	}
 
 	@PatchMapping
-	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request) {
-		// todo : 유저 가지고오기
-		long userId = 1L;
+	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request, @UserInfo UserInfoDto userInfoDto) {
+		long userId = userInfoDto.getUserId();
 		UserDto userDto = UserDto.of(userId, request.getNickname());
 		userService.updateUser(userDto);
 		return ResponseEntity.ok().build();
@@ -61,8 +62,9 @@ public class UserController {
 	}
 
 	@PostMapping("/follow/{userId}")
-	public ResponseEntity<?> followUser(@PathVariable Long userId) {
-		userService.followUser(FollowDto.of(1L, userId));
+	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) {
+		Long userId = userInfoDto.getUserId();
+		userService.followUser(FollowDto.of(userId, followeeId));
 		return ResponseEntity.ok().build();
 	}
 
