@@ -11,6 +11,8 @@ const color = {
   orange: '#FFA74F',
   pink: '#FAACA7',
   navy: '#303240',
+  primary: '#4000EF',
+  secondary: '#F8F5FF',
 };
 
 const fontSize = {

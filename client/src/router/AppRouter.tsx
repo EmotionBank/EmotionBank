@@ -8,7 +8,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 
-
 const AppRouter = () => {
   const router = createBrowserRouter([
     {

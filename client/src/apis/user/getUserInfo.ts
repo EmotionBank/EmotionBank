@@ -7,7 +7,7 @@ export interface UserInfoType {
   accountName: string;
 }
 
-export const getUser = async () => {
+export const getUserInfo = async () => {
   const { data } = await axiosInstance.get<UserInfoType>('/users');
   return data;
 };
