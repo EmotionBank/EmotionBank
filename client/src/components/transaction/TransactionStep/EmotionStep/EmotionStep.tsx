@@ -9,6 +9,11 @@ interface IProps {
 const EmotionStep = ({ onNext }: IProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
+  const handleNext = () => {
+    if (selectedEmotion === '') return;
+    onNext(selectedEmotion);
+  };
+
   return (
     <S.EmotionStepWrapper>
       <S.EmotionHeader>오늘의 감정을 선택하세요!</S.EmotionHeader>
@@ -19,7 +24,7 @@ const EmotionStep = ({ onNext }: IProps) => {
           </S.EmotionImageContainer>
         ))}
       </S.EmotionGrid>
-      <S.NextButton onClick={() => onNext(selectedEmotion)}>다음</S.NextButton>
+      <S.NextButton onClick={handleNext}>다음</S.NextButton>
     </S.EmotionStepWrapper>
   );
 };
