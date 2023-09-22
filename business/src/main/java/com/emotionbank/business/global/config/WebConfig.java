@@ -10,8 +10,10 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.emotionbank.business.global.jwt.interceptor.AuthInterceptor;
 import com.emotionbank.business.global.jwt.resolver.UserInfoArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,6 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 	private final ObjectMapper objectMapper;
 	private final UserInfoArgumentResolver userInfoArgumentResolver;
+	private final AuthInterceptor authInterceptor;
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -64,5 +67,17 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(userInfoArgumentResolver);
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authInterceptor)
+			.order(1)
+			.addPathPatterns("/**")
+			.excludePathPatterns(
+				"/auth/login/kakao/callback",
+				"/health"
+			);
+		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 }
