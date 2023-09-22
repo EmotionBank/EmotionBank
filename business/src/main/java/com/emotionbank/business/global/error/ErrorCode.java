@@ -24,6 +24,7 @@ public enum ErrorCode {
 	RECEIVER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-002", "Receiver 계좌가 없습니다"),
 	ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-003", "존재하지 않는 계좌 번호입니다."),
 	BALANCE_NOT_EQUAL(HttpStatus.BAD_REQUEST, "A-004", "잔액이 일치하지 않습니다."),
+	BELOW_ZERO_BALANCE(HttpStatus.BAD_REQUEST, "A-005", "출금이 불가합니다."),
 
 	// Calendar
 	CALENDAR_NOT_EXIST(HttpStatus.NOT_FOUND, "L-001", "해당 일자에 기록이 존재하지 않습니다."),
@@ -32,7 +33,11 @@ public enum ErrorCode {
 	NOT_SUPPORT_LOGIN_EXCEPTION(HttpStatus.BAD_REQUEST, "O-001", "지원하지 않는 로그인 방식입니다."),
 	NOT_EXIST_AUTHORIZATION(HttpStatus.UNAUTHORIZED, "O-002", "Authorization Header가 빈값입니다."),
 	NOT_VALID_BEARER_GRANT_TYPE(HttpStatus.UNAUTHORIZED, "O-003", "인증 타입이 Bearer 타입이 아닙니다."),
-	NOT_ACCESS_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "O-004", "Access Token이 아닙니다.");
+	NOT_ACCESS_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "O-004", "Access Token이 아닙니다."),
+
+	// Transaction
+	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다.");
+
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;

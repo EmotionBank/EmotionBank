@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.emotionbank.business.api.transaction.dto.GetTransactionDetailDto;
 import com.emotionbank.business.api.transaction.dto.GetTransactionListDto;
 import com.emotionbank.business.api.transaction.dto.UpdateBalanceDto;
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.service.TransactionService;
@@ -39,4 +42,19 @@ public class TransactionController {
 			TransactionSearchDto.of(accountId, startDate, endDate));
 		return ResponseEntity.ok(GetTransactionListDto.Response.from(transactionList));
 	}
+
+	@GetMapping("/{transactionId}")
+	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId) {
+		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId);
+		TransactionType transactionType = transactionDto.getTransactionType();
+
+		if (TransactionType.DEPOSIT.equals(transactionType)) {
+			return ResponseEntity.ok(GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getSender()));
+		} else if (TransactionType.WITHDRAWL.equals(transactionType)) {
+			return ResponseEntity.ok(GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getReceiver()));
+		}
+		
+		return ResponseEntity.badRequest().build();
+	}
+
 }
