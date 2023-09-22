@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Flex } from '@/components/common/Flex/Flex';
 import { Button } from '@/components/common/Button/Button';
+import { float } from '@/constants/animation';
 
 export const EmotionStepWrapper = styled(Flex)`
   height: 100%;
@@ -21,10 +22,17 @@ export const EmotionGrid = styled.div`
   gap: 0.5rem;
 `;
 
-export const EmotionImageContainer = styled(Flex)`
+export const EmotionImageContainer = styled(Flex)<{ $clicked: boolean }>`
   flex-direction: column;
   padding: 1rem;
   cursor: pointer;
+  border-radius: 8px;
+  animation: ${({ $clicked }) =>
+    $clicked
+      ? css`
+          ${float} 0.7s ease-in-out infinite
+        `
+      : 'none'};
 `;
 
 export const EmotionImage = styled.img`

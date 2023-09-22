@@ -7,7 +7,7 @@ import { usePostTransaction } from '@/hooks/apiHooks/usePostTransaction';
 
 const Transaction = () => {
   const initRequestdata = {
-    transactionType: 'string', // DEPOSIT | WITHDRAWL
+    transactionType: 'string', // DEPOSIT | WITHDRAW
     categoryId: '',
     accountNumber: '110-315-123456',
     amount: 0,
