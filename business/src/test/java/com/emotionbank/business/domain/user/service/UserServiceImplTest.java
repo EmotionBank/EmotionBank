@@ -53,28 +53,6 @@ class UserServiceImplTest {
 		verify(userRepository, times(1)).findByNicknameContains("user", pageable);
 	}
 
-
-	// @Test
-	// @DisplayName("팔로잉 목록을 조회한다")
-	// void showFollowingList() {
-	//
-	// 	User follower = User.builder()
-	// 		.userId(1L)
-	// 		.build();
-	//
-	// 	User followee = User.builder()
-	// 		.userId(2L)
-	// 		.build();
-	//
-	// 	Follow.builder()
-	// 		.follower(follower)
-	// 		.followee(followee)
-	// 		.build();
-	//
-	// 	when(userRepository.findById(1L)).thenReturn(Optional.of(follower));
-	// 	when(followRepository.findByFollower(follower)).thenReturn()
-	// }
-
 	@Test
 	@DisplayName("페이징을 적용하여 유저를 검색한다.")
 	void searchUserByPaging() {

@@ -81,11 +81,11 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(UserDto userDto) {
 		User user = userRepository.findById(userDto.getUserId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-		if (!checkDuplicateNickname(userDto.getNickname())) {
-			user.updateNickname(userDto.getNickname());
-		} else {
+		if (checkDuplicateNickname(userDto.getNickname())) {
 			throw (new BusinessException(ErrorCode.NICKNAME_DUPLICATE));
 		}
+		user.updateNickname(userDto.getNickname());
+
 	}
 
 	@Override

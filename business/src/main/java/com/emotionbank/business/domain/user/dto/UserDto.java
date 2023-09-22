@@ -3,7 +3,7 @@ package com.emotionbank.business.domain.user.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.agreement.entity.Agreement;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.user.constant.SocialType;
@@ -30,7 +30,7 @@ public class UserDto {
 
 	private final LocalDate withdrawalTime;
 
-	private final List<Account> accounts;
+	private final List<AccountDto> accounts;
 
 	private final List<Agreement> agreement;
 
@@ -40,7 +40,7 @@ public class UserDto {
 
 	@Builder
 	public UserDto(Long userId, String nickname, LocalDate birthDay, String email, SocialType socialType,
-		LocalDate createdTime, LocalDate lastLoginTime, LocalDate withdrawalTime, List<Account> accounts,
+		LocalDate createdTime, LocalDate lastLoginTime, LocalDate withdrawalTime, List<AccountDto> accounts,
 		List<Agreement> agreement, List<Category> category, String image) {
 		this.userId = userId;
 		this.nickname = nickname;

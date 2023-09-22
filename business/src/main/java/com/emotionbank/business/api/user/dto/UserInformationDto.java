@@ -17,6 +17,7 @@ public class UserInformationDto {
 	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
+		Long userId;
 		String nickname;
 		LocalDate birthday;
 		String accountNumber;
@@ -24,6 +25,7 @@ public class UserInformationDto {
 
 		public static Response from(UserDto userDto) {
 			return Response.builder()
+				.userId(userDto.getUserId())
 				.nickname(userDto.getNickname())
 				.birthday(userDto.getBirthDay())
 				.accountNumber(userDto.getAccounts().get(0).getAccountNumber())
