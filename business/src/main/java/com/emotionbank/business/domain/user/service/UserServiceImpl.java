@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
@@ -16,6 +17,7 @@ import com.emotionbank.business.domain.user.repository.FollowRepository;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.ErrorCode;
 import com.emotionbank.business.global.error.exception.BusinessException;
+import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -91,6 +93,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean checkDuplicateNickname(String nickname) {
 		return !userRepository.existsByNickname(nickname);
+	}
+
+	@Override
+	public boolean checkAdminRole(UserInfoDto userInfoDto) {
+		User user = userRepository.findById(userInfoDto.getUserId())
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+		if (!(user.getRole() == Role.ADMIN)) {
+			throw new BusinessException(ErrorCode.NO_TERMS_CREATE_ROLE);
+		}
+
+		return true;
 	}
 
 }
