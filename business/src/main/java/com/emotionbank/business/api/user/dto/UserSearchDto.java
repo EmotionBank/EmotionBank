@@ -13,12 +13,15 @@ import lombok.NoArgsConstructor;
 
 public class UserSearchDto {
 
-	@Builder
 	@Getter
-	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
 		List<UserSimpleDto> users;
+
+		@Builder
+		public Response(List<UserSimpleDto> users) {
+			this.users = users;
+		}
 
 		public static Response from(List<UserDto> userDtos) {
 			return Response.builder()

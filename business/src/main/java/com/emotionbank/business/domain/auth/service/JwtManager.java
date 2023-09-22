@@ -7,10 +7,14 @@ import org.springframework.stereotype.Component;
 
 import com.emotionbank.business.domain.auth.constant.TokenType;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
+import com.emotionbank.business.domain.auth.entity.RefreshToken;
+import com.emotionbank.business.domain.auth.repository.RefreshTokenRepository;
 import com.emotionbank.business.global.error.ErrorCode;
+import com.emotionbank.business.global.error.exception.AuthException;
 import com.emotionbank.business.global.error.exception.JwtTokenException;
 import com.emotionbank.business.global.properties.JwtProperties;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwtException;
@@ -27,12 +31,14 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtManager {
 
 	private final JwtProperties jwtProperties;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	public JwtTokens createJwtTokens(Long userId) {
 		Date accessTokenExpireTime = createAccessTokenExpireTime();
 		Date refreshTokenExpireTime = createRefreshTokenExpireTime();
 		final String accessToken = createAccessToken(userId, accessTokenExpireTime);
 		final String refreshToken = createRefreshToken(userId, refreshTokenExpireTime);
+		refreshTokenRepository.save(RefreshToken.of(userId, refreshToken));
 		return JwtTokens.createBearer(
 			accessToken,
 			refreshToken,
@@ -63,11 +69,11 @@ public class JwtManager {
 			.compact();
 	}
 
-	private Date createAccessTokenExpireTime() {
+	public Date createAccessTokenExpireTime() {
 		return new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpirationTime());
 	}
 
-	private Date createRefreshTokenExpireTime() {
+	public Date createRefreshTokenExpireTime() {
 		return new Date(System.currentTimeMillis() + jwtProperties.getRefreshTokenExpirationTime());
 	}
 
@@ -97,6 +103,30 @@ public class JwtManager {
 		} catch (final JwtException | IllegalArgumentException e) {
 			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_INVALID);
 		}
+	}
 
+	public Claims getTokenClaims(String token) {
+		final Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.getSecretKey()));
+		try {
+			Claims claims = Jwts.parserBuilder()
+				.setSigningKey(key)
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
+			return claims;
+		} catch (Exception e) {
+			log.info("유효하지 않은 jwt", e);
+			throw new AuthException(ErrorCode.JWT_TOKEN_INVALID);
+		}
+	}
+
+	public boolean validateRefreshTokenAndExpiredAccessToken(String refreshToken, String accessToken) {
+		validateRefreshToken(refreshToken);
+		try {
+			validateAccessToken(accessToken);
+		} catch (JwtTokenException e) {
+			return e.getErrorCode().equals(ErrorCode.ACCESS_TOKEN_EXPIRED);
+		}
+		return false;
 	}
 }

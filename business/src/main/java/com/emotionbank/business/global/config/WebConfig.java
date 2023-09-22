@@ -8,9 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.emotionbank.business.global.jwt.interceptor.AuthInterceptor;
+import com.emotionbank.business.global.jwt.resolver.UserInfoArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -22,10 +26,13 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 public class WebConfig implements WebMvcConfigurer {
 
 	private final ObjectMapper objectMapper;
+	private final UserInfoArgumentResolver userInfoArgumentResolver;
+	private final AuthInterceptor authInterceptor;
+
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("*")
+			.allowedOrigins("http://localhost:3000/")
 			.allowedMethods(
 				HttpMethod.GET.name(),
 				HttpMethod.POST.name(),
@@ -33,7 +40,8 @@ public class WebConfig implements WebMvcConfigurer {
 				HttpMethod.PUT.name(),
 				HttpMethod.DELETE.name(),
 				HttpMethod.OPTIONS.name()
-			);
+			)
+			.allowCredentials(true);
 	}
 
 	@Bean
@@ -55,5 +63,23 @@ public class WebConfig implements WebMvcConfigurer {
 		ObjectMapper copy = objectMapper.copy();
 		copy.getFactory().setCharacterEscapes(new HtmlCharacterEscapes());
 		return new MappingJackson2HttpMessageConverter(copy);
+	}
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(userInfoArgumentResolver);
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authInterceptor)
+			.order(1)
+			.addPathPatterns("/**")
+			.excludePathPatterns(
+				"/auth/login/kakao/callback",
+				"/auth/token",
+				"/health"
+			);
+		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 }

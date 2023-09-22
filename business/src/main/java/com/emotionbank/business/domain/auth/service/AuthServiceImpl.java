@@ -7,13 +7,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.emotionbank.business.domain.auth.dto.AccessTokenDto;
 import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.OAuthTokenDto;
+import com.emotionbank.business.domain.auth.entity.RefreshToken;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoTokenClient;
+import com.emotionbank.business.domain.auth.repository.RefreshTokenRepository;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
+import com.emotionbank.business.global.error.ErrorCode;
+import com.emotionbank.business.global.error.exception.AuthException;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
 	private final SocialLoginServices socialLoginServices;
 	private final UserRepository userRepository;
 	private final JwtManager jwtManager;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	@Value("${kakao.client.id}")
 	private String kakaoClientId;
@@ -42,10 +49,8 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public LoginJwtDto loginOrRegister(String loginType, String code) {
-		String redirect = redirectUri + loginType + "/callback";
-
 		OAuthTokenDto.Request oAuthRequestDto = OAuthTokenDto.Request.of(kakaoClientId, kakaoClientSecret,
-			redirect, code);
+			redirectUri, code);
 		OAuthTokenDto.Response oAuthToken = requestKakaoToken(oAuthRequestDto);
 
 		SocialLoginService socialLoginService = socialLoginServices.mapping(loginType);
@@ -67,6 +72,33 @@ public class AuthServiceImpl implements AuthService {
 
 			return LoginJwtDto.of(user.getRole(), jwtManager.createJwtTokens(user.getUserId()));
 		}
+	}
+
+	@Override
+	public AccessTokenDto renewalAccessToken(String refreshToken, String authorizationHeader) {
+		String accessToken = authorizationHeader.split(" ")[1];
+		if (jwtManager.validateRefreshTokenAndExpiredAccessToken(refreshToken, accessToken)) {
+			Claims refreshClaims = jwtManager.getTokenClaims(refreshToken);
+			Long userId = Long.valueOf((Integer)refreshClaims.get("userId"));
+
+			Optional<RefreshToken> savedRefreshToken = refreshTokenRepository.findRefreshTokenByUserId(userId);
+
+			if (isNotSavedRefreshToken(refreshToken, savedRefreshToken)) {
+				throw new AuthException(ErrorCode.REFRESH_TOKEN_INVALID);
+			}
+
+			if (!userRepository.existsById(userId)) {
+				throw new AuthException(ErrorCode.REFRESH_TOKEN_INVALID);
+			}
+
+			String newAccessToken = jwtManager.createAccessToken(userId, jwtManager.createAccessTokenExpireTime());
+			return AccessTokenDto.createBearer(newAccessToken);
+		}
+		throw new AuthException(ErrorCode.REFRESH_TOKEN_INVALID);
+	}
+
+	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {
+		return savedRefreshToken.isEmpty() || !savedRefreshToken.get().getRefreshToken().equals(refreshToken);
 	}
 
 	private OAuthTokenDto.Response requestKakaoToken(OAuthTokenDto.Request oAuthRequestDto) {
