@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInfoDto;
+import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
@@ -45,10 +46,12 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 
-	// @PostMapping
-	// public ResponseEntity<?> checkDuplicateNickname(@RequestBody UserNicknameCheckDto.Request request) {
-	// 	userService
-	// }
+	@PostMapping("/check")
+	public ResponseEntity<UserNicknameCheckDto.Response> checkDuplicateNickname(
+		@RequestBody UserNicknameCheckDto.Request request) {
+		return ResponseEntity.ok(
+			UserNicknameCheckDto.Response.of(userService.checkDuplicateNickname(request.getNickname())));
+	}
 
 	@GetMapping("/{nickname}")
 	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {

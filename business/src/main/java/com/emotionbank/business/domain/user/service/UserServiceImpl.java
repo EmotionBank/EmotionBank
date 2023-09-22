@@ -90,8 +90,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean checkDuplicateNickname(String nickname) {
-		// User user = userRepository.
-		return false;
+		return !userRepository.existsByNickname(nickname);
 	}
 
 }

@@ -15,5 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByNicknameContains(String nickname, Pageable pageable);
 
 	Optional<User> findBySocialIdAndSocialType(String socialId, SocialType socialType);
-	
+
+	boolean existsByNickname(String nickname);
 }
