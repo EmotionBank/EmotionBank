@@ -22,9 +22,9 @@ public class CategoryDto {
 		this.visibility = visibility;
 	}
 
-	public static CategoryDto from(CreateCategoryDto.Request request) {
+	public static CategoryDto of(CreateCategoryDto.Request request, Long userId) {
 		return CategoryDto.builder()
-			.userId(request.getUserId())
+			.userId(userId)
 			.categoryName(request.getCategoryName())
 			.visibility(Visibility.valueOf(request.getVisibility()))
 			.build();

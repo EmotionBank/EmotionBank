@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.emotionbank.business.api.category.dto.CreateCategoryDto;
 import com.emotionbank.business.domain.category.dto.CategoryDto;
 import com.emotionbank.business.domain.category.service.CategoryService;
+import com.emotionbank.business.global.jwt.annotation.UserInfo;
+import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +22,9 @@ public class CategoryController {
 	private final CategoryService categoryService;
 
 	@PostMapping
-	public ResponseEntity<?> createCategory(@RequestBody CreateCategoryDto.Request request) {
-		categoryService.createCategory(CategoryDto.from(request));
+	public ResponseEntity<Void> createCategory(@RequestBody CreateCategoryDto.Request request,
+		@UserInfo UserInfoDto userInfoDto) {
+		categoryService.createCategory(CategoryDto.of(request, userInfoDto.getUserId()));
 		return ResponseEntity.ok().build();
 	}
 }

@@ -10,17 +10,15 @@ public class CreateCategoryDto {
 	@Getter
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Request {
-		private Long userId;
 		private String categoryName;
 		private String visibility;
 
 		@Builder
-		public Request(Long userId, String categoryName, String visibility) {
-			this.userId = userId;
+		public Request(String categoryName, String visibility) {
 			this.categoryName = categoryName;
 			this.visibility = visibility;
 		}
-		
+
 	}
 
 }
