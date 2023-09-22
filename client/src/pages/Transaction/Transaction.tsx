@@ -9,12 +9,11 @@ const Transaction = () => {
   const initRequestdata = {
     transactionType: 'string', // DEPOSIT | WITHDRAWL
     categoryId: '',
+    accountNumber: '110-315-123456',
     amount: 0,
     balance: 0,
     emotion: '',
     content: 'string',
-    visibility: 'PUBLIC',
-    transactionDate: new Date(),
   };
   const [step, setStep] = useState<'emotion' | 'comment'>('emotion');
   const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
