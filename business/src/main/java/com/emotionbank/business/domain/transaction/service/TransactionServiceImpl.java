@@ -56,6 +56,11 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		Long balance = account.getBalance();
 
+		// 잔액이 0원 미만인 경우 거래 취소
+		if (balance < 0) {
+			throw new BusinessException(BELOW_ZERO_BALANCE);
+		}
+
 		// 거래 내역 저장
 		Transaction transaction = Transaction.of(transactionDto, category, account, balance);
 		transactionRepository.save(transaction);
