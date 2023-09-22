@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.emotionbank.business.api.auth.dto.AccessTokenDto;
 import com.emotionbank.business.api.auth.dto.LoginAccessTokenDto;
+import com.emotionbank.business.api.auth.dto.RenewalAccessTokenDto;
+import com.emotionbank.business.domain.auth.dto.AccessTokenDto;
 import com.emotionbank.business.domain.auth.dto.JwtTokens;
 import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.service.AuthService;
@@ -43,6 +46,17 @@ public class AuthController {
 			.build();
 		response.addHeader(SET_COOKIE, cookie.toString());
 		return ResponseEntity.ok(
-			LoginAccessTokenDto.of(AccessTokenDto.from(jwtTokens.getAccessToken()), loginJwtDto.getRole()));
+			LoginAccessTokenDto.of(RenewalAccessTokenDto.from(jwtTokens.getAccessToken()), loginJwtDto.getRole()));
 	}
+
+	@GetMapping("/token")
+	public ResponseEntity<RenewalAccessTokenDto> renewalAccessToken(
+		@CookieValue("refresh-token") final String refreshToken,
+		@RequestHeader("Authorization") final String authorizationHeader) {
+
+		AccessTokenDto accessTokenDto = authService.renewalAccessToken(refreshToken, authorizationHeader);
+
+		return ResponseEntity.ok(RenewalAccessTokenDto.from(accessTokenDto.getAccessToken()));
+	}
+
 }

@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AccessTokenDto {
+public class RenewalAccessTokenDto {
 	private String tokenType;
 	private String accessToken;
 
 	@Builder
-	public AccessTokenDto(String tokenType, String accessToken) {
+	public RenewalAccessTokenDto(String tokenType, String accessToken) {
 		this.tokenType = tokenType;
 		this.accessToken = accessToken;
 	}
 
-	public static AccessTokenDto from(String accessToken) {
-		return AccessTokenDto.builder()
+	public static RenewalAccessTokenDto from(String accessToken) {
+		return RenewalAccessTokenDto.builder()
 			.tokenType("Bearer")
 			.accessToken(accessToken)
 			.build();

@@ -76,6 +76,7 @@ public class WebConfig implements WebMvcConfigurer {
 			.addPathPatterns("/**")
 			.excludePathPatterns(
 				"/auth/login/kakao/callback",
+				"/auth/token",
 				"/health"
 			);
 		WebMvcConfigurer.super.addInterceptors(registry);
