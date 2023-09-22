@@ -21,6 +21,10 @@ const Transaction = () => {
   const postTransactionMutation = usePostTransaction();
 
   const isPositiveEmotion = (emotion: string) => positiveEmotion.includes(emotion);
+  const validateTransaction = (amount: number, content: string) => {
+    if (amount === 0 || content === '') return false;
+    return true;
+  };
 
   const confirmEmotionStep = (emotion: string) => {
     if (isPositiveEmotion(emotion)) {
@@ -30,6 +34,7 @@ const Transaction = () => {
     setStep('comment');
   };
   const confirmDiaryStep = (amount: number, content: string) => {
+    if (!validateTransaction(amount, content)) return;
     postTransactionMutation.mutate({ ...requsetData, amount, content });
   };
 
