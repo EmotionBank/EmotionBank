@@ -10,14 +10,14 @@ import angry from '@assets/emotions/angry.png';
 
 export const emotionList = ['SUPER_HAPPY', 'HAPPY', 'FLUTTER', 'SOSO', 'SAD', 'TIRED', 'ANNOYING', 'ANGRY', 'GLOOMY'];
 
-export const emotionImageList = [
-  { SUPER_HAPPY: super_happy },
-  { HAPPY: happy },
-  { FLUTTER: flutter },
-  { SOSO: soso },
-  { SAD: sad },
-  { TIRED: tired },
-  { ANNOYING: annoying },
-  { ANGRY: angry },
-  { GLOOMY: gloomy },
-];
+export const emotionImageList = {
+  SUPER_HAPPY: super_happy,
+  HAPPY: happy,
+  FLUTTER: flutter,
+  SOSO: soso,
+  SAD: sad,
+  TIRED: tired,
+  ANNOYING: annoying,
+  ANGRY: angry,
+  GLOOMY: gloomy,
+};
