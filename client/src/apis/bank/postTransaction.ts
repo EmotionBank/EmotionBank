@@ -5,12 +5,11 @@ import { DepositTransactionType } from '@/types/bank';
 export interface PostDepositTransaction {
   transactionType: string; // DEPOSIT | WITHDRAWL
   categoryId: string;
-  amount: number;
+  accountNumber: string;
   balance: number;
+  amount: number;
   emotion: string;
   content: string;
-  visibility: string; // PRIVATE | PUBLIC | FOLLOWER
-  transactionDate: Date;
 }
 export const postTransaction = async (transactionData: PostDepositTransaction) => {
   const { data } = await axiosInstance.post<DepositTransactionType>('/transactions', transactionData);

@@ -28,11 +28,12 @@ export interface TransactionListType {
 
 // 거래내역 상세조회
 export interface TransactionDetailType {
-  title: string;
   emotion: string;
-  money: number;
-  date: Date;
-  comment: string;
-  accountNumber: string;
-  type: string;
+  amount: number;
+  date: Date | string;
+  time: string;
+  title: string;
+  content: string;
+  accountName: string; // 계좌명
+  transactionType: string;
 }

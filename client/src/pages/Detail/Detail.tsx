@@ -8,11 +8,12 @@ const Detail = () => {
   const transactionDetailData = {
     title: '제목',
     emotion: '감정',
-    money: 10000,
+    amount: 10000,
     date: '2023-09-16',
-    comment: '아무말이나 일단 써',
-    accountNumber: '111-111-111',
-    type: 'DEPOSIT',
+    time: '2023-09-16',
+    content: '아무말이나 일단 써',
+    accountName: '111-111-111',
+    transactionType: 'DEPOSIT',
   };
   return (
     <S.DetailWrapper>
@@ -21,9 +22,9 @@ const Detail = () => {
         <S.EmotionImageContainer>
           <S.EmotionImage src="" alt="감정" />
         </S.EmotionImageContainer>
-        <S.Money>{transactionDetailData.money}</S.Money>
+        <S.Money>{transactionDetailData.amount}</S.Money>
         <S.EmotionContentContainer>
-          <p>{transactionDetailData.comment}</p>
+          <p>{transactionDetailData.content}</p>
         </S.EmotionContentContainer>
         <S.EmotionInfoWrapper>
           <S.EmotionInfo>날짜</S.EmotionInfo>
@@ -31,7 +32,7 @@ const Detail = () => {
         </S.EmotionInfoWrapper>
         <S.EmotionInfoWrapper>
           <S.EmotionInfo>계좌 번호</S.EmotionInfo>
-          <S.EmotionInfo>{transactionDetailData.accountNumber}</S.EmotionInfo>
+          <S.EmotionInfo>{transactionDetailData.accountName}</S.EmotionInfo>
         </S.EmotionInfoWrapper>
       </S.ReceiptWrapper>
       <S.SavePhotoButton>사진으로 저장하기</S.SavePhotoButton>
