@@ -107,4 +107,7 @@ public class User {
 		this.lastLoginTime = lastLoginTime;
 	}
 
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
 }

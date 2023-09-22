@@ -16,6 +16,7 @@ public enum ErrorCode {
 
 	// User
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U-001", "존재하지 않는 회원입니다."),
+	NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "U-002", "중복된 닉네임 입니다."),
 
 	// Category
 	CATEGORY_NOT_EXIST(HttpStatus.NOT_FOUND, "C-001", "카테고리가 없습니다."),

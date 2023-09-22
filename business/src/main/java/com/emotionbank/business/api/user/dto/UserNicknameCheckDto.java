@@ -1,30 +1,32 @@
 package com.emotionbank.business.api.user.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.emotionbank.business.domain.user.dto.UserDto;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserFollowsDto {
+public class UserNicknameCheckDto {
+
+	@Builder
+	@Getter
+	@AllArgsConstructor
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class Request {
+		String nickname;
+	}
 
 	@Builder
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
-		List<UserSimpleDto> followees;
+		boolean isPossible;
 
-		public static Response from(List<UserDto> userDtos) {
+		public static Response of(boolean isPossible) {
 			return Response.builder()
-				.followees(userDtos.stream().map(UserSimpleDto::from).collect(Collectors.toList()))
+				.isPossible(isPossible)
 				.build();
 		}
 	}
-
 }

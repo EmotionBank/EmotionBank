@@ -78,10 +78,8 @@ class UserServiceImplTest {
 		when(userRepository.findById(followeeId)).thenReturn(Optional.of(followee));
 		when(followRepository.findByFolloweeAndFollower(followee, follower)).thenReturn(Optional.empty());
 
-		// 테스트 실행
 		userService.followUser(followDto);
 
-		// 테스트 결과 검증
 		verify(followRepository, times(1)).save(any(Follow.class));
 		verify(followRepository, times(0)).delete(any(Follow.class));
 	}
@@ -104,10 +102,8 @@ class UserServiceImplTest {
 		when(followRepository.findByFolloweeAndFollower(followee, follower)).thenReturn(
 			Optional.of(Follow.of(follower, followee)));
 
-		// 테스트 실행
 		userService.followUser(followDto);
 
-		// 테스트 결과 검증
 		verify(followRepository, times(0)).save(any(Follow.class));
 		verify(followRepository, times(1)).delete(any(Follow.class));
 	}
@@ -115,7 +111,6 @@ class UserServiceImplTest {
 	@Test
 	@DisplayName("팔로우 목록을 가지고 온다")
 	public void getFollowees() {
-		// 가짜 데이터 생성
 		Long userId = 1L;
 		User user = User.builder().userId(userId).build();
 
@@ -128,17 +123,14 @@ class UserServiceImplTest {
 		when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 		when(followRepository.findByFollower(user)).thenReturn(follows);
 
-		// 테스트 실행
 		List<UserDto> followees = userService.getFollowees(userId);
 
-		// 테스트 결과 검증
 		assertEquals(2, followees.size());
 	}
 
 	@Test
 	@DisplayName("팔로워 목록을 가지고 온다")
 	public void getFollowers() {
-		// 가짜 데이터 생성
 		Long userId = 1L;
 		User user = User.builder().userId(userId).build();
 
@@ -151,10 +143,8 @@ class UserServiceImplTest {
 		when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 		when(followRepository.findByFollowee(user)).thenReturn(follows);
 
-		// 테스트 실행
 		List<UserDto> followers = userService.getFollowers(userId);
 
-		// 테스트 결과 검증
 		assertEquals(2, followers.size());
 	}
 }
