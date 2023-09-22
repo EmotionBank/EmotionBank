@@ -73,4 +73,10 @@ public class UserController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/follower/{userId}")
+	public ResponseEntity<UserFollowsDto.Response> getFollowers(@PathVariable Long userId) {
+		List<UserDto> followers = userService.getFollowers(userId);
+		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
+		return ResponseEntity.ok(response);
+	}
 }

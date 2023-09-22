@@ -5,11 +5,18 @@ import java.util.stream.Collectors;
 
 import com.emotionbank.business.domain.user.dto.UserDto;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class UserSearchDto {
 
 	@Builder
+	@Getter
+	@AllArgsConstructor
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
 		List<UserSimpleDto> users;
 

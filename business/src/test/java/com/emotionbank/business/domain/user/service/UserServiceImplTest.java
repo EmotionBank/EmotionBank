@@ -44,4 +44,10 @@ class UserServiceImplTest {
 
 		verify(userRepository, times(1)).findByNicknameContains("user", pageable);
 	}
+
+	@Test
+	@DisplayName("유저를 팔로우 한다")
+	void searchNonExistentUser() {
+
+	}
 }
