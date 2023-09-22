@@ -22,11 +22,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
-	public CategoryDto createCategory(CategoryDto categoryDto) {
+	public void createCategory(CategoryDto categoryDto) {
 		User user = userRepository.findById(categoryDto.getUserId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-		Category category = categoryRepository.save(Category.of(categoryDto, user));
-		return CategoryDto.from(category);
+		categoryRepository.save(Category.of(categoryDto, user));
 	}
 }

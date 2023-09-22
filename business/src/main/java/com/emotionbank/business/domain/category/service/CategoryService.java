@@ -3,5 +3,5 @@ package com.emotionbank.business.domain.category.service;
 import com.emotionbank.business.domain.category.dto.CategoryDto;
 
 public interface CategoryService {
-	CategoryDto createCategory(CategoryDto categoryDto);
+	void createCategory(CategoryDto categoryDto);
 }
