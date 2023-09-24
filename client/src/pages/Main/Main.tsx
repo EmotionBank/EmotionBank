@@ -7,6 +7,7 @@ import { MainPageWrapper } from '@/pages/Main/Main.style';
 import { DateType } from '@/types/date';
 import { convertYYYYMMDD } from '@/utils/convertDateToString';
 import { getNewDateObj } from '@/utils/getNewDateObj';
+import UserInfo from '@/components/UserInfo/UserInfo';
 
 const Main = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
@@ -49,6 +50,7 @@ const Main = () => {
 
   return (
     <MainPageWrapper>
+      <UserInfo />
       <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} />
       <TransactionList transactionDatas={dummy} />
     </MainPageWrapper>
