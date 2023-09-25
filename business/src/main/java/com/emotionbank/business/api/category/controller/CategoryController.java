@@ -1,6 +1,8 @@
 package com.emotionbank.business.api.category.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,12 @@ public class CategoryController {
 	public ResponseEntity<Void> createCategory(@RequestBody CreateCategoryDto.Request request,
 		@UserInfo UserInfoDto userInfoDto) {
 		categoryService.createCategory(CategoryDto.of(request, userInfoDto.getUserId()));
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/{categoryId}")
+	public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId, @UserInfo UserInfoDto userInfoDto) {
+		categoryService.deleteCategory(categoryId, userInfoDto.getUserId());
 		return ResponseEntity.ok().build();
 	}
 }
