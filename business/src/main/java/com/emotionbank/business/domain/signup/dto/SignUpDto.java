@@ -7,9 +7,9 @@ import lombok.Getter;
 
 @Getter
 public class SignUpDto {
-	Long userId;
-	String nickname;
-	LocalDate birthday;
+	private final Long userId;
+	private final String nickname;
+	private final LocalDate birthday;
 
 	@Builder
 	public SignUpDto(Long userId, String nickname, LocalDate birthday) {
