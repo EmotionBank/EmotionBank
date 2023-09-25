@@ -1,6 +1,7 @@
 package com.emotionbank.business.domain.signup.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.emotionbank.business.domain.signup.dto.SignUpDto;
 import com.emotionbank.business.domain.signup.dto.SignUpUserDto;
@@ -18,6 +19,7 @@ public class SignUpImplService implements SignUpService {
 	private final UserRepository userRepository;
 
 	@Override
+	@Transactional
 	public SignUpUserDto signup(SignUpDto signUpDto) {
 		User user = userRepository.findById(signUpDto.getUserId()).orElseThrow(()
 			-> new BusinessException(ErrorCode.USER_NOT_FOUND));
