@@ -17,7 +17,7 @@ const Transaction = () => {
     emotion: '',
     content: 'string',
   };
-  const [step, setStep] = useState<'emotion' | 'comment' | 'category'>('emotion');
+  const [step, setStep] = useState<'emotion' | 'comment' | 'category'>('category');
   const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
   const postTransactionMutation = usePostTransaction();
 

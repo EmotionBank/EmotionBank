@@ -11,6 +11,7 @@ export const CategoryStepWrapper = styled(Flex)`
 export const CategoryHeaderContainer = styled(Flex)`
   width: 100%;
   justify-content: start;
+  padding: 2rem;
 `;
 export const CategoryHeader = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.l};
@@ -28,7 +29,7 @@ export const CategoryListWrapper = styled(Flex)`
 `;
 export const CategoryContainer = styled(Flex)<{ $isSelected: boolean }>`
   width: 100%;
-  height: 7rem;
+  height: 6rem;
   justify-content: space-between;
   padding: 0.5rem 3rem;
   border-radius: 8px;
@@ -38,6 +39,17 @@ export const CategoryContainer = styled(Flex)<{ $isSelected: boolean }>`
   font-weight: bold;
   transition: 0.4s ease-in-out;
   cursor: pointer;
+`;
+
+export const CreateCategoryButton = styled(Button)`
+  width: 100%;
+  height: 5rem;
+  padding: 0.5rem 3rem;
+  border-radius: 8px;
+  font-size: ${({ theme }) => theme.fontSize.m};
+  font-weight: bold;
+  background-color: ${({ theme }) => theme.color.secondary};
+  color: ${({ theme }) => theme.color.lightgray};
 `;
 
 export const VisibilityText = styled.span`
