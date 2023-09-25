@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import com.emotionbank.business.domain.agreement.entity.Agreement;
 import com.emotionbank.business.domain.terms.constant.Mandatory;
@@ -27,14 +28,15 @@ public class Terms {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "terms_id")
 	private Long termsId;
-	@Column(nullable = false)
+	@NotNull
 	private String title;
-	@Column(nullable = false)
+	@NotNull
 	private String content;
-	@Column(nullable = false)
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Mandatory mandatory;
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time")
+	@NotNull
 	private LocalDateTime createTime;
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
