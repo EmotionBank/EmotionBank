@@ -27,7 +27,7 @@ public class TermsController {
 	@PostMapping
 	public ResponseEntity<TermsCreateDto.Response> createTerms(@UserInfo UserInfoDto userInfoDto,
 		@RequestBody TermsCreateDto.Request request) {
-		if (!checkAdminRole(userInfoDto)) {
+		if (!userService.checkAdminRole(userInfoDto)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 
@@ -35,7 +35,4 @@ public class TermsController {
 		return ResponseEntity.ok(TermsCreateDto.Response.from(termsDto));
 	}
 
-	private boolean checkAdminRole(UserInfoDto userInfoDto) {
-		return userService.checkAdminRole(userInfoDto);
-	}
 }
