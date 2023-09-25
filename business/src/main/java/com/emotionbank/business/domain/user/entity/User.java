@@ -96,6 +96,7 @@ public class User {
 			.role(Role.PENDING)
 			.socialId(id)
 			.socialType(socialType)
+			.createdTime(LocalDateTime.now())
 			.build();
 	}
 
@@ -109,5 +110,13 @@ public class User {
 
 	public void updateNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public void updateBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+	}
+
+	public void updateRole(Role role) {
+		this.role = role;
 	}
 }
