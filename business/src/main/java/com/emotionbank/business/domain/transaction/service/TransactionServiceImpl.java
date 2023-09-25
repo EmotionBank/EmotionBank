@@ -15,6 +15,7 @@ import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
@@ -83,21 +84,39 @@ public class TransactionServiceImpl implements TransactionService {
 		Account account = accountRepository.findByAccountId(transactionSearchDto.getAccountId())
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
-		// 계좌번호와 날짜로 거래내역 조회
-		List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDate(
-			account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate());
+		if (account.getUser().getUserId() != transactionSearchDto.getUserId()) { // 남의 거래 내역
+			List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDateAndVisibility(
+				account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate(), Visibility.PUBLIC);
+			List<TransactionDto> transactionList = transactions.stream()
+				.map(TransactionDto::from)
+				.collect(Collectors.toList());
+			return transactionList;
+		} else { // 내 거래 내역 
+			List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDate(
+				account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate());
+			List<TransactionDto> transactionList = transactions.stream()
+				.map(TransactionDto::from)
+				.collect(Collectors.toList());
+			return transactionList;
+		}
 
-		List<TransactionDto> transactionList = transactions.stream()
-			.map(TransactionDto::from)
-			.collect(Collectors.toList());
-		return transactionList;
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public TransactionDto getTransactionDetail(Long transactionId) {
+	public TransactionDto getTransactionDetail(Long transactionId, Long userId) {
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
 			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
+
+		if (Visibility.PRIVATE.equals(transaction.getVisibility())) {
+			Category category = categoryRepository.findByCategoryId(transaction.getCategory().getCategoryId())
+				.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+			if (userId.equals(category.getUser().getUserId())) {
+				return TransactionDto.from(transaction);
+			} else {
+				throw new BusinessException(TRANSACTION_BAD_REQUEST);
+			}
+		}
 		return TransactionDto.from(transaction);
 	}
 

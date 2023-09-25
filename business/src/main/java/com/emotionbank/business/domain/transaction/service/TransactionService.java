@@ -10,6 +10,6 @@ public interface TransactionService {
 
 	List<TransactionDto> getTransactions(TransactionSearchDto transactionSearchDto);
 
-	TransactionDto getTransactionDetail(Long transactionId);
+	TransactionDto getTransactionDetail(Long transactionId, Long userId);
 
 }
