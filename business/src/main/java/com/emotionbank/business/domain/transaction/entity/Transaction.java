@@ -61,6 +61,10 @@ public class Transaction {
 	@Enumerated(value = EnumType.STRING)
 	private Visibility visibility;
 
+	public void updateCategory(Category category) {
+		this.category = category;
+	}
+
 	@Builder
 	public Transaction(Long transactionId, TransactionType transactionType, Category category, Long amount,
 		Long balance,
