@@ -17,6 +17,7 @@ import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
@@ -99,6 +100,65 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
 			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
 		return TransactionDto.from(transaction);
+	}
+
+	@Transactional
+	@Override
+	public TransactionDto transfer(TransactionTransferDto transactionTransferDto) {
+		Account sender = accountRepository.findByAccountId(transactionTransferDto.getSender())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+		Account receiver = accountRepository.findByAccountId(transactionTransferDto.getReceiver())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+
+		long amount = transactionTransferDto.getAmount();
+
+		sender.updateBalance(-amount);
+		receiver.updateBalance(amount);
+
+		Long balance = sender.getBalance();
+
+		// 잔액이 0원 미만인 경우 거래 취소
+		if (balance < 0) {
+			throw new BusinessException(BELOW_ZERO_BALANCE);
+		}
+
+		// 입금자의 이체 카테고리 가지고 오기.
+		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiver.getUser(), "transaction")
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+		// 입금 거래 내역 만들기
+		Transaction deposit = Transaction.of(TransactionType.DEPOSIT, receiverCategory, amount, receiver.getBalance(),
+			sender,
+			receiver,
+			transactionTransferDto.getEmoticon());
+		transactionRepository.save(deposit);
+		// 캘린더 당일 기분 및 금액 업데이트
+		calendarRepository.findByDate(deposit.getTransactionTime().toLocalDate())
+			.ifPresentOrElse(
+				calendar -> calendar.updateAmount(deposit.getAmount(), deposit.getEmoticon()),
+				() -> calendarRepository.save(
+					Calendar.of(deposit.getTransactionTime().toLocalDate(), deposit.getEmoticon(),
+						deposit.getAmount(), receiver))
+			);
+
+		// 출금자의 이체 카테고리 가지고 오기.
+		Category senderCategory = categoryRepository.findByUserAndCategoryName(sender.getUser(), "transaction")
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+		// 출금 거래 내역 만들기
+		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance, sender,
+			receiver,
+			transactionTransferDto.getEmoticon());
+		transactionRepository.save(withdrawl);
+
+		// 캘린더 당일 기분 및 금액 업데이트
+		calendarRepository.findByDate(withdrawl.getTransactionTime().toLocalDate())
+			.ifPresentOrElse(
+				calendar -> calendar.updateAmount(withdrawl.getAmount(), withdrawl.getEmoticon()),
+				() -> calendarRepository.save(
+					Calendar.of(withdrawl.getTransactionTime().toLocalDate(), withdrawl.getEmoticon(),
+						withdrawl.getAmount(), sender))
+			);
+		
+		return null;
 	}
 
 	private void validateBalance(Account account, Long expectedBalance) {

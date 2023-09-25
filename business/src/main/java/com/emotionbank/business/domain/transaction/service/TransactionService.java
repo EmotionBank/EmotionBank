@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 
 public interface TransactionService {
 	TransactionDto updateBalance(TransactionDto transactionDto);
@@ -12,4 +13,5 @@ public interface TransactionService {
 
 	TransactionDto getTransactionDetail(Long transactionId);
 
+	TransactionDto transfer(TransactionTransferDto transactionTransferDto);
 }

@@ -98,4 +98,18 @@ public class Transaction {
 			.visibility(transactionDto.getVisibility())
 			.build();
 	}
+
+	public static Transaction of(TransactionType transactionType, Category category, long amount, long balance,
+		Account sender, Account receiver, Emoticon emoticon) {
+		return Transaction.builder()
+			.transactionType(transactionType)
+			.category(category) // 이체 카테고리
+			.amount(amount)
+			.balance(balance)
+			.transactionTime(LocalDateTime.now())
+			.emoticon(emoticon)
+			.sender(sender)
+			.receiver(receiver)
+			.build();
+	}
 }
