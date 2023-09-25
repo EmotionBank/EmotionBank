@@ -2,6 +2,8 @@ package com.emotionbank.business.domain.signup.dto;
 
 import java.time.LocalDate;
 
+import com.emotionbank.business.api.signup.dto.RequestSignUpDto;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,5 +18,14 @@ public class SignUpDto {
 		this.userId = userId;
 		this.nickname = nickname;
 		this.birthday = birthday;
+	}
+
+	public static SignUpDto of(Long userId, RequestSignUpDto.Request request) {
+		String[] birth = request.getBirthday().split("-");
+		return SignUpDto.builder()
+			.userId(userId)
+			.nickname(request.getNickname())
+			.birthday(LocalDate.of(Integer.parseInt(birth[0]), Integer.parseInt(birth[1]), Integer.parseInt(birth[2])))
+			.build();
 	}
 }
