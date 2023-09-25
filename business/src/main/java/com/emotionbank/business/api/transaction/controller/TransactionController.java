@@ -18,6 +18,8 @@ import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.service.TransactionService;
+import com.emotionbank.business.global.jwt.annotation.UserInfo;
+import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,15 +39,17 @@ public class TransactionController {
 
 	@GetMapping
 	public ResponseEntity<GetTransactionListDto.Response> getTransactions(
-		@RequestParam Long accountId, @RequestParam String startDate, @RequestParam String endDate) {
+		@RequestParam Long accountId, @RequestParam String startDate, @RequestParam String endDate,
+		@UserInfo UserInfoDto userInfoDto) {
 		List<TransactionDto> transactionList = transactionService.getTransactions(
-			TransactionSearchDto.of(accountId, startDate, endDate));
+			TransactionSearchDto.of(accountId, userInfoDto.getUserId(), startDate, endDate));
 		return ResponseEntity.ok(GetTransactionListDto.Response.from(transactionList));
 	}
 
 	@GetMapping("/{transactionId}")
-	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId) {
-		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId);
+	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId,
+		@UserInfo UserInfoDto userInfoDto) {
+		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId, userInfoDto.getUserId());
 		TransactionType transactionType = transactionDto.getTransactionType();
 
 		if (TransactionType.DEPOSIT.equals(transactionType)) {
@@ -53,7 +57,7 @@ public class TransactionController {
 		} else if (TransactionType.WITHDRAWL.equals(transactionType)) {
 			return ResponseEntity.ok(GetTransactionDetailDto.Response.of(transactionDto, transactionDto.getReceiver()));
 		}
-		
+
 		return ResponseEntity.badRequest().build();
 	}
 
