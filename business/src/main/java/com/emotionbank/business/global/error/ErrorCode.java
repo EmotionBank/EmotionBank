@@ -39,7 +39,8 @@ public enum ErrorCode {
 	NOT_ACCESS_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "O-004", "Access Token이 아닙니다."),
 
 	// Transaction
-	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다.");
+	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다."),
+	TRANSACTION_BAD_REQUEST(HttpStatus.BAD_REQUEST, "T-002", "비공개 거래 내역은 볼 수 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
