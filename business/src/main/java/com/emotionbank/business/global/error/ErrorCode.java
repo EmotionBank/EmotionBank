@@ -42,7 +42,7 @@ public enum ErrorCode {
 	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다."),
 
 	// Terms
-	NO_TERMS_CREATE_ROLE(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다.");
+	TERMS_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
