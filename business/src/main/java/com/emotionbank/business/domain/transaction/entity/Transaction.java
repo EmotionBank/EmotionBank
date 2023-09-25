@@ -95,7 +95,7 @@ public class Transaction {
 			.emoticon(transactionDto.getEmoticon())
 			.sender(account)
 			.receiver(account)
-			.visibility(transactionDto.getVisibility())
+			.visibility(category.getVisibility())
 			.build();
 	}
 }
