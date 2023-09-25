@@ -110,4 +110,12 @@ public class User {
 	public void updateNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
+	public void updateBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+	}
+
+	public void updateRole(Role role) {
+		this.role = role;
+	}
 }
