@@ -4,4 +4,6 @@ import com.emotionbank.business.domain.category.dto.CategoryDto;
 
 public interface CategoryService {
 	void createCategory(CategoryDto categoryDto);
+
+	void deleteCategory(Long categoryId, Long userId);
 }
