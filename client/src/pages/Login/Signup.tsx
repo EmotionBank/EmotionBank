@@ -4,9 +4,11 @@ import { signupUser } from '@/apis/user/signupUser';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NextButton, SignupTitle } from './Login.style';
+import { useRecoilState } from 'recoil';
+import { signupIndex } from '@/recoils/atom';
 
 const Signup = () => {
-  let [index, setIndex] = useState(0);
+  const [index, setIndex] = useRecoilState(signupIndex);
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
   const [inputs, setInputs] = useState(['', '', '', '']);
@@ -15,12 +17,7 @@ const Signup = () => {
     if (index === -1) {
       navigate('/login');
     }
-    if (index === 2) {
-      if (!isChecked) {
-        setIndex(index - 1);
-        alert('중복검사해주세요');
-      }
-    }
+
     if (index === 3) {
       const userInfo = {
         // 'agree': inputs[0],
@@ -39,14 +36,15 @@ const Signup = () => {
     }
   }, [index]);
 
-  const handleIndexBack = () => {
-    setIndex(index - 1);
-  };
   const handleIndexNext = () => {
     if (inputs[index] === '') {
       alert('내용을 입력해주세요.');
     } else {
-      setIndex(index + 1);
+      if (index === 1 && !isChecked) {
+        alert('중복검사를 해주세요.');
+      } else {
+        setIndex(index + 1);
+      }
     }
   };
 
@@ -89,9 +87,6 @@ const Signup = () => {
 
   return (
     <>
-      <span className="material-icons-outlined" onClick={handleIndexBack}>
-        뒤로
-      </span>
       {index === 0 && (
         <>
           <input type="checkbox" onChange={handleInput} />
@@ -115,7 +110,7 @@ const Signup = () => {
       )}
       {index === 3 && (
         <>
-          <SignupTitle>계좌 이름을 입력해주세요</SignupTitle>
+          <SignupTitle>계좌 이름을 설정해주세요</SignupTitle>
           <input type="text" name="account" onChange={handleInput} value={inputs[index]} />
         </>
       )}

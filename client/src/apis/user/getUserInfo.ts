@@ -8,6 +8,6 @@ export interface UserInfoType {
 }
 
 export const getUserInfo = async () => {
-  const { data } = await axiosInstance.get<UserInfoType>('/users');
+  const { data } = await axiosInstance.get<UserInfoType>('/users/me/info');
   return data;
 };
