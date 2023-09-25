@@ -5,6 +5,7 @@ import EmotionStep from '@/components/transaction/TransactionStep/EmotionStep/Em
 import * as S from '@/pages/Transaction/Transaction.style';
 import { usePostTransaction } from '@/hooks/apiHooks/usePostTransaction';
 import { positiveEmotion } from '@/constants/emotions';
+import CategoryStep from '@/components/transaction/TransactionStep/CategoryStep/CategoryStep';
 
 const Transaction = () => {
   const initRequestdata = {
@@ -16,7 +17,7 @@ const Transaction = () => {
     emotion: '',
     content: 'string',
   };
-  const [step, setStep] = useState<'emotion' | 'comment'>('emotion');
+  const [step, setStep] = useState<'emotion' | 'comment' | 'category'>('emotion');
   const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
   const postTransactionMutation = usePostTransaction();
 
@@ -33,15 +34,22 @@ const Transaction = () => {
     setRequestData(prev => ({ ...prev, emotion: emotion }));
     setStep('comment');
   };
+
   const confirmDiaryStep = (amount: number, content: string) => {
     if (!validateTransaction(amount, content)) return;
-    postTransactionMutation.mutate({ ...requsetData, amount, content });
+    setStep('category');
+    setRequestData(prev => ({ ...prev, amount, content }));
+  };
+
+  const confirmCategoryStep = (categoryId: string) => {
+    postTransactionMutation.mutate({ ...requsetData, categoryId });
   };
 
   return (
     <S.TransactionWrapper>
       {step === 'emotion' && <EmotionStep onNext={confirmEmotionStep} />}
       {step === 'comment' && <CommentStep onNext={confirmDiaryStep} emotion={requsetData.emotion} />}
+      {step === 'category' && <CategoryStep onNext={confirmCategoryStep} />}
     </S.TransactionWrapper>
   );
 };
