@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
@@ -18,4 +19,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 	);
 
 	Optional<Transaction> findByTransactionId(Long transactionId);
+
+	List<Transaction> findByCategory(Category category);
 }
