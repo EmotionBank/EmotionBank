@@ -96,6 +96,7 @@ public class User {
 			.role(Role.PENDING)
 			.socialId(id)
 			.socialType(socialType)
+			.createdTime(LocalDateTime.now())
 			.build();
 	}
 
