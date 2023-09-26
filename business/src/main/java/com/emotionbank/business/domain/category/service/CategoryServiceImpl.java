@@ -25,6 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private final CategoryRepository categoryRepository;
 	private final TransactionRepository transactionRepository;
 
+	private static final String basicCategoryName = "기본";
+
 	@Override
 	@Transactional
 	public void createCategory(CategoryDto categoryDto) {
@@ -46,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 
 		//  기본 카테고리는 삭제 불가능
-		if ("기본".equals(category.getCategoryName())) {
+		if (basicCategoryName.equals(category.getCategoryName())) {
 			throw new BusinessException(ErrorCode.BASIC_CATEGORY);
 		}
 
