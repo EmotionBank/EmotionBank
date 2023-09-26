@@ -24,14 +24,14 @@ public class AgreementController {
 	private final AgreementService agreementService;
 
 	@PutMapping
-	public ResponseEntity<List<TermsAgreementDto.Response>> agreementTerms(@UserInfo UserInfoDto userInfoDto,
-		@RequestBody List<TermsAgreementDto.Request> requests) {
-		List<TermsAgreementDto.Response> responses = requests.stream()
+	public ResponseEntity<TermsAgreementDto.ResponseList> agreementTerms(@UserInfo UserInfoDto userInfoDto,
+		@RequestBody TermsAgreementDto.RequestList requests) {
+		List<TermsAgreementDto.Response> responses = requests.getRequests().stream()
 			.map(request -> TermsAgreementDto.Response.from(
 				agreementService.updateAgreement(AgreementDto.of(userInfoDto, request))))
 			.collect(Collectors.toList());
 
-		return ResponseEntity.ok(responses);
+		return ResponseEntity.ok(TermsAgreementDto.ResponseList.from(responses));
 	}
 
 }

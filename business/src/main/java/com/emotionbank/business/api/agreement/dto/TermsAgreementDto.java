@@ -1,5 +1,7 @@
 package com.emotionbank.business.api.agreement.dto;
 
+import java.util.List;
+
 import com.emotionbank.business.domain.agreement.dto.AgreementDto;
 
 import lombok.AccessLevel;
@@ -19,6 +21,17 @@ public class TermsAgreementDto {
 		public Request(Long termsId, String state) {
 			this.termsId = termsId;
 			this.state = state;
+		}
+	}
+
+	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	public static class RequestList {
+		private List<Request> requests;
+
+		@Builder
+		public RequestList(List<Request> requests) {
+			this.requests = requests;
 		}
 	}
 
@@ -56,4 +69,21 @@ public class TermsAgreementDto {
 				.build();
 		}
 	}
+
+	@Getter
+	public static class ResponseList {
+		private final List<Response> responses;
+
+		@Builder
+		public ResponseList(List<Response> responses) {
+			this.responses = responses;
+		}
+
+		public static ResponseList from(List<Response> responses) {
+			return ResponseList.builder()
+				.responses(responses)
+				.build();
+		}
+	}
+
 }
