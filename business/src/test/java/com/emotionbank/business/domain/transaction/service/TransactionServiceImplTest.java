@@ -1,6 +1,7 @@
 package com.emotionbank.business.domain.transaction.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.sql.Date;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,11 +26,14 @@ import com.emotionbank.business.domain.calendar.entity.Calendar;
 import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.category.repository.CategoryRepository;
+import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.global.error.exception.BusinessException;
 
 class TransactionServiceImplTest {
 
@@ -136,4 +141,69 @@ class TransactionServiceImplTest {
 		assertThat(resultDtoList).hasSize(2);
 	}
 
+	@Test
+	@DisplayName("이체 한다")
+	void transfer() {
+		Account sender = Account.builder()
+			.balance(20000L)
+			.build();
+		Account receiver = Account.builder()
+			.balance(0L)
+			.build();
+		Emoticon emoticon = Emoticon.HAPPY;
+
+		TransactionTransferDto transactionTransferDto = TransactionTransferDto.builder()
+			.sender(1L)
+			.receiver(2L)
+			.amount(10000L)
+			.emoticon(emoticon)
+			.build();
+
+		when(accountRepository.findByAccountId(transactionTransferDto.getSender())).thenReturn(Optional.of(sender));
+		when(accountRepository.findByAccountId(transactionTransferDto.getReceiver())).thenReturn(Optional.of(receiver));
+
+		Category receiverCategory = Category.builder().build();
+		Category senderCategory = Category.builder().build();
+		when(categoryRepository.findByUserAndCategoryName(receiver.getUser(), "transaction")).thenReturn(
+			Optional.ofNullable(receiverCategory));
+		when(categoryRepository.findByUserAndCategoryName(sender.getUser(), "transaction")).thenReturn(
+			Optional.ofNullable(senderCategory));
+
+		long balance = transactionService.transfer(transactionTransferDto);
+
+		Assertions.assertThat(balance).isEqualTo(10000L);
+		Assertions.assertThat(receiver.getBalance()).isEqualTo(10000L);
+
+		verify(accountRepository, times(2)).findByAccountId(anyLong());
+		verify(transactionRepository, times(2)).save(any(Transaction.class));
+		verify(calendarRepository, times(2)).findByDate(any());
+
+	}
+
+	@Test
+	@DisplayName("가진돈 보다 더 큰 금액을 이체한다.")
+	void transferOutOfMoney() {
+		Account sender = Account.builder()
+			.balance(20000L)
+			.build();
+		Account receiver = Account.builder()
+			.balance(0L)
+			.build();
+		Emoticon emoticon = Emoticon.HAPPY;
+
+		TransactionTransferDto transactionTransferDto = TransactionTransferDto.builder()
+			.sender(1L)
+			.receiver(2L)
+			.amount(30000L)
+			.emoticon(emoticon)
+			.build();
+
+		when(accountRepository.findByAccountId(transactionTransferDto.getSender())).thenReturn(Optional.of(sender));
+		when(accountRepository.findByAccountId(transactionTransferDto.getReceiver())).thenReturn(Optional.of(receiver));
+
+		assertThrows(BusinessException.class, () -> {
+			transactionService.transfer(transactionTransferDto);
+		});
+
+	}
 }
