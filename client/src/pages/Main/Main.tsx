@@ -30,7 +30,7 @@ const Main = () => {
     transactionInfoList: [
       {
         transactionId: 1,
-        emotion: 'emotion',
+        emoticon: 'emoticon',
         date: '2023-09-04 09:00:00',
         transactionType: 'type',
         title: 'title',
@@ -38,7 +38,7 @@ const Main = () => {
       },
       {
         transactionId: 2,
-        emotion: 'emotion',
+        emoticon: 'emoticon',
         date: '2023-09-05 09:00:00',
         transactionType: 'type',
         title: 'title',

@@ -8,7 +8,7 @@ export interface PostDepositTransaction {
   accountNumber: string;
   balance: number;
   amount: number;
-  emotion: string;
+  emoticon: string;
   content: string;
 }
 export const postTransaction = async (transactionData: PostDepositTransaction) => {

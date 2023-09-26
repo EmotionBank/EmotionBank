@@ -7,7 +7,7 @@ const Detail = () => {
   // const transactionDetailData = useGetTransactionDetail(Number(transactionId));
   const transactionDetailData = {
     title: '제목',
-    emotion: '감정',
+    emoticon: '감정',
     amount: 10000,
     date: '2023-09-16',
     time: '2023-09-16',

@@ -14,24 +14,24 @@ const Transaction = () => {
     accountNumber: '110-315-123456',
     amount: 0,
     balance: 0,
-    emotion: '',
+    emoticon: '',
     content: 'string',
   };
   const [step, setStep] = useState<'emotion' | 'comment' | 'category'>('emotion');
   const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
   const postTransactionMutation = usePostTransaction();
 
-  const isPositiveEmotion = (emotion: string) => positiveEmotion.includes(emotion);
+  const isPositiveEmotion = (emoticon: string) => positiveEmotion.includes(emoticon);
   const validateTransaction = (amount: number, content: string) => {
     if (amount === 0 || content === '') return false;
     return true;
   };
 
-  const confirmEmotionStep = (emotion: string) => {
-    if (isPositiveEmotion(emotion)) {
+  const confirmEmotionStep = (emoticon: string) => {
+    if (isPositiveEmotion(emoticon)) {
       setRequestData(prev => ({ ...prev, transactionType: 'DEPOSIT' }));
     }
-    setRequestData(prev => ({ ...prev, emotion: emotion }));
+    setRequestData(prev => ({ ...prev, emoticon }));
     setStep('comment');
   };
 
@@ -48,7 +48,7 @@ const Transaction = () => {
   return (
     <S.TransactionWrapper>
       {step === 'emotion' && <EmotionStep onNext={confirmEmotionStep} />}
-      {step === 'comment' && <CommentStep onNext={confirmDiaryStep} emotion={requsetData.emotion} />}
+      {step === 'comment' && <CommentStep onNext={confirmDiaryStep} emoticon={requsetData.emoticon} />}
       {step === 'category' && <CategoryStep onNext={confirmCategoryStep} />}
     </S.TransactionWrapper>
   );

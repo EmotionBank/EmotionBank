@@ -4,13 +4,14 @@ import { emotionImageList } from '@/constants/emotions';
 
 interface IProps {
   onNext: (amount: number, content: string) => void;
-  emotion: string;
+  emoticon: string;
 }
 
-const CommentStep = ({ onNext, emotion }: IProps) => {
+const CommentStep = ({ onNext, emoticon }: IProps) => {
   const [amount, handleAmount] = useInput('0');
   const [content, handleContent] = useInput('');
-  const filteredImage = Object.entries(emotionImageList).filter(([key, value]) => key === emotion)[0][1];
+  console.log(emoticon);
+  const filteredImage = Object.entries(emotionImageList).filter(([key, value]) => key === emoticon)[0][1];
 
   return (
     <S.CommentStepWrapper>

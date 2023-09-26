@@ -14,7 +14,7 @@ export interface DepositTransactionType {
 
 export interface TransactionType {
   transactionId: number;
-  emotion: string;
+  emoticon: string;
   date: string;
   transactionType: string;
   title: string;
@@ -28,7 +28,7 @@ export interface TransactionListType {
 
 // 거래내역 상세조회
 export interface TransactionDetailType {
-  emotion: string;
+  emoticon: string;
   amount: number;
   date: Date | string;
   time: string;
