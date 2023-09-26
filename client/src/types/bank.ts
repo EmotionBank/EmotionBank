@@ -23,7 +23,7 @@ export interface TransactionType {
 
 // 거래내역
 export interface TransactionListType {
-  transactions: TransactionType[];
+  transactionInfoList: TransactionType[];
 }
 
 // 거래내역 상세조회

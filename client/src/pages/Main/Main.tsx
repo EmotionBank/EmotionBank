@@ -22,10 +22,11 @@ const Main = () => {
     year: date.year,
     month: date.month,
   };
-  // const transactionListData = useGetTransactionList(initTransactionData); // 특정 날짜 조회
-  // const getCalendarInfoData = useGetCalendarInfo(initCalendarData);
+  const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
+  // const {getCalendarInfoData} = useGetCalendarInfo(initCalendarData);
+
   const dummy = {
-    transactions: [
+    transactionInfoList: [
       {
         transactionId: 1,
         emotion: 'emotion',
@@ -44,6 +45,7 @@ const Main = () => {
       },
     ],
   };
+  console.log(transactionListData);
 
   const updateDate = (newDate: DateType) => setDate({ ...newDate });
   const selectCalendarDate = (select: DateType) => setSelectedDate(select);
@@ -52,7 +54,7 @@ const Main = () => {
     <MainPageWrapper>
       <UserInfo />
       <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} />
-      <TransactionList transactionDatas={dummy} />
+      <TransactionList transactionDatas={transactionListData} />
     </MainPageWrapper>
   );
 };

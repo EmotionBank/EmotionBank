@@ -14,7 +14,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
   // item.type에 따라 +- 설정하는 함수 필요
   return (
     <S.TransactionListWrapper>
-      {transactionDatas?.transactions.map((item: TransactionType) => (
+      {transactionDatas.transactionInfoList.map((item: TransactionType) => (
         <S.TransactionListContainer
           key={item.transactionId}
           onClick={() => {
