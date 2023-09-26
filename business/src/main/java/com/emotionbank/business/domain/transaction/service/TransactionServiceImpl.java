@@ -17,6 +17,7 @@ import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
@@ -33,6 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
 	private final AccountRepository accountRepository;
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
+
+	private static final String transferCategory = "transaction";
 
 	@Transactional
 	@Override
@@ -66,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
 		transactionRepository.save(transaction);
 
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDate(transaction.getTransactionTime().toLocalDate())
+		calendarRepository.findByDateAndAccount(transaction.getTransactionTime().toLocalDate(), account)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(transaction.getAmount(), transaction.getEmoticon()),
 				() -> calendarRepository.save(
@@ -99,6 +102,65 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
 			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
 		return TransactionDto.from(transaction);
+	}
+
+	@Transactional
+	@Override
+	public long transfer(TransactionTransferDto transactionTransferDto) {
+		Account sender = accountRepository.findByAccountId(transactionTransferDto.getSender())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+		Account receiver = accountRepository.findByAccountId(transactionTransferDto.getReceiver())
+			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
+
+		long amount = transactionTransferDto.getAmount();
+
+		sender.updateBalance(-amount);
+		receiver.updateBalance(amount);
+
+		Long balance = sender.getBalance();
+
+		// 잔액이 0원 미만인 경우 거래 취소
+		if (balance < 0) {
+			throw new BusinessException(BELOW_ZERO_BALANCE);
+		}
+
+		// 입금자의 이체 카테고리 가지고 오기.
+		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiver.getUser(), transferCategory)
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+		// 입금 거래 내역 만들기
+		Transaction deposit = Transaction.of(TransactionType.DEPOSIT, receiverCategory, amount, receiver.getBalance(),
+			sender,
+			receiver,
+			transactionTransferDto.getEmoticon());
+		transactionRepository.save(deposit);
+		// 캘린더 당일 기분 및 금액 업데이트
+		calendarRepository.findByDateAndAccount(deposit.getTransactionTime().toLocalDate(), receiver)
+			.ifPresentOrElse(
+				calendar -> calendar.updateAmount(deposit.getAmount(), deposit.getEmoticon()),
+				() -> calendarRepository.save(
+					Calendar.of(deposit.getTransactionTime().toLocalDate(), deposit.getEmoticon(),
+						deposit.getAmount(), receiver))
+			);
+
+		// 출금자의 이체 카테고리 가지고 오기.
+		Category senderCategory = categoryRepository.findByUserAndCategoryName(sender.getUser(), transferCategory)
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+		// 출금 거래 내역 만들기
+		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance, sender,
+			receiver,
+			transactionTransferDto.getEmoticon());
+		transactionRepository.save(withdrawl);
+
+		// 캘린더 당일 기분 및 금액 업데이트
+		calendarRepository.findByDateAndAccount(withdrawl.getTransactionTime().toLocalDate(), sender)
+			.ifPresentOrElse(
+				calendar -> calendar.updateAmount(withdrawl.getAmount(), withdrawl.getEmoticon()),
+				() -> calendarRepository.save(
+					Calendar.of(withdrawl.getTransactionTime().toLocalDate(), withdrawl.getEmoticon(),
+						withdrawl.getAmount(), sender))
+			);
+
+		return balance;
 	}
 
 	private void validateBalance(Account account, Long expectedBalance) {
