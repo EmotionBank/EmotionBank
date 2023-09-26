@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -36,17 +37,21 @@ public class GetTransactionListDto {
 		private TransactionType transactionType;
 		private String title;
 		private Long amount;
+		private String categoryName;
+		private Visibility visibility;
 
 		@Builder
 		public Info(Long transactionId, Emoticon emoticon, LocalDateTime date, TransactionType transactionType,
 			String title,
-			Long amount) {
+			Long amount, String categoryName, Visibility visibility) {
 			this.transactionId = transactionId;
 			this.emoticon = emoticon;
 			this.date = date;
 			this.transactionType = transactionType;
 			this.title = title;
 			this.amount = amount;
+			this.categoryName = categoryName;
+			this.visibility = visibility;
 		}
 
 		public static Info from(TransactionDto transactionDto) {
@@ -57,6 +62,8 @@ public class GetTransactionListDto {
 				.transactionType(transactionDto.getTransactionType())
 				.title(transactionDto.getTitle())
 				.amount(transactionDto.getAmount())
+				.categoryName(transactionDto.getCategoryName())
+				.visibility(transactionDto.getVisibility())
 				.build();
 		}
 	}

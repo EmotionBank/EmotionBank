@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 
@@ -16,6 +17,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 	List<Transaction> searchTransactionByAccountAndDate(Account account,
 		Date startDate,
 		Date endDate
+	);
+
+	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND t.visibility = :visibility AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
+	List<Transaction> findByAccountAndDateAndVisibility(Account account,
+		Date startDate,
+		Date endDate,
+		Visibility visibility
 	);
 
 	Optional<Transaction> findByTransactionId(Long transactionId);
