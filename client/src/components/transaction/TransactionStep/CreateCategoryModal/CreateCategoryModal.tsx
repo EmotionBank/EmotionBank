@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import * as S from '@/components/transaction/TransactionStep/CreateCategoryModal/CreateCategoryModal.style';
 import { postCategoryRequestType } from '@/apis/category/postCategory';
+import { usePostCategory } from '@/hooks/apiHooks/usePostCategory';
 
 const CreateCategoryModal = () => {
   const initForm = {
-    userId: 'userId',
+    userId: '',
     categoryName: '',
     visibility: 'PUBLIC',
   };
   const [categoryForm, setCategoryForm] = useState<postCategoryRequestType>(initForm);
+  const postCategoryMutation = usePostCategory();
 
   const handleInputCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -17,6 +19,7 @@ const CreateCategoryModal = () => {
 
   const handleCreateCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    postCategoryMutation.mutate(categoryForm);
   };
   return (
     <S.CreateCategoryModalWrapper>

@@ -3,7 +3,7 @@ import { axiosInstance } from '@/apis';
 export interface postCategoryRequestType {
   userId: string;
   categoryName: string;
-  visibility: string; //“PRIVATE” | “PUBLIC” | “FOLLOWER”
+  visibility: string; //“PRIVATE” | “PUBLIC”
 }
 
 export const postCategory = async (requestData: postCategoryRequestType) => {
