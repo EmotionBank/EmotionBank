@@ -91,7 +91,7 @@ class TransactionServiceImplTest {
 			.thenReturn(Optional.of(account));
 		when(categoryRepository.findByCategoryId(1L))
 			.thenReturn(Optional.of(category));
-		when(calendarRepository.findByDate(LocalDate.now().atStartOfDay().toLocalDate()))
+		when(calendarRepository.findByDateAndAccount(LocalDate.now().atStartOfDay().toLocalDate(), account))
 			.thenReturn(Optional.of(calendar));
 
 		// When
@@ -176,7 +176,7 @@ class TransactionServiceImplTest {
 
 		verify(accountRepository, times(2)).findByAccountId(anyLong());
 		verify(transactionRepository, times(2)).save(any(Transaction.class));
-		verify(calendarRepository, times(2)).findByDate(any());
+		verify(calendarRepository, times(2)).findByDateAndAccount(any(), any());
 
 	}
 
