@@ -28,7 +28,7 @@ public class TransferDto {
 		private Long balance;
 
 		public static Response of(long balance) {
-			Response.builder()
+			return Response.builder()
 				.balance(balance)
 				.build();
 		}
