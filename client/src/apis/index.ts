@@ -35,19 +35,25 @@ axiosInstance.interceptors.response.use(
     console.log('여긴 response error' + error);
     const {
       config,
-      response: { status },
+      response: { data },
     } = error;
     const originalRequest = config;
-    if (status === 401) {
+    if (data.errorCode === 'J-003') {
       try {
         const response = await renewAccessToken();
+        console.log(response);
         localStorage.setItem('accessToken', response.accessToken);
+        return axiosInstance(originalRequest);
       } catch (error) {
         console.log('토큰만료시 재요청 보냈을 때의 ' + error);
       }
-    } else if (status === 500) {
-      console.log('여긴 500 에러', error);
     }
+    // } else if (status === 409){
+    //   alert('중복된 닉네임입니다.')
+    //   throw(error)
+    // } else if (status === 500) {
+    //   console.log('여긴 500 에러', error);
+    // }
     return Promise.reject(error);
   },
 );
