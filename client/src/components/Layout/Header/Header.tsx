@@ -1,10 +1,11 @@
 import { HeaderWrapper } from '@/components/Layout/Header/Header.style';
 import { signupIndex } from '@/recoils/atom';
-import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { Button } from '@/components/common/Button/Button';
+import Dropdown from '@/components/Dropdown/Dropdown';
+
 const Header = () => {
   const path = useLocation().pathname;
   const [index, setIndex] = useRecoilState(signupIndex);
@@ -13,7 +14,7 @@ const Header = () => {
   };
   return (
     <HeaderWrapper>
-      {path === '/' ? <MenuIcon /> : null}
+      {path === '/' ? <Dropdown /> : null}
       {path === '/signup' ? (
         <Button onClick={handleIndexBack}>
           <ArrowBackIosNewIcon />
