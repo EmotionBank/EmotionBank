@@ -179,8 +179,8 @@ class TransactionServiceImplTest {
 		when(categoryRepository.findByUserAndCategoryName(sender.getUser(), "transaction")).thenReturn(
 			Optional.ofNullable(senderCategory));
 
-		long balance = transactionService.transfer(transactionTransferDto);
-
+		TransactionDto transactionDto = transactionService.transfer(transactionTransferDto);
+		long balance = transactionDto.getBalance();
 		Assertions.assertThat(balance).isEqualTo(10000L);
 		Assertions.assertThat(receiver.getBalance()).isEqualTo(10000L);
 

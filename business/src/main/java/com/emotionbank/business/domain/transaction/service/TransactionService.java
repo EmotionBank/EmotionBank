@@ -13,5 +13,5 @@ public interface TransactionService {
 
 	TransactionDto getTransactionDetail(Long transactionId);
 
-	long transfer(TransactionTransferDto transactionTransferDto);
+	TransactionDto transfer(TransactionTransferDto transactionTransferDto);
 }

@@ -83,4 +83,12 @@ public class TransactionDto {
 			.build();
 	}
 
+	public static TransactionDto of(String receiver, long amount, long balance) {
+		return TransactionDto.builder()
+			.receiver(receiver)
+			.amount(amount)
+			.balance(balance)
+			.build();
+	}
+
 }
