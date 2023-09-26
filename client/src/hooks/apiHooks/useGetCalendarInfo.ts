@@ -3,5 +3,5 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetCalendarInfo = (calendarParams: GetCalendar) => {
   const { data } = useQuery(['calendarInfo'], () => getCalendarInfo(calendarParams));
-  return { getCalendarInfoData: data };
+  return { getCalendarInfoData: data! };
 };

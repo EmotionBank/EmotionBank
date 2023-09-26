@@ -18,12 +18,13 @@ const Main = () => {
     endDate: convertYYYYMMDD(selectedDate),
   };
   const initCalendarData = {
-    accountId: '1',
+    accountId: 1,
     year: date.year,
     month: date.month,
   };
+
   const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
-  // const {getCalendarInfoData} = useGetCalendarInfo(initCalendarData);
+  const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
 
   const dummy = {
     transactionInfoList: [
@@ -45,7 +46,6 @@ const Main = () => {
       },
     ],
   };
-  console.log(transactionListData);
 
   const updateDate = (newDate: DateType) => setDate({ ...newDate });
   const selectCalendarDate = (select: DateType) => setSelectedDate(select);
