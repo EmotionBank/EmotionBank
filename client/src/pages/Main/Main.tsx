@@ -13,7 +13,7 @@ const Main = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
   const [selectedDate, setSelectedDate] = useState<DateType>(getNewDateObj(new Date())); // 거래내역 조회 시 사용
   const initTransactionData = {
-    accountId: '1',
+    accountId: 1,
     startDate: convertYYYYMMDD(selectedDate),
     endDate: convertYYYYMMDD(selectedDate),
   };

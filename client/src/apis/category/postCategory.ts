@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/apis';
 
 export interface postCategoryRequestType {
-  userId: string;
+  userId: number;
   categoryName: string;
   visibility: string; //“PRIVATE” | “PUBLIC”
 }
