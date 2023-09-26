@@ -1,5 +1,7 @@
 package com.emotionbank.business.api.account.dto;
 
+import com.emotionbank.business.domain.account.dto.AccountDto;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,8 +26,6 @@ public class CreateAccountDto {
 
 		private Long accountId;
 
-		private Long userId;
-
 		private String accountName;
 
 		private String accountNumber;
@@ -35,10 +35,18 @@ public class CreateAccountDto {
 		@Builder
 		public Response(Long accountId, Long userId, String accountName, String accountNumber, Long balance) {
 			this.accountId = accountId;
-			this.userId = userId;
 			this.accountName = accountName;
 			this.accountNumber = accountNumber;
 			this.balance = balance;
+		}
+
+		public static Response from(AccountDto accountDto) {
+			return Response.builder()
+				.accountId(accountDto.getAccountId())
+				.accountName(accountDto.getAccountName())
+				.accountNumber(accountDto.getAccountNumber())
+				.balance(accountDto.getBalance())
+				.build();
 		}
 	}
 }
