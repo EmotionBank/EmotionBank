@@ -61,6 +61,10 @@ public class Transaction {
 	@Enumerated(value = EnumType.STRING)
 	private Visibility visibility;
 
+	public void updateCategory(Category category) {
+		this.category = category;
+	}
+
 	@Builder
 	public Transaction(Long transactionId, TransactionType transactionType, Category category, Long amount,
 		Long balance,
@@ -96,6 +100,20 @@ public class Transaction {
 			.sender(account)
 			.receiver(account)
 			.visibility(category.getVisibility())
+			.build();
+	}
+
+	public static Transaction of(TransactionType transactionType, Category category, long amount, long balance,
+		Account sender, Account receiver, Emoticon emoticon) {
+		return Transaction.builder()
+			.transactionType(transactionType)
+			.category(category) // 이체 카테고리
+			.amount(amount)
+			.balance(balance)
+			.transactionTime(LocalDateTime.now())
+			.emoticon(emoticon)
+			.sender(sender)
+			.receiver(receiver)
 			.build();
 	}
 }

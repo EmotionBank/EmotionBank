@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
@@ -32,14 +33,14 @@ public class UserController {
 
 	private final UserService userService;
 
-	@GetMapping
+	@GetMapping("/me/info")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
 		UserDto userInfo = userService.getUserInfo(userId);
 		return ResponseEntity.ok(UserInformationDto.Response.from(userInfo));
 	}
 
-	@PatchMapping
+	@PatchMapping("/me/info")
 	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request, @UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
 		UserDto userDto = UserDto.of(userId, request.getNickname());
@@ -54,8 +55,8 @@ public class UserController {
 			UserNicknameCheckDto.Response.of(userService.checkDuplicateNickname(request.getNickname())));
 	}
 
-	@GetMapping("/{nickname}")
-	public ResponseEntity<UserSearchDto.Response> searchUser(@PathVariable String nickname, Pageable pageable) {
+	@GetMapping("/search")
+	public ResponseEntity<UserSearchDto.Response> searchUser(@RequestParam String nickname, Pageable pageable) {
 		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
 		UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
 		return ResponseEntity.ok(response);

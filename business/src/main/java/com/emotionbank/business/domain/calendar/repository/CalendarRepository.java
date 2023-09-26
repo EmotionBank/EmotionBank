@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.calendar.entity.Calendar;
 
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
@@ -17,5 +18,5 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 		@Param("year") int year,
 		@Param("month") int month);
 
-	Optional<Calendar> findByDate(LocalDate date);
+	Optional<Calendar> findByDateAndAccount(LocalDate date, Account account);
 }
