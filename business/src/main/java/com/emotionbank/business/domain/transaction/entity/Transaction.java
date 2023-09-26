@@ -16,7 +16,6 @@ import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
-import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -58,9 +57,6 @@ public class Transaction {
 	@JoinColumn(name = "receiver")
 	private Account receiver;
 
-	@Enumerated(value = EnumType.STRING)
-	private Visibility visibility;
-
 	public void updateCategory(Category category) {
 		this.category = category;
 	}
@@ -69,8 +65,7 @@ public class Transaction {
 	public Transaction(Long transactionId, TransactionType transactionType, Category category, Long amount,
 		Long balance,
 		String title,
-		String content, LocalDateTime transactionTime, Emoticon emoticon, Account sender, Account receiver,
-		Visibility visibility) {
+		String content, LocalDateTime transactionTime, Emoticon emoticon, Account sender, Account receiver) {
 		this.transactionId = transactionId;
 		this.transactionType = transactionType;
 		this.category = category;
@@ -82,7 +77,6 @@ public class Transaction {
 		this.emoticon = emoticon;
 		this.sender = sender;
 		this.receiver = receiver;
-		this.visibility = visibility;
 	}
 
 	public static Transaction of(TransactionDto transactionDto, Category category, Account account,
@@ -99,7 +93,6 @@ public class Transaction {
 			.emoticon(transactionDto.getEmoticon())
 			.sender(account)
 			.receiver(account)
-			.visibility(category.getVisibility())
 			.build();
 	}
 

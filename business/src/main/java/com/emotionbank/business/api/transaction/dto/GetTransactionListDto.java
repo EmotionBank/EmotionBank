@@ -18,13 +18,15 @@ public class GetTransactionListDto {
 	@Getter
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Request {
-		private String accountNumber;
-		private String date;
+		private Long accountId;
+		private String startDate;
+		private String endDate;
 
 		@Builder
-		public Request(String accountNumber, String date) {
-			this.accountNumber = accountNumber;
-			this.date = date;
+		public Request(Long accountId, String startDate, String endDate) {
+			this.accountId = accountId;
+			this.startDate = startDate;
+			this.endDate = endDate;
 		}
 	}
 

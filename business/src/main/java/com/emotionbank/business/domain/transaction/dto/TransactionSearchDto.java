@@ -3,6 +3,8 @@ package com.emotionbank.business.domain.transaction.dto;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import com.emotionbank.business.api.transaction.dto.GetTransactionListDto;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,12 +23,12 @@ public class TransactionSearchDto {
 		this.endDate = endDate;
 	}
 
-	public static TransactionSearchDto of(Long accountId, Long userId, String startDate, String endDate) {
+	public static TransactionSearchDto of(GetTransactionListDto.Request request, Long userId) {
 		return TransactionSearchDto.builder()
-			.accountId(accountId)
+			.accountId(request.getAccountId())
 			.userId(userId)
-			.startDate(Date.valueOf(LocalDate.parse(startDate)))
-			.endDate(Date.valueOf(LocalDate.parse(endDate)))
+			.startDate(Date.valueOf(LocalDate.parse(request.getStartDate())))
+			.endDate(Date.valueOf(LocalDate.parse(request.getEndDate())))
 			.build();
 	}
 }
