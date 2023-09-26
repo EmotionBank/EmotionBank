@@ -7,6 +7,7 @@ import Signup from '@/pages/Login/Signup';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
+import Profile from '@/pages/Profile/Profile';
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const AppRouter = () => {
         {
           path: PATH.TRANSACTION,
           element: <Transaction />,
+        },
+        {
+          path: '/profile',
+          element: <Profile />,
         },
       ],
     },

@@ -6,4 +6,5 @@ export const HeaderWrapper = styled.header`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
+  position: relative;
 `;

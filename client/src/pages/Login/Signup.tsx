@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { NextButton, SignupTitle } from './Login.style';
 import { useRecoilState } from 'recoil';
 import { signupIndex } from '@/recoils/atom';
+import * as S from './Signup.style';
 
 const Signup = () => {
   const [index, setIndex] = useRecoilState(signupIndex);
@@ -18,19 +19,16 @@ const Signup = () => {
       navigate('/login');
     }
 
-    if (index === 3) {
+    if (index === 4) {
+      console.log(inputs);
+      const birthday = inputs[2];
       const userInfo = {
         // 'agree': inputs[0],
         nickname: inputs[1],
-        birthday: inputs[2],
+        birthday: birthday.substring(0, 4) + '-' + birthday.substring(4, 6) + '-' + birthday.substring(6, 8),
+        accountName: inputs[3],
       };
       const response = signupUser(userInfo);
-      console.log(response);
-    }
-    if (index === 4) {
-      console.log(inputs);
-      const request = { accountName: inputs[index - 1] };
-      const response = createAccount(request);
       console.log(response);
       navigate('/');
     }
@@ -96,16 +94,24 @@ const Signup = () => {
       {index === 1 && (
         <>
           <SignupTitle>닉네임을 입력해주세요</SignupTitle>
-          <form onSubmit={handleNicknameCheck}>
-            <input type="text" name="nickname" onChange={handleInput} value={inputs[index]} />
-            <button type="submit">중복검사</button>
+          <form id="nickname-form" onSubmit={handleNicknameCheck}>
+            <S.InputWrapper>
+              <S.StyledInput type="text" name="nickname" onChange={handleInput} value={inputs[index]} />
+              <S.StyledButton type="submit">중복검사</S.StyledButton>
+            </S.InputWrapper>
           </form>
         </>
       )}
       {index === 2 && (
         <>
           <SignupTitle>생일을 입력해주세요</SignupTitle>
-          <input type="text" name="birthday" onChange={handleInput} value={inputs[index]} />
+          <S.StyledInput
+            type="text"
+            name="birthday"
+            onChange={handleInput}
+            value={inputs[index]}
+            placeholder="yyyyMMdd"
+          />
         </>
       )}
       {index === 3 && (

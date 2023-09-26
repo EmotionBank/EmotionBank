@@ -5,6 +5,7 @@ export interface UserInfo {
   // agree: string;
   nickname: string;
   birthday: string;
+  accountName: string;
 }
 
 export const signupUser = async (userInfo: UserInfo) => {
