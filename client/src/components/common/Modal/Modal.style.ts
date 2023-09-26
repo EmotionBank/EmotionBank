@@ -1,5 +1,5 @@
 import { Flex } from '@/components/common/Flex/Flex';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 export const ModalWrapper = styled(Flex)`
   height: 100%;

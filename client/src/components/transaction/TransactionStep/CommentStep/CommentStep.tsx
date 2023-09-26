@@ -26,7 +26,7 @@ const CommentStep = ({ onNext, emotion }: IProps) => {
         <S.Inputlabel>내용</S.Inputlabel>
         <S.CommentTextArea placeholder="내용을 입력하세요." onChange={handleContent} />
       </S.LabelContainer>
-      <S.NextButton onClick={() => onNext(Number(amount), content)}>작성 완료</S.NextButton>
+      <S.NextButton onClick={() => onNext(Number(amount), content)}>카테고리 설정</S.NextButton>
     </S.CommentStepWrapper>
   );
 };
