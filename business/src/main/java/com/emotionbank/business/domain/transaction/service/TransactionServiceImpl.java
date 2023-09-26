@@ -35,6 +35,8 @@ public class TransactionServiceImpl implements TransactionService {
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
 
+	private static final String transferCategory = "transaction";
+
 	@Transactional
 	@Override
 	public TransactionDto updateBalance(TransactionDto transactionDto) {
@@ -67,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
 		transactionRepository.save(transaction);
 
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDate(transaction.getTransactionTime().toLocalDate())
+		calendarRepository.findByDateAndAccount(transaction.getTransactionTime().toLocalDate(), account)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(transaction.getAmount(), transaction.getEmoticon()),
 				() -> calendarRepository.save(
@@ -123,7 +125,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		// 입금자의 이체 카테고리 가지고 오기.
-		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiver.getUser(), "transaction")
+		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiver.getUser(), transferCategory)
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 		// 입금 거래 내역 만들기
 		Transaction deposit = Transaction.of(TransactionType.DEPOSIT, receiverCategory, amount, receiver.getBalance(),
@@ -132,7 +134,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transactionTransferDto.getEmoticon());
 		transactionRepository.save(deposit);
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDate(deposit.getTransactionTime().toLocalDate())
+		calendarRepository.findByDateAndAccount(deposit.getTransactionTime().toLocalDate(), receiver)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(deposit.getAmount(), deposit.getEmoticon()),
 				() -> calendarRepository.save(
@@ -141,7 +143,7 @@ public class TransactionServiceImpl implements TransactionService {
 			);
 
 		// 출금자의 이체 카테고리 가지고 오기.
-		Category senderCategory = categoryRepository.findByUserAndCategoryName(sender.getUser(), "transaction")
+		Category senderCategory = categoryRepository.findByUserAndCategoryName(sender.getUser(), transferCategory)
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 		// 출금 거래 내역 만들기
 		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance, sender,
@@ -150,7 +152,7 @@ public class TransactionServiceImpl implements TransactionService {
 		transactionRepository.save(withdrawl);
 
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDate(withdrawl.getTransactionTime().toLocalDate())
+		calendarRepository.findByDateAndAccount(withdrawl.getTransactionTime().toLocalDate(), sender)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(withdrawl.getAmount(), withdrawl.getEmoticon()),
 				() -> calendarRepository.save(
