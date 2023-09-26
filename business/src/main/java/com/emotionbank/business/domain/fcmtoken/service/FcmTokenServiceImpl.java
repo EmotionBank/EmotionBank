@@ -28,8 +28,8 @@ public class FcmTokenServiceImpl implements FcmTokenService {
 	public void createToken(FcmTokenDto tokenDto) throws FirebaseMessagingException {
 		User user = userRepository.findById(tokenDto.getUserId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-		firebaseMessaging.subscribeToTopic(Collections.singletonList(tokenDto.getToken()), "notice");
 		if (tokenRepository.findByUserAndToken(user, tokenDto.getToken()).isEmpty()){
+			firebaseMessaging.subscribeToTopic(Collections.singletonList(tokenDto.getToken()), "notice");
 			tokenRepository.save(FcmToken.of(user, tokenDto.getToken()));
 		}
 	}
