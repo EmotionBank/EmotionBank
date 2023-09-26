@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.transaction.dto.GetTransactionDetailDto;
@@ -34,22 +33,24 @@ public class TransactionController {
 
 	@PostMapping
 	public ResponseEntity<UpdateBalanceDto.Response> updateBalance(
-		@RequestBody UpdateBalanceDto.Request request) {
-		TransactionDto transactionDto = transactionService.updateBalance(TransactionDto.from(request));
+		@RequestBody UpdateBalanceDto.Request request, @UserInfo UserInfoDto userInfoDto) {
+		TransactionDto transactionDto = transactionService.updateBalance(TransactionDto.from(request),
+			userInfoDto.getUserId());
 		return ResponseEntity.ok(UpdateBalanceDto.Response.from(transactionDto));
 	}
 
 	@GetMapping
-	public ResponseEntity<GetTransactionListDto.Response> getTransactions(
-		@RequestParam Long accountId, @RequestParam String startDate, @RequestParam String endDate) {
+	public ResponseEntity<GetTransactionListDto.Response> getTransactions(GetTransactionListDto.Request request,
+		@UserInfo UserInfoDto userInfoDto) {
 		List<TransactionDto> transactionList = transactionService.getTransactions(
-			TransactionSearchDto.of(accountId, startDate, endDate));
+			TransactionSearchDto.of(request, userInfoDto.getUserId()));
 		return ResponseEntity.ok(GetTransactionListDto.Response.from(transactionList));
 	}
 
 	@GetMapping("/{transactionId}")
-	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId) {
-		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId);
+	public ResponseEntity<GetTransactionDetailDto.Response> getTransactionDetail(@PathVariable Long transactionId,
+		@UserInfo UserInfoDto userInfoDto) {
+		TransactionDto transactionDto = transactionService.getTransactionDetail(transactionId, userInfoDto.getUserId());
 		TransactionType transactionType = transactionDto.getTransactionType();
 
 		if (TransactionType.DEPOSIT.equals(transactionType)) {

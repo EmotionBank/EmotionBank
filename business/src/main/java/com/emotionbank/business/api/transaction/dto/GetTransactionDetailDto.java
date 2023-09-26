@@ -2,6 +2,7 @@ package com.emotionbank.business.api.transaction.dto;
 
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -21,10 +22,12 @@ public class GetTransactionDetailDto {
 		private String content;
 		private String accountName;
 		private TransactionType transactionType;
+		private String categoryName;
+		private Visibility visibility;
 
 		@Builder
 		public Response(Emoticon emoticon, Long amount, String date, String time, String content,
-			String accountName, TransactionType transactionType) {
+			String accountName, TransactionType transactionType, String categoryName, Visibility visibility) {
 			this.emoticon = emoticon;
 			this.amount = amount;
 			this.date = date;
@@ -32,6 +35,8 @@ public class GetTransactionDetailDto {
 			this.content = content;
 			this.accountName = accountName;
 			this.transactionType = transactionType;
+			this.categoryName = categoryName;
+			this.visibility = visibility;
 		}
 
 		public static Response of(TransactionDto transactionDto, String accountName) {
@@ -43,6 +48,8 @@ public class GetTransactionDetailDto {
 				.content(transactionDto.getContent())
 				.accountName(accountName)
 				.transactionType(transactionDto.getTransactionType())
+				.categoryName(transactionDto.getCategoryName())
+				.visibility(transactionDto.getVisibility())
 				.build();
 		}
 	}

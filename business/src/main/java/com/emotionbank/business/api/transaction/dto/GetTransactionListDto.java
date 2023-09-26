@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.emotionbank.business.domain.transaction.constant.Emoticon;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 
 import lombok.AccessLevel;
@@ -17,13 +18,15 @@ public class GetTransactionListDto {
 	@Getter
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Request {
-		private String accountNumber;
-		private String date;
+		private Long accountId;
+		private String startDate;
+		private String endDate;
 
 		@Builder
-		public Request(String accountNumber, String date) {
-			this.accountNumber = accountNumber;
-			this.date = date;
+		public Request(Long accountId, String startDate, String endDate) {
+			this.accountId = accountId;
+			this.startDate = startDate;
+			this.endDate = endDate;
 		}
 	}
 
@@ -36,17 +39,21 @@ public class GetTransactionListDto {
 		private TransactionType transactionType;
 		private String title;
 		private Long amount;
+		private String categoryName;
+		private Visibility visibility;
 
 		@Builder
 		public Info(Long transactionId, Emoticon emoticon, LocalDateTime date, TransactionType transactionType,
 			String title,
-			Long amount) {
+			Long amount, String categoryName, Visibility visibility) {
 			this.transactionId = transactionId;
 			this.emoticon = emoticon;
 			this.date = date;
 			this.transactionType = transactionType;
 			this.title = title;
 			this.amount = amount;
+			this.categoryName = categoryName;
+			this.visibility = visibility;
 		}
 
 		public static Info from(TransactionDto transactionDto) {
@@ -57,6 +64,8 @@ public class GetTransactionListDto {
 				.transactionType(transactionDto.getTransactionType())
 				.title(transactionDto.getTitle())
 				.amount(transactionDto.getAmount())
+				.categoryName(transactionDto.getCategoryName())
+				.visibility(transactionDto.getVisibility())
 				.build();
 		}
 	}

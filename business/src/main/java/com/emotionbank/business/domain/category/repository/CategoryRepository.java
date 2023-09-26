@@ -10,13 +10,12 @@ import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.user.entity.User;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-	Optional<Category> findByCategoryId(Long categoryId);
+	Optional<Category> findByUserAndCategoryId(User user, Long categoryId);
 
 	Optional<Category> findByUserAndCategoryName(User user, String categoryName);
 
 	@Query("SELECT c FROM Category c WHERE c.user.userId = :userId AND c.categoryName = :categoryName")
 	Category findByUserIdAndCategoryName(Long userId, String categoryName);
 
-  List<Category> findByUser(User user);
-
+	List<Category> findByUser(User user);
 }

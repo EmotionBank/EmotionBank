@@ -7,11 +7,11 @@ import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 
 public interface TransactionService {
-	TransactionDto updateBalance(TransactionDto transactionDto);
+	TransactionDto updateBalance(TransactionDto transactionDto, Long userId);
 
 	List<TransactionDto> getTransactions(TransactionSearchDto transactionSearchDto);
 
-	TransactionDto getTransactionDetail(Long transactionId);
+	TransactionDto getTransactionDetail(Long transactionId, Long userId);
 
 	TransactionDto transfer(TransactionTransferDto transactionTransferDto);
 }
