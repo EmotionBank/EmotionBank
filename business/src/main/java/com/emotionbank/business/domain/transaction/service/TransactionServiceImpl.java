@@ -20,6 +20,7 @@ import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private final AccountRepository accountRepository;
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
+	private final UserRepository userRepository;
 
 	private static final String transferCategory = "transaction";
 
@@ -107,9 +109,11 @@ public class TransactionServiceImpl implements TransactionService {
 	@Transactional
 	@Override
 	public long transfer(TransactionTransferDto transactionTransferDto) {
-		Account sender = accountRepository.findByAccountId(transactionTransferDto.getSender())
+		Account sender = accountRepository.findByUser(userRepository.findById(transactionTransferDto.getSender())
+				.orElseThrow(() -> new BusinessException(USER_NOT_FOUND)))
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
-		Account receiver = accountRepository.findByAccountId(transactionTransferDto.getReceiver())
+		Account receiver = accountRepository.findByUser(userRepository.findById(transactionTransferDto.getReceiver())
+				.orElseThrow(() -> new BusinessException(USER_NOT_FOUND)))
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
 		long amount = transactionTransferDto.getAmount();

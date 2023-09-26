@@ -33,6 +33,8 @@ import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.domain.user.entity.User;
+import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 class TransactionServiceImplTest {
@@ -51,6 +53,8 @@ class TransactionServiceImplTest {
 
 	@Mock
 	private CalendarRepository calendarRepository;
+	@Mock
+	private UserRepository userRepository;
 
 	@BeforeEach
 	public void beforeEach() {
@@ -159,8 +163,14 @@ class TransactionServiceImplTest {
 			.emoticon(emoticon)
 			.build();
 
-		when(accountRepository.findByAccountId(transactionTransferDto.getSender())).thenReturn(Optional.of(sender));
-		when(accountRepository.findByAccountId(transactionTransferDto.getReceiver())).thenReturn(Optional.of(receiver));
+		User sendPerson = User.builder().build();
+		User receivePerson = User.builder().build();
+		when(userRepository.findById(transactionTransferDto.getSender())).thenReturn(Optional.ofNullable(sendPerson));
+		when(userRepository.findById(transactionTransferDto.getReceiver())).thenReturn(
+			Optional.ofNullable(receivePerson));
+
+		when(accountRepository.findByUser(sendPerson)).thenReturn(Optional.of(sender));
+		when(accountRepository.findByUser(receivePerson)).thenReturn(Optional.of(receiver));
 
 		Category receiverCategory = Category.builder().build();
 		Category senderCategory = Category.builder().build();
@@ -174,7 +184,7 @@ class TransactionServiceImplTest {
 		Assertions.assertThat(balance).isEqualTo(10000L);
 		Assertions.assertThat(receiver.getBalance()).isEqualTo(10000L);
 
-		verify(accountRepository, times(2)).findByAccountId(anyLong());
+		verify(accountRepository, times(2)).findByUser(any());
 		verify(transactionRepository, times(2)).save(any(Transaction.class));
 		verify(calendarRepository, times(2)).findByDateAndAccount(any(), any());
 
