@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +15,12 @@ import com.emotionbank.business.api.transaction.dto.GetTransactionDetailDto;
 import com.emotionbank.business.api.transaction.dto.GetTransactionListDto;
 import com.emotionbank.business.api.transaction.dto.TransferDto;
 import com.emotionbank.business.api.transaction.dto.UpdateBalanceDto;
+import com.emotionbank.business.api.transaction.dto.UpdateTransactionDto;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionUpdateDto;
 import com.emotionbank.business.domain.transaction.service.TransactionService;
 import com.emotionbank.business.global.jwt.annotation.UserInfo;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
@@ -69,5 +72,12 @@ public class TransactionController {
 			TransactionTransferDto.of(userInfoDto.getUserId(), request.getReceiver(),
 				request.getAmount(), request.getEmoticon()));
 		return ResponseEntity.ok(TransferDto.Response.of(balance));
+	}
+
+	@PutMapping
+	public ResponseEntity<Void> updateTransaction(@RequestBody UpdateTransactionDto.Request request,
+		@UserInfo UserInfoDto userInfoDto) {
+		transactionService.updateTransaction(TransactionUpdateDto.of(request, userInfoDto));
+		return ResponseEntity.ok().build();
 	}
 }
