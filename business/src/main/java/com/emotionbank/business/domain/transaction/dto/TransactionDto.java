@@ -60,7 +60,7 @@ public class TransactionDto {
 			.sender(transaction.getSender().getAccountName())
 			.receiver(transaction.getReceiver().getAccountName())
 			.categoryName(transaction.getCategory().getCategoryName())
-			.visibility(transaction.getVisibility())
+			.visibility(transaction.getCategory().getVisibility())
 			.build();
 	}
 
@@ -75,7 +75,6 @@ public class TransactionDto {
 			.emoticon(Emoticon.valueOf(request.getEmoticon()))
 			.sender(request.getAccountNumber())
 			.receiver(request.getAccountNumber())
-			.visibility(Visibility.PRIVATE)
 			.build();
 	}
 
