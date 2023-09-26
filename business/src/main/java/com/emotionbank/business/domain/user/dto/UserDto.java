@@ -96,6 +96,7 @@ public class UserDto {
 		return UserDto.builder()
 			.nickname(user.getNickname())
 			.image(user.getImage())
+			.account(AccountDto.from(user.getAccounts().get(0)))
 			.build();
 	}
 
