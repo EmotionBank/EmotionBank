@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
+import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 public interface UserService {
 	List<UserDto> searchUser(String userNickname, Pageable pageable);
@@ -21,4 +22,6 @@ public interface UserService {
 	void updateUser(UserDto request);
 
 	boolean checkDuplicateNickname(String nickname);
+
+	boolean checkAdminRole(UserInfoDto userInfoDto);
 }

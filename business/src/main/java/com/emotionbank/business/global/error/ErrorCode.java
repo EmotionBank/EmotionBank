@@ -17,9 +17,12 @@ public enum ErrorCode {
 	// User
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U-001", "존재하지 않는 회원입니다."),
 	NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "U-002", "중복된 닉네임 입니다."),
+	USER_NOT_EQUAL(HttpStatus.BAD_REQUEST, "U-003", "사용자 정보가 일치하지 않습니다."),
+	USER_ALREADY_SIGNUP(HttpStatus.CONFLICT, "U-003", "이미 가입된 회원입니다."),
 
 	// Category
 	CATEGORY_NOT_EXIST(HttpStatus.NOT_FOUND, "C-001", "카테고리가 없습니다."),
+	BASIC_CATEGORY(HttpStatus.BAD_REQUEST, "C-002", "기본 카테고리는 삭제할 수 없습니다. "),
 
 	// Account
 	SENDER_ACCOUNT_NOT_EXIST(HttpStatus.NOT_FOUND, "A-001", "Sender 계좌가 없습니다"),
@@ -38,8 +41,10 @@ public enum ErrorCode {
 	NOT_ACCESS_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "O-004", "Access Token이 아닙니다."),
 
 	// Transaction
-	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다.");
+	TRANSACTION_NOT_EXIST(HttpStatus.NOT_FOUND, "T-001", "일치하는 거래가 없습니다."),
 
+	// Terms
+	TERMS_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
