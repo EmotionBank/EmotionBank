@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInformationDto;
+import com.emotionbank.business.api.user.dto.UserMyProfileDto;
 import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
@@ -33,19 +34,30 @@ public class UserController {
 
 	private final UserService userService;
 
-	@GetMapping("/me/info")
+	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
 		UserDto userInfo = userService.getUserInfo(userId);
 		return ResponseEntity.ok(UserInformationDto.Response.from(userInfo));
 	}
 
-	@PatchMapping("/me/info")
+	@PatchMapping("/me")
 	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request, @UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
 		UserDto userDto = UserDto.of(userId, request.getNickname());
 		userService.updateUser(userDto);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/info/me")
+	public ResponseEntity<UserMyProfileDto.Response> getMyProfile(@UserInfo UserInfoDto userInfoDto) {
+		UserDto myProfile = userService.getMyProfile(userInfoDto.getUserId());
+		return ResponseEntity.ok(UserMyProfileDto.Response.from(myProfile));
+	}
+
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<?> getOtherProfile(@PathVariable long userId) {
+		UserDto otherProfile = userService.getOtherProfile(userId);
 	}
 
 	@PostMapping("/check")

@@ -30,7 +30,7 @@ public class UserDto {
 
 	private final LocalDate withdrawalTime;
 
-	private final List<AccountDto> accounts;
+	private final AccountDto account;
 
 	private final List<Agreement> agreement;
 
@@ -38,10 +38,13 @@ public class UserDto {
 
 	private final String image;
 
+	private final int following;
+	private final int follower;
+
 	@Builder
 	public UserDto(Long userId, String nickname, LocalDate birthDay, String email, SocialType socialType,
-		LocalDate createdTime, LocalDate lastLoginTime, LocalDate withdrawalTime, List<AccountDto> accounts,
-		List<Agreement> agreement, List<Category> category, String image) {
+		LocalDate createdTime, LocalDate lastLoginTime, LocalDate withdrawalTime, AccountDto account,
+		List<Agreement> agreement, List<Category> category, String image, int following, int follower) {
 		this.userId = userId;
 		this.nickname = nickname;
 		this.birthDay = birthDay;
@@ -50,10 +53,12 @@ public class UserDto {
 		this.createdTime = createdTime;
 		this.lastLoginTime = lastLoginTime;
 		this.withdrawalTime = withdrawalTime;
-		this.accounts = accounts;
+		this.account = account;
 		this.agreement = agreement;
 		this.category = category;
 		this.image = image;
+		this.following = following;
+		this.follower = follower;
 	}
 
 	public static UserDto of(String nickname, String image) {
@@ -67,6 +72,15 @@ public class UserDto {
 		return UserDto.builder()
 			.userId(userId)
 			.nickname(nickname)
+			.build();
+	}
+
+	public static UserDto of(String nickname, AccountDto accountDto, int following, int follower) {
+		return UserDto.builder()
+			.nickname(nickname)
+			.account(accountDto)
+			.following(following)
+			.follower(follower)
 			.build();
 	}
 
