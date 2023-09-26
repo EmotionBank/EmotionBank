@@ -1,10 +1,12 @@
 import * as S from '@/components/UserInfo/UserInfo.style';
 import { PATH } from '@/constants/path';
+import { useGetUserAccount } from '@/hooks/apiHooks/useGetUserAccount';
 import gloomy from '@assets/emotions/gloomy.png';
 import { useNavigate } from 'react-router-dom';
 
 const UserInfo = () => {
   const navigate = useNavigate();
+  // const getUserAccountInfoData = useGetUserAccount();
 
   const dummy = {
     nickname: '닉네임',
