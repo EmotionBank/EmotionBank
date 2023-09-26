@@ -20,7 +20,17 @@ public class TransferDto {
 		private Emoticon emoticon;
 	}
 
+	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	@AllArgsConstructor
+	@Builder
 	public static class Response {
+		private Long balance;
 
+		public static Response of(long balance) {
+			Response.builder()
+				.balance(balance)
+				.build();
+		}
 	}
 }

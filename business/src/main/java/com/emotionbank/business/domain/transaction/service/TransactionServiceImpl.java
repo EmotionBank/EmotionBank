@@ -104,7 +104,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Transactional
 	@Override
-	public TransactionDto transfer(TransactionTransferDto transactionTransferDto) {
+	public long transfer(TransactionTransferDto transactionTransferDto) {
 		Account sender = accountRepository.findByAccountId(transactionTransferDto.getSender())
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 		Account receiver = accountRepository.findByAccountId(transactionTransferDto.getReceiver())
@@ -157,8 +157,8 @@ public class TransactionServiceImpl implements TransactionService {
 					Calendar.of(withdrawl.getTransactionTime().toLocalDate(), withdrawl.getEmoticon(),
 						withdrawl.getAmount(), sender))
 			);
-		
-		return null;
+
+		return balance;
 	}
 
 	private void validateBalance(Account account, Long expectedBalance) {
