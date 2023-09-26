@@ -19,6 +19,10 @@ public interface UserService {
 
 	UserDto getUserInfo(Long userId);
 
+	UserDto getMyProfile(Long userId);
+
+	UserDto getOtherProfile(Long userId);
+
 	void updateUser(UserDto request);
 
 	boolean checkDuplicateNickname(String nickname);
