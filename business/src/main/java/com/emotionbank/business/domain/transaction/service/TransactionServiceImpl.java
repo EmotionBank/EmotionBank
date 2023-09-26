@@ -19,6 +19,7 @@ import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.dto.TransactionDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
+import com.emotionbank.business.domain.transaction.dto.TransactionUpdateDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.domain.user.entity.User;
@@ -55,7 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (!user.getUserId().equals(account.getUser().getUserId())) {
 			throw new BusinessException(USER_NOT_EQUAL);
 		}
-		
+
 		// 카테고리 조회
 		Category category = categoryRepository.findByUserAndCategoryId(user, transactionDto.getCategoryId())
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
@@ -116,28 +117,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	@Transactional(readOnly = true)
-	@Override
-	public TransactionDto getTransactionDetail(Long transactionId, Long userId) {
-		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
-			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
-
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
-
-		if (Visibility.PRIVATE.equals(transaction.getCategory().getVisibility())) {
-			Category category = categoryRepository.findByUserAndCategoryId(user,
-					transaction.getCategory().getCategoryId())
-				.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
-			if (userId.equals(category.getUser().getUserId())) {
-				return TransactionDto.from(transaction);
-			} else {
-				throw new BusinessException(TRANSACTION_BAD_REQUEST);
-			}
-		}
-		return TransactionDto.from(transaction);
-	}
-
 	@Transactional
 	@Override
 	public long transfer(TransactionTransferDto transactionTransferDto) {
@@ -195,6 +174,44 @@ public class TransactionServiceImpl implements TransactionService {
 			);
 
 		return balance;
+	}
+
+	@Transactional
+	@Override
+	public void updateTransaction(TransactionUpdateDto transactionUpdateDto) {
+		Transaction transaction = transactionRepository.findByTransactionId(transactionUpdateDto.getTransactionId())
+			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
+
+		User user = userRepository.findById(transactionUpdateDto.getUserId())
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
+		Category category = categoryRepository.findByUserAndCategoryId(user, transactionUpdateDto.getCategoryId())
+			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+		log.info(category.getCategoryName());
+
+		transaction.updateCategory(category);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public TransactionDto getTransactionDetail(Long transactionId, Long userId) {
+		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
+			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
+
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
+		if (Visibility.PRIVATE.equals(transaction.getCategory().getVisibility())) {
+			Category category = categoryRepository.findByUserAndCategoryId(user,
+					transaction.getCategory().getCategoryId())
+				.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
+			if (userId.equals(category.getUser().getUserId())) {
+				return TransactionDto.from(transaction);
+			} else {
+				throw new BusinessException(TRANSACTION_BAD_REQUEST);
+			}
+		}
+		return TransactionDto.from(transaction);
 	}
 
 	private void validateBalance(Account account, Long expectedBalance) {
