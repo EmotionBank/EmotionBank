@@ -111,7 +111,7 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
 			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
 
-		if (Visibility.PRIVATE.equals(transaction.getVisibility())) {
+		if (Visibility.PRIVATE.equals(transaction.getCategory().getVisibility())) {
 			Category category = categoryRepository.findByCategoryId(transaction.getCategory().getCategoryId())
 				.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 			if (userId.equals(category.getUser().getUserId())) {
