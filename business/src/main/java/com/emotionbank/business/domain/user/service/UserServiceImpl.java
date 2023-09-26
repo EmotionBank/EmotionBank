@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
 		if (!(user.getRole() == Role.ADMIN)) {
-			throw new BusinessException(ErrorCode.NO_TERMS_CREATE_ROLE);
+			throw new BusinessException(ErrorCode.TERMS_CREATE_UNAUTHORIZED);
 		}
 
 		return true;
