@@ -4,8 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum Visibility {
-	PRIVATE("비공개");
-
+	PRIVATE("비공개"),
+	PUBLIC("공개");
+	 
 	private final String message;
 
 	Visibility(String message) {
