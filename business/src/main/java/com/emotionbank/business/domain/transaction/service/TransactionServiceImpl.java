@@ -21,6 +21,8 @@ import com.emotionbank.business.domain.transaction.dto.TransactionSearchDto;
 import com.emotionbank.business.domain.transaction.dto.TransactionTransferDto;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.domain.user.entity.User;
+import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.exception.BusinessException;
 
 import lombok.RequiredArgsConstructor;
@@ -35,18 +37,27 @@ public class TransactionServiceImpl implements TransactionService {
 	private final AccountRepository accountRepository;
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
+	private final UserRepository userRepository;
 
 	private static final String transferCategory = "transaction";
 
 	@Transactional
 	@Override
-	public TransactionDto updateBalance(TransactionDto transactionDto) {
+	public TransactionDto updateBalance(TransactionDto transactionDto, Long userId) {
 		// 계좌 존재 유무 확인
 		Account account = accountRepository.findByAccountNumber(transactionDto.getReceiver())
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
+		// 유저 정보 조회
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
+		if (!user.getUserId().equals(account.getUser().getUserId())) {
+			throw new BusinessException(USER_NOT_EQUAL);
+		}
+		
 		// 카테고리 조회
-		Category category = categoryRepository.findByCategoryId(transactionDto.getCategoryId())
+		Category category = categoryRepository.findByUserAndCategoryId(user, transactionDto.getCategoryId())
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 
 		// 잔액 일치 여부 조회
@@ -111,8 +122,12 @@ public class TransactionServiceImpl implements TransactionService {
 		Transaction transaction = transactionRepository.findByTransactionId(transactionId)
 			.orElseThrow(() -> new BusinessException(TRANSACTION_NOT_EXIST));
 
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
 		if (Visibility.PRIVATE.equals(transaction.getCategory().getVisibility())) {
-			Category category = categoryRepository.findByCategoryId(transaction.getCategory().getCategoryId())
+			Category category = categoryRepository.findByUserAndCategoryId(user,
+					transaction.getCategory().getCategoryId())
 				.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 			if (userId.equals(category.getUser().getUserId())) {
 				return TransactionDto.from(transaction);

@@ -33,8 +33,9 @@ public class TransactionController {
 
 	@PostMapping
 	public ResponseEntity<UpdateBalanceDto.Response> updateBalance(
-		@RequestBody UpdateBalanceDto.Request request) {
-		TransactionDto transactionDto = transactionService.updateBalance(TransactionDto.from(request));
+		@RequestBody UpdateBalanceDto.Request request, @UserInfo UserInfoDto userInfoDto) {
+		TransactionDto transactionDto = transactionService.updateBalance(TransactionDto.from(request),
+			userInfoDto.getUserId());
 		return ResponseEntity.ok(UpdateBalanceDto.Response.from(transactionDto));
 	}
 

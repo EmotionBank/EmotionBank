@@ -1,5 +1,7 @@
 package com.emotionbank.business.domain.category.service;
 
+import static com.emotionbank.business.global.error.ErrorCode.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,14 +42,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public void deleteCategory(Long categoryId, Long userId) {
-		Category category = categoryRepository.findByCategoryId(categoryId)
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
+		Category category = categoryRepository.findByUserAndCategoryId(user, categoryId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_EXIST));
-
-		// user id 비교
-		if (!userId.equals(category.getUser().getUserId())) {
-			throw new BusinessException(ErrorCode.USER_NOT_EQUAL);
-		}
-
+		
 		//  기본 카테고리는 삭제 불가능
 		if (basicCategoryName.equals(category.getCategoryName())) {
 			throw new BusinessException(ErrorCode.BASIC_CATEGORY);
