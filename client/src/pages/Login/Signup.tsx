@@ -19,20 +19,16 @@ const Signup = () => {
       navigate('/login');
     }
 
-    if (index === 3) {
-      const birthday = inputs[2]
+    if (index === 4) {
+      console.log(inputs);
+      const birthday = inputs[2];
       const userInfo = {
         // 'agree': inputs[0],
         nickname: inputs[1],
-        birthday: birthday.substring(0,4)+'-'+birthday.substring(4,6)+'-'+birthday.substring(6,8),
+        birthday: birthday.substring(0, 4) + '-' + birthday.substring(4, 6) + '-' + birthday.substring(6, 8),
+        accountName: inputs[3],
       };
       const response = signupUser(userInfo);
-      console.log(response);
-    }
-    if (index === 4) {
-      console.log(inputs);
-      const request = { accountName: inputs[index - 1] };
-      const response = createAccount(request);
       console.log(response);
       navigate('/');
     }

@@ -2,12 +2,14 @@ import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { DropdownItem, DropdownWrapper } from './Dropdown.style';
 import { useNavigate } from 'react-router-dom';
+
 const Dropdown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
   const navigate = useNavigate();
+
   return (
     <div>
       <button onClick={toggleDropdown}>

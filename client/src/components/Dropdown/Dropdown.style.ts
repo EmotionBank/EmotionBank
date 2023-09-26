@@ -17,8 +17,8 @@ export const DropdownWrapper = styled.ul`
 export const DropdownItem = styled.li`
   margin-top: 6px;
   cursor: pointer;
-  &:hover{
-    background:aliceblue;
-    color:${({theme}) => theme.color.darkgray}
+  &:hover {
+    background: aliceblue;
+    color: ${({ theme }) => theme.color.darkgray};
   }
 `;

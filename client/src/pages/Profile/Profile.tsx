@@ -14,7 +14,9 @@ const Profile = () => {
     const Myinfo = async () => {
       const info = await getMyInfo();
       setNickname(info.nickname);
+      console.log(info);
     };
+    Myinfo();
   }, []);
 
   const handleNicknameChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -22,17 +24,17 @@ const Profile = () => {
     setNickname(value);
   };
 
-  const handleNicknameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNicknameSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(e.target.dispatchEvent);
-    setIsChangeMode(false)
+    await updateMyInfo(nickname);
+    setIsChangeMode(false);
   };
 
   return (
     <>
       <S.profileImage src={gloomy}></S.profileImage>
-      {(!isChangeMode) ? (
+      {!isChangeMode ? (
         <div>
           {nickname}
           <button onClick={() => setIsChangeMode(true)}>
