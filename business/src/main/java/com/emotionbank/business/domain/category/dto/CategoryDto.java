@@ -38,4 +38,22 @@ public class CategoryDto {
 			.build();
 	}
 
+	public static CategoryDto newDefaultCategory(Long userId) {
+		final String defaultName = "기본";
+		return CategoryDto.builder()
+			.userId(userId)
+			.categoryName(defaultName)
+			.visibility(Visibility.PRIVATE)
+			.build();
+	}
+
+	public static CategoryDto newTransactionCategory(Long userId) {
+		final String transactionName = "이체";
+		return CategoryDto.builder()
+			.userId(userId)
+			.categoryName(transactionName)
+			.visibility(Visibility.PRIVATE)
+			.build();
+	}
+
 }
