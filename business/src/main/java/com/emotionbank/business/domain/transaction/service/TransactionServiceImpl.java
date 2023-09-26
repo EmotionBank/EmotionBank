@@ -187,8 +187,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 		Category category = categoryRepository.findByUserAndCategoryId(user, transactionUpdateDto.getCategoryId())
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
-		log.info(category.getCategoryName());
-
 		transaction.updateCategory(category);
 	}
 
