@@ -19,7 +19,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 	);
 
 	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND t.visibility = :visibility AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
-	List<Transaction> searchTransactionByAccountAndDateAndVisibility(Account account,
+	List<Transaction> findByAccountAndDateAndVisibility(Account account,
 		Date startDate,
 		Date endDate,
 		Visibility visibility

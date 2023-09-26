@@ -85,7 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
 		if (account.getUser().getUserId() != transactionSearchDto.getUserId()) { // 남의 거래 내역
-			List<Transaction> transactions = transactionRepository.searchTransactionByAccountAndDateAndVisibility(
+			List<Transaction> transactions = transactionRepository.findByAccountAndDateAndVisibility(
 				account, transactionSearchDto.getStartDate(), transactionSearchDto.getEndDate(), Visibility.PUBLIC);
 			List<TransactionDto> transactionList = transactions.stream()
 				.map(TransactionDto::from)
