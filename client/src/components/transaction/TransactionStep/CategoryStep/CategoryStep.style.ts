@@ -41,7 +41,7 @@ export const CategoryContainer = styled(Flex)<{ $isSelected: boolean }>`
   cursor: pointer;
 `;
 
-export const CreateCategoryButton = styled(Button)`
+export const CreateCategoryButton = styled(Flex)`
   width: 100%;
   height: 5rem;
   padding: 0.5rem 3rem;
@@ -50,6 +50,7 @@ export const CreateCategoryButton = styled(Button)`
   font-weight: bold;
   background-color: ${({ theme }) => theme.color.secondary};
   color: ${({ theme }) => theme.color.lightgray};
+  cursor: pointer;
 `;
 
 export const VisibilityText = styled.span`
