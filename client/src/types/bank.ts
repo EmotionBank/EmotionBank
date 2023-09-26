@@ -37,3 +37,12 @@ export interface TransactionDetailType {
   accountName: string; // 계좌명
   transactionType: string;
 }
+
+export interface CategoryType {
+  categoryId: number;
+  categoryName: string;
+  visibility: string;
+}
+export interface CategoryListType {
+  categoryInfoList: CategoryType[];
+}

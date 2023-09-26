@@ -10,7 +10,7 @@ import CategoryStep from '@/components/transaction/TransactionStep/CategoryStep/
 const Transaction = () => {
   const initRequestdata = {
     transactionType: 'WITHDRAW', // DEPOSIT | WITHDRAW
-    categoryId: '',
+    categoryId: 0,
     accountNumber: '110-315-123456',
     amount: 0,
     balance: 0,
@@ -41,7 +41,7 @@ const Transaction = () => {
     setRequestData(prev => ({ ...prev, amount, content }));
   };
 
-  const confirmCategoryStep = (categoryId: string) => {
+  const confirmCategoryStep = (categoryId: number) => {
     postTransactionMutation.mutate({ ...requsetData, categoryId });
   };
 

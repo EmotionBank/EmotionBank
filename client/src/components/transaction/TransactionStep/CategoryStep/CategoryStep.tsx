@@ -3,23 +3,26 @@ import * as S from '@/components/transaction/TransactionStep/CategoryStep/Catego
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal/Modal';
 import CreateCategoryModal from '@/components/transaction/TransactionStep/CreateCategoryModal/CreateCategoryModal';
+import { useGetCategoryList } from '@/hooks/apiHooks/useGetCategoryList';
+import { CategoryType } from '@/types/bank';
 
 interface IProps {
-  onNext: (categoryId: string) => void;
+  onNext: (categoryId: number) => void;
 }
 
 const CategoryStep = ({ onNext }: IProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const { openModal, closeModal } = useModal();
+  const { getCategoryListData } = useGetCategoryList();
 
   const dummy = [
     {
-      categoryId: 'Id',
+      categoryId: 1,
       categoryName: 'name',
       visibility: 'PUBLIC',
     },
     {
-      categoryId: 'Id2',
+      categoryId: 2,
       categoryName: 'name2',
       visibility: 'PRIVATE',
     },
@@ -29,7 +32,7 @@ const CategoryStep = ({ onNext }: IProps) => {
     if (visibility === 'PUBLIC') return '전체공개';
     if (visibility === 'PRIVATE') return '비공개';
   };
-
+  console.log(getCategoryListData);
   return (
     <>
       <S.CategoryStepWrapper>
@@ -37,7 +40,7 @@ const CategoryStep = ({ onNext }: IProps) => {
           <S.CategoryHeader>카테고리를 골라주세요</S.CategoryHeader>
         </S.CategoryHeaderContainer>
         <S.CategoryListWrapper>
-          {dummy.map(category => (
+          {getCategoryListData.categoryInfoList.map((category: CategoryType) => (
             <S.CategoryContainer
               key={category.categoryId}
               onClick={() => setSelectedCategory(category.categoryId)}
