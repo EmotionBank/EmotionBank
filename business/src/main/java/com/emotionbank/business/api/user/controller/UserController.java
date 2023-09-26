@@ -17,6 +17,7 @@ import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserMyProfileDto;
 import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
+import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
@@ -58,6 +59,7 @@ public class UserController {
 	@GetMapping("/info/{userId}")
 	public ResponseEntity<?> getOtherProfile(@PathVariable long userId) {
 		UserDto otherProfile = userService.getOtherProfile(userId);
+		return ResponseEntity.ok(UserOtherProfileDto.Response.from(otherProfile));
 	}
 
 	@PostMapping("/check")

@@ -95,7 +95,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getOtherProfile(Long userId) {
-		return null;
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		int following = followRepository.findByFollower(user).size();
+		int follower = followRepository.findByFollowee(user).size();
+		return UserDto.of(user.getNickname(), following, follower);
 	}
 
 	@Override
