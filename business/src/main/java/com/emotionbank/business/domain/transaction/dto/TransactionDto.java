@@ -16,6 +16,7 @@ public class TransactionDto {
 	private Long transactionId;
 	private TransactionType transactionType;
 	private Long categoryId;
+	private String categoryName;
 	private Long amount;
 	private Long balance;
 	private String title;
@@ -27,12 +28,14 @@ public class TransactionDto {
 	private Visibility visibility;
 
 	@Builder
-	public TransactionDto(Long transactionId, TransactionType transactionType, Long categoryId, Long amount,
+	public TransactionDto(Long transactionId, TransactionType transactionType, Long categoryId, String categoryName,
+		Long amount,
 		Long balance, String title, String content, LocalDateTime transactionTime, Emoticon emoticon, String sender,
 		String receiver, Visibility visibility) {
 		this.transactionId = transactionId;
 		this.transactionType = transactionType;
 		this.categoryId = categoryId;
+		this.categoryName = categoryName;
 		this.amount = amount;
 		this.balance = balance;
 		this.title = title;
@@ -56,6 +59,7 @@ public class TransactionDto {
 			.emoticon(transaction.getEmoticon())
 			.sender(transaction.getSender().getAccountName())
 			.receiver(transaction.getReceiver().getAccountName())
+			.categoryName(transaction.getCategory().getCategoryName())
 			.visibility(transaction.getVisibility())
 			.build();
 	}
@@ -72,6 +76,14 @@ public class TransactionDto {
 			.sender(request.getAccountNumber())
 			.receiver(request.getAccountNumber())
 			.visibility(Visibility.PRIVATE)
+			.build();
+	}
+
+	public static TransactionDto of(String sender, String receiver, Long amount) {
+		return TransactionDto.builder()
+			.sender(sender)
+			.receiver(receiver)
+			.amount(amount)
 			.build();
 	}
 
