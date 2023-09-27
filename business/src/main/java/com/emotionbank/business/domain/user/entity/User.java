@@ -18,6 +18,7 @@ import org.springframework.data.annotation.CreatedDate;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.agreement.entity.Agreement;
 import com.emotionbank.business.domain.category.entity.Category;
+import com.emotionbank.business.domain.fcmtoken.entity.FcmToken;
 import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.constant.SocialType;
 
@@ -73,6 +74,9 @@ public class User {
 
 	@OneToMany(mappedBy = "followee")
 	private List<Follow> followeeList;
+
+	@OneToMany(mappedBy = "user")
+	private List<FcmToken> tokenList;
 
 	@Builder
 	public User(Long userId, String nickname, LocalDate birthday, Role role, String socialId, SocialType socialType,

@@ -1,6 +1,7 @@
 package com.emotionbank.business.domain.terms.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.emotionbank.business.domain.agreement.entity.Agreement;
@@ -40,8 +41,8 @@ public class Terms {
 	private LocalDateTime createTime;
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
-	@OneToOne(mappedBy = "terms")
-	private Agreement agreement;
+	@OneToMany(mappedBy = "terms")
+	private List<Agreement> agreement;
 
 	@Builder
 	public Terms(Long termsId, String title, String content, Mandatory mandatory, LocalDateTime createTime,
