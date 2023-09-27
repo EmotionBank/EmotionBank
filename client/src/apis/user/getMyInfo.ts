@@ -1,14 +1,7 @@
 import { axiosInstance } from '@/apis/index';
-
-export interface UserInfoType {
-  userId: number;
-  nickname: string;
-  birthday: string;
-  accountNumber: string;
-  accountName: string;
-}
+import { GetMyInfoResponse } from '@/types/user';
 
 export const getMyInfo = async () => {
-  const { data } = await axiosInstance.get<UserInfoType>('/users/me/info');
+  const { data } = await axiosInstance.get<GetMyInfoResponse>('/users/me/info');
   return data;
 };

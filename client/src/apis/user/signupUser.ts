@@ -1,14 +1,13 @@
 import { axiosInstance } from '@/apis/index';
-import { SignupType } from '@/types/user';
+import { PostSignupResponse } from '@/types/user';
 
-export interface UserInfo {
-  // agree: string;
+export interface PostSignupRequest {
   nickname: string;
   birthday: string;
   accountName: string;
 }
 
-export const signupUser = async (userInfo: UserInfo) => {
-  const { data } = await axiosInstance.post<SignupType>('/signup', userInfo);
+export const signupUser = async (userInfo: PostSignupRequest) => {
+  const { data } = await axiosInstance.post<PostSignupResponse>('/signup', userInfo);
   return data;
 };

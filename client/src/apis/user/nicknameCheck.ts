@@ -1,10 +1,7 @@
 import { axiosInstance } from '@/apis/index';
-import { NicknameResponseType } from '@/types/user';
+import { PostNicknameCheckResponse } from '@/types/user';
 
-export interface NicknameRequestType {
-  nickname: string;
-}
-export const nicknameCheck = async (request: NicknameRequestType) => {
-  const { data } = await axiosInstance.post<NicknameResponseType>('/users/check', request);
+export const nicknameCheck = async (nickname: string) => {
+  const { data } = await axiosInstance.post<PostNicknameCheckResponse>('/users/check', nickname);
   return data;
 };
