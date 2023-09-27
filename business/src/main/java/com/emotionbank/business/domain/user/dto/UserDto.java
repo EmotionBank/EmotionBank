@@ -94,6 +94,8 @@ public class UserDto {
 
 	public static UserDto from(User user) {
 		return UserDto.builder()
+			.userId(user.getUserId())
+			.birthDay(user.getBirthday())
 			.nickname(user.getNickname())
 			.image(user.getImage())
 			.account(AccountDto.from(user.getAccounts().get(0)))
