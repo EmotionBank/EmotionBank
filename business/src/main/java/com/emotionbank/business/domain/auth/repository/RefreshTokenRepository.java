@@ -22,6 +22,10 @@ public class RefreshTokenRepository {
 			TimeUnit.DAYS);
 	}
 
+	public void delete(Long userId) {
+		redisTemplate.delete(String.valueOf(userId));
+	}
+
 	public Optional<RefreshToken> findRefreshTokenByUserId(Long userId) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		String refreshToken = valueOperations.get(String.valueOf(userId));
