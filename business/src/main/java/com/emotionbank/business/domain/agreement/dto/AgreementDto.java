@@ -1,7 +1,5 @@
 package com.emotionbank.business.domain.agreement.dto;
 
-import java.util.Objects;
-
 import com.emotionbank.business.api.agreement.dto.TermsAgreementDto;
 import com.emotionbank.business.domain.agreement.entity.Agreement;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
@@ -42,7 +40,7 @@ public class AgreementDto {
 			.content(agreement.getTerms().getContent())
 			.mandatory(agreement.getTerms().getMandatory().name())
 			.state(agreement.getState().name())
-			.agreementTime(Objects.isNull(agreement.getAgreementTime()) ? "" : agreement.getAgreementTime().toString())
+			.agreementTime(agreement.getAgreementTime() != null ? agreement.getAgreementTime().toString() : "")
 			.build();
 	}
 
