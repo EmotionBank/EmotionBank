@@ -45,7 +45,11 @@ public enum ErrorCode {
 	TRANSACTION_BAD_REQUEST(HttpStatus.BAD_REQUEST, "T-002", "비공개 거래 내역은 볼 수 없습니다."),
 
 	// Terms
-	TERMS_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다.");
+	TERMS_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다."),
+	TERMS_NOT_FOUND(HttpStatus.BAD_REQUEST, "E-002", "약관 정보가 없습니다."),
+
+	// Agreement
+	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;

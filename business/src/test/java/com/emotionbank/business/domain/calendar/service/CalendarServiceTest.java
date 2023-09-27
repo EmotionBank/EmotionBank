@@ -118,7 +118,7 @@ class CalendarServiceTest {
 
 		// When
 		LocalDate date = LocalDate.of(2023, 10, 3);
-		Calendar calendar = calendarRepository.findByDate(date)
+		Calendar calendar = calendarRepository.findByDateAndAccount(date, account)
 			.orElseThrow(() -> new BusinessException(ErrorCode.CALENDAR_NOT_EXIST));
 
 		// Then

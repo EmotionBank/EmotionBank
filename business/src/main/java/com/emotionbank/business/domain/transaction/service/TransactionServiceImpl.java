@@ -119,18 +119,24 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Transactional
 	@Override
-	public long transfer(TransactionTransferDto transactionTransferDto) {
-		Account sender = accountRepository.findByAccountId(transactionTransferDto.getSender())
+	public TransactionDto transfer(TransactionTransferDto transactionTransferDto) {
+
+		User sender = userRepository.findById(transactionTransferDto.getSender())
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+		User receiver = userRepository.findById(transactionTransferDto.getReceiver())
+			.orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+
+		Account senderAccount = accountRepository.findByUser(sender)
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
-		Account receiver = accountRepository.findByAccountId(transactionTransferDto.getReceiver())
+		Account receiverAccount = accountRepository.findByUser(receiver)
 			.orElseThrow(() -> new BusinessException(ACCOUNT_NOT_EXIST));
 
 		long amount = transactionTransferDto.getAmount();
 
-		sender.updateBalance(-amount);
-		receiver.updateBalance(amount);
+		senderAccount.updateBalance(-amount);
+		receiverAccount.updateBalance(amount);
 
-		Long balance = sender.getBalance();
+		Long balance = senderAccount.getBalance();
 
 		// 잔액이 0원 미만인 경우 거래 취소
 		if (balance < 0) {
@@ -138,42 +144,46 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		// 입금자의 이체 카테고리 가지고 오기.
-		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiver.getUser(), transferCategory)
+		Category receiverCategory = categoryRepository.findByUserAndCategoryName(receiverAccount.getUser(),
+				transferCategory)
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 		// 입금 거래 내역 만들기
-		Transaction deposit = Transaction.of(TransactionType.DEPOSIT, receiverCategory, amount, receiver.getBalance(),
-			sender,
-			receiver,
+		Transaction deposit = Transaction.of(TransactionType.DEPOSIT, receiverCategory, amount,
+			receiverAccount.getBalance(),
+			senderAccount,
+			receiverAccount,
 			transactionTransferDto.getEmoticon());
 		transactionRepository.save(deposit);
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDateAndAccount(deposit.getTransactionTime().toLocalDate(), receiver)
+		calendarRepository.findByDateAndAccount(deposit.getTransactionTime().toLocalDate(), receiverAccount)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(deposit.getAmount(), deposit.getEmoticon()),
 				() -> calendarRepository.save(
 					Calendar.of(deposit.getTransactionTime().toLocalDate(), deposit.getEmoticon(),
-						deposit.getAmount(), receiver))
+						deposit.getAmount(), receiverAccount))
 			);
 
 		// 출금자의 이체 카테고리 가지고 오기.
-		Category senderCategory = categoryRepository.findByUserAndCategoryName(sender.getUser(), transferCategory)
+		Category senderCategory = categoryRepository.findByUserAndCategoryName(senderAccount.getUser(),
+				transferCategory)
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 		// 출금 거래 내역 만들기
-		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance, sender,
-			receiver,
+		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance,
+			senderAccount,
+			receiverAccount,
 			transactionTransferDto.getEmoticon());
 		transactionRepository.save(withdrawl);
 
 		// 캘린더 당일 기분 및 금액 업데이트
-		calendarRepository.findByDateAndAccount(withdrawl.getTransactionTime().toLocalDate(), sender)
+		calendarRepository.findByDateAndAccount(withdrawl.getTransactionTime().toLocalDate(), senderAccount)
 			.ifPresentOrElse(
 				calendar -> calendar.updateAmount(withdrawl.getAmount(), withdrawl.getEmoticon()),
 				() -> calendarRepository.save(
 					Calendar.of(withdrawl.getTransactionTime().toLocalDate(), withdrawl.getEmoticon(),
-						withdrawl.getAmount(), sender))
+						withdrawl.getAmount(), senderAccount))
 			);
 
-		return balance;
+		return TransactionDto.of(receiver.getNickname(), amount, balance);
 	}
 
 	@Transactional

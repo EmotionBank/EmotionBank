@@ -68,10 +68,10 @@ public class TransactionController {
 	@PostMapping("/transfer")
 	public ResponseEntity<TransferDto.Response> transfer(@UserInfo UserInfoDto userInfoDto,
 		@RequestBody TransferDto.Request request) {
-		long balance = transactionService.transfer(
+		TransactionDto transactionDto = transactionService.transfer(
 			TransactionTransferDto.of(userInfoDto.getUserId(), request.getReceiver(),
 				request.getAmount(), request.getEmoticon()));
-		return ResponseEntity.ok(TransferDto.Response.of(balance));
+		return ResponseEntity.ok(TransferDto.Response.of(transactionDto));
 	}
 
 	@PutMapping

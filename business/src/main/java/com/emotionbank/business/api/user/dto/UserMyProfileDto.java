@@ -1,7 +1,5 @@
 package com.emotionbank.business.api.user.dto;
 
-import java.time.LocalDate;
-
 import com.emotionbank.business.domain.user.dto.UserDto;
 
 import lombok.AccessLevel;
@@ -10,28 +8,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserInformationDto {
-
+public class UserMyProfileDto {
 	@Builder
 	@Getter
 	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
-		Long userId;
 		String nickname;
-		LocalDate birthday;
+		Long accountId;
 		String accountNumber;
-		String accountName;
+		Long balance;
+		int following;
+		int follower;
 
 		public static Response from(UserDto userDto) {
 			return Response.builder()
-				.userId(userDto.getUserId())
 				.nickname(userDto.getNickname())
-				.birthday(userDto.getBirthDay())
+				.accountId(userDto.getAccount().getAccountId())
 				.accountNumber(userDto.getAccount().getAccountNumber())
-				.accountName(userDto.getAccount().getAccountName())
+				.balance(userDto.getAccount().getBalance())
+				.following(userDto.getFollowing())
+				.follower(userDto.getFollower())
 				.build();
 		}
 	}
-
 }

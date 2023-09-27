@@ -17,4 +17,6 @@ public interface TransactionService {
 	long transfer(TransactionTransferDto transactionTransferDto);
 
 	void updateTransaction(TransactionUpdateDto transactionUpdateDto);
+
+  TransactionDto transfer(TransactionTransferDto transactionTransferDto);
 }
