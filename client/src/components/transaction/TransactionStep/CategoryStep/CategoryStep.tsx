@@ -4,7 +4,7 @@ import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal/Modal';
 import CreateCategoryModal from '@/components/transaction/TransactionStep/CreateCategoryModal/CreateCategoryModal';
 import { useGetCategoryList } from '@/hooks/apiHooks/useGetCategoryList';
-import { CategoryType } from '@/types/bank';
+import { CategoryResponse } from '@/types/bank';
 
 interface IProps {
   onNext: (categoryId: number) => void;
@@ -27,7 +27,7 @@ const CategoryStep = ({ onNext }: IProps) => {
           <S.CategoryHeader>카테고리를 골라주세요</S.CategoryHeader>
         </S.CategoryHeaderContainer>
         <S.CategoryListWrapper>
-          {getCategoryListData.categoryInfoList.map((category: CategoryType) => (
+          {getCategoryListData.categoryInfoList.map((category: CategoryResponse) => (
             <S.CategoryContainer
               key={category.categoryId}
               onClick={() => setSelectedCategory(category.categoryId)}

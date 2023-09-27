@@ -1,10 +1,10 @@
-export interface AccountBalanceType {
+export interface GetAccountBalanceTypeResponse {
   accountName: string;
   balance: number;
 }
 
 //계좌 입출금 인터페이스
-export interface DepositTransactionType {
+export interface PostTransactionResponse {
   accountName: string;
   amount: number;
   balance: number;
@@ -12,7 +12,7 @@ export interface DepositTransactionType {
   content: string;
 }
 
-export interface TransactionType {
+export interface TransactionResponse {
   transactionId: number;
   emoticon: string;
   date: string;
@@ -22,12 +22,12 @@ export interface TransactionType {
 }
 
 // 거래내역
-export interface TransactionListType {
-  transactionInfoList: TransactionType[];
+export interface GetTransactionListResponse {
+  transactionInfoList: TransactionResponse[];
 }
 
 // 거래내역 상세조회
-export interface TransactionDetailType {
+export interface GetTransactionDetailResponse {
   emoticon: string;
   amount: number;
   date: string;
@@ -38,11 +38,11 @@ export interface TransactionDetailType {
   transactionType: string;
 }
 
-export interface CategoryType {
+export interface CategoryResponse {
   categoryId: number;
   categoryName: string;
   visibility: string;
 }
-export interface CategoryListType {
-  categoryInfoList: CategoryType[];
+export interface GetCategoryListResponse {
+  categoryInfoList: CategoryResponse[];
 }

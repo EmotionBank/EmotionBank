@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/apis';
-import { CategoryListType } from '@/types/bank';
+import { GetCategoryListResponse } from '@/types/bank';
 
 export const getCategotyList = async () => {
-  const { data } = await axiosInstance.get<CategoryListType>('/category');
+  const { data } = await axiosInstance.get<GetCategoryListResponse>('/category');
   return data;
 };

@@ -1,11 +1,11 @@
 import * as S from '@/components/transaction/TransactionList/TransactionList.style';
 import { PATH } from '@/constants/path';
-import { TransactionType, TransactionListType } from '@/types/bank';
+import { TransactionResponse, GetTransactionListResponse } from '@/types/bank';
 import { filteredImage } from '@/utils/filterImage';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-  transactionDatas: TransactionListType;
+  transactionDatas: GetTransactionListResponse;
 }
 
 const TransactionList = ({ transactionDatas }: Props) => {
@@ -15,7 +15,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
 
   return (
     <S.TransactionListWrapper>
-      {transactionDatas.transactionInfoList.map((item: TransactionType) => (
+      {transactionDatas.transactionInfoList.map((item: TransactionResponse) => (
         <S.TransactionListContainer
           key={item.transactionId}
           onClick={() => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PostDepositTransaction } from '@/apis/bank/postTransaction';
+import { PostTransactionRequest } from '@/apis/bank/postTransaction';
 import CommentStep from '@/components/transaction/TransactionStep/CommentStep/CommentStep';
 import EmotionStep from '@/components/transaction/TransactionStep/EmotionStep/EmotionStep';
 import * as S from '@/pages/Transaction/Transaction.style';
@@ -18,7 +18,7 @@ const Transaction = () => {
     content: 'string',
   };
   const [step, setStep] = useState<'emotion' | 'comment' | 'category'>('emotion');
-  const [requsetData, setRequestData] = useState<PostDepositTransaction>(initRequestdata);
+  const [requsetData, setRequestData] = useState<PostTransactionRequest>(initRequestdata);
   const postTransactionMutation = usePostTransaction();
 
   const isPositiveEmotion = (emoticon: string) => positiveEmotion.includes(emoticon);
