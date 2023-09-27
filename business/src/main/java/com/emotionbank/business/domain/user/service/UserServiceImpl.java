@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.emotionbank.business.domain.account.dto.AccountDto;
+import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.account.repository.AccountRepository;
 import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final FollowRepository followRepository;
+	private final AccountRepository accountRepository;
 
 	@Override
 	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
@@ -76,6 +80,25 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		UserDto userDto = UserDto.from(user);
 		return userDto;
+	}
+
+	@Override
+	public UserDto getMyProfile(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		Account account = accountRepository.findByUser(user)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		AccountDto accountDto = AccountDto.from(account);
+		int following = followRepository.findByFollower(user).size();
+		int follower = followRepository.findByFollowee(user).size();
+		return UserDto.of(user.getNickname(), accountDto, following, follower);
+	}
+
+	@Override
+	public UserDto getOtherProfile(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		int following = followRepository.findByFollower(user).size();
+		int follower = followRepository.findByFollowee(user).size();
+		return UserDto.of(user.getNickname(), following, follower);
 	}
 
 	@Override
