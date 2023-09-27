@@ -11,9 +11,9 @@ const Transaction = () => {
   const initRequestdata = {
     transactionType: 'WITHDRAW', // DEPOSIT | WITHDRAW
     categoryId: 0,
-    accountNumber: '110-315-123456',
+    accountNumber: localStorage.getItem('accountNumber')!,
     amount: 0,
-    balance: 0,
+    balance: Number(localStorage.getItem('balance')!),
     emoticon: '',
     content: 'string',
   };

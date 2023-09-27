@@ -12,21 +12,8 @@ interface IProps {
 
 const CategoryStep = ({ onNext }: IProps) => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
-  const { openModal, closeModal } = useModal();
+  const { openModal, closeModal } = useModal('createCategory');
   const { getCategoryListData } = useGetCategoryList();
-
-  const dummy = [
-    {
-      categoryId: 1,
-      categoryName: 'name',
-      visibility: 'PUBLIC',
-    },
-    {
-      categoryId: 2,
-      categoryName: 'name2',
-      visibility: 'PRIVATE',
-    },
-  ];
 
   const convertvisiblity = (visibility: string) => {
     if (visibility === 'PUBLIC') return '전체공개';
@@ -54,7 +41,7 @@ const CategoryStep = ({ onNext }: IProps) => {
         </S.CategoryListWrapper>
         <S.NextButton onClick={() => onNext(selectedCategory)}>작성 완료</S.NextButton>
       </S.CategoryStepWrapper>
-      <Modal>
+      <Modal id="createCategory">
         <CreateCategoryModal />
       </Modal>
     </>

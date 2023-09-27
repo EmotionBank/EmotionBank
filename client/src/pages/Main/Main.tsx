@@ -26,27 +26,6 @@ const Main = () => {
   const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
   const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
 
-  const dummy = {
-    transactionInfoList: [
-      {
-        transactionId: 1,
-        emoticon: 'emoticon',
-        date: '2023-09-04 09:00:00',
-        transactionType: 'type',
-        title: 'title',
-        amount: 1000,
-      },
-      {
-        transactionId: 2,
-        emoticon: 'emoticon',
-        date: '2023-09-05 09:00:00',
-        transactionType: 'type',
-        title: 'title',
-        amount: 3000,
-      },
-    ],
-  };
-
   const updateDate = (newDate: DateType) => setDate({ ...newDate });
   const selectCalendarDate = (select: DateType) => setSelectedDate(select);
 
