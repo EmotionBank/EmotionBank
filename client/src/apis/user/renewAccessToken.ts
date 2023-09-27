@@ -1,11 +1,7 @@
 import { axiosInstance } from '..';
-
-export interface RenewAccessTokenType {
-  tokenType: string;
-  accessToken: string;
-}
+import { GetRenewAccessTokenResponse } from '@/types/user';
 
 export const renewAccessToken = async () => {
-  const { data } = await axiosInstance.get<RenewAccessTokenType>('/auth/token');
+  const { data } = await axiosInstance.get<GetRenewAccessTokenResponse>('/auth/token');
   return data;
 };
