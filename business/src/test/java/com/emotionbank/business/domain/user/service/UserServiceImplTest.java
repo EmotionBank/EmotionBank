@@ -197,6 +197,23 @@ class UserServiceImplTest {
 	@Test
 	@DisplayName("타인 상세정보를 조회한다")
 	public void getOtherProfile() {
+		User user = User.builder()
+			.userId(1L)
+			.nickname("nickname")
+			.build();
 
+		List<Follow> follows = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			follows.add(Follow.builder().build());
+		}
+
+		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
+		when(followRepository.findByFollower(user)).thenReturn(follows);
+		when(followRepository.findByFollowee(user)).thenReturn(follows);
+
+		UserDto myProfile = userService.getOtherProfile(1L);
+		assertEquals(myProfile.getFollower(), 3);
+		assertEquals(myProfile.getFollowing(), 3);
+		assertEquals(myProfile.getNickname(), "nickname");
 	}
 }
