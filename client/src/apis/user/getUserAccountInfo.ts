@@ -2,6 +2,7 @@ import { axiosInstance } from '@/apis';
 
 export interface getUserAccountInfoType {
   nickname: string;
+  accountId: number;
   accountNumber: string;
   balance: number;
   following: number;

@@ -11,6 +11,7 @@ const UserInfo = () => {
   const dummy = {
     nickname: '닉네임',
     balance: 200000,
+    accountId: 1,
     accountNumber: '110-222-123112',
     following: 10,
     follower: 10,
