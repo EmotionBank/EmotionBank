@@ -130,6 +130,11 @@ public class AuthServiceImpl implements AuthService {
 		return SignUpUserDto.from(user);
 	}
 
+	@Override
+	public void removeRefreshToken(Long userId) {
+		refreshTokenRepository.delete(userId);
+	}
+
 	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {
 		return savedRefreshToken.isEmpty() || !savedRefreshToken.get().getRefreshToken().equals(refreshToken);
 	}

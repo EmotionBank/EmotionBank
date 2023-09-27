@@ -12,4 +12,6 @@ public interface AuthService {
 	AccessTokenDto renewalAccessToken(String refreshToken, String authorizationHeader);
 
 	SignUpUserDto signup(SignUpDto signUpDto);
+
+	void removeRefreshToken(Long userInfoDto);
 }
