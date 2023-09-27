@@ -30,7 +30,6 @@ export const TransactionTitle = styled.h1`
 
 export const EmotionImageContainer = styled(Flex)`
   width: 80%;
-  height: 20rem;
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -40,7 +39,7 @@ export const EmotionImage = styled.img`
 `;
 
 export const Money = styled.h2`
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.l};
   font-weight: bold;
 `;
 

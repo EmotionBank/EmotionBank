@@ -4,11 +4,11 @@ import { DepositTransactionType } from '@/types/bank';
 // 계좌 입출금 (본인에게 +/-)
 export interface PostDepositTransaction {
   transactionType: string; // DEPOSIT | WITHDRAWL
-  categoryId: string;
+  categoryId: number;
   accountNumber: string;
   balance: number;
   amount: number;
-  emotion: string;
+  emoticon: string;
   content: string;
 }
 export const postTransaction = async (transactionData: PostDepositTransaction) => {

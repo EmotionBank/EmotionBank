@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/apis';
 
 export interface GetCalendar {
-  accountId: string;
+  accountId: number;
   year: number; // 2023
   month: number; // 09
 }

@@ -14,7 +14,7 @@ export interface DepositTransactionType {
 
 export interface TransactionType {
   transactionId: number;
-  emotion: string;
+  emoticon: string;
   date: string;
   transactionType: string;
   title: string;
@@ -23,17 +23,26 @@ export interface TransactionType {
 
 // 거래내역
 export interface TransactionListType {
-  transactions: TransactionType[];
+  transactionInfoList: TransactionType[];
 }
 
 // 거래내역 상세조회
 export interface TransactionDetailType {
-  emotion: string;
+  emoticon: string;
   amount: number;
-  date: Date | string;
+  date: string;
   time: string;
   title: string;
   content: string;
   accountName: string; // 계좌명
   transactionType: string;
+}
+
+export interface CategoryType {
+  categoryId: number;
+  categoryName: string;
+  visibility: string;
+}
+export interface CategoryListType {
+  categoryInfoList: CategoryType[];
 }

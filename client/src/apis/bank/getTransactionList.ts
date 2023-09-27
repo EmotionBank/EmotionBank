@@ -2,7 +2,7 @@ import { axiosInstance } from '@/apis';
 import { TransactionListType } from '@/types/bank';
 
 export interface PostTransactionList {
-  accountId: string;
+  accountId: number;
   startDate: string; // 2023-09-04
   endDate: string; // 2023-09-04
 }

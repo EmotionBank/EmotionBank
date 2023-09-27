@@ -1,23 +1,22 @@
 import * as S from '@/components/transaction/TransactionStep/CommentStep/CommentStep.style';
 import { useInput } from '@/hooks/useInput';
-import { emotionImageList } from '@/constants/emotions';
+import { filteredImage } from '@/utils/filterImage';
 
 interface IProps {
   onNext: (amount: number, content: string) => void;
-  emotion: string;
+  emoticon: string;
 }
 
-const CommentStep = ({ onNext, emotion }: IProps) => {
+const CommentStep = ({ onNext, emoticon }: IProps) => {
   const [amount, handleAmount] = useInput('0');
   const [content, handleContent] = useInput('');
-  const filteredImage = Object.entries(emotionImageList).filter(([key, value]) => key === emotion)[0][1];
 
   return (
     <S.CommentStepWrapper>
       <S.EmotionImageContainer>
-        <S.EmotionImage src={filteredImage} />
+        <S.EmotionImage src={filteredImage(emoticon)} />
       </S.EmotionImageContainer>
-      <S.BalanceSpan>50,000</S.BalanceSpan>
+      <S.BalanceSpan>{localStorage.getItem('balance')}</S.BalanceSpan>
       <S.LabelContainer>
         <S.Inputlabel>금액</S.Inputlabel>
         <S.AmountInput placeholder="금액을 입력하세요." onChange={handleAmount} />

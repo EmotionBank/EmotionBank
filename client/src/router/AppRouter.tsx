@@ -24,13 +24,13 @@ const AppRouter = () => {
           path: PATH.DETAIL(':transactionId'),
           element: <Detail />,
         },
-        { path: '/login', element: <Login /> },
+        { path: PATH.LOGIN, element: <Login /> },
         {
-          path: '/redirection',
+          path: PATH.REDIRECTION,
           element: <Redirection />,
         },
         {
-          path: '/signup',
+          path: PATH.SIGNUP,
           element: <Signup />,
         },
         {

@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
         throw error;
       }
     }
-    console.log(req, req.headers['Authorization']);
+    // console.log(req, req.headers['Authorization']);
     return req;
   },
   error => {
@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
     if (data.errorCode === 'J-003') {
       try {
         const response = await renewAccessToken();
-        console.log(response);
+        // console.log(response);
         localStorage.setItem('accessToken', response.accessToken);
         return axiosInstance(originalRequest);
       } catch (error) {

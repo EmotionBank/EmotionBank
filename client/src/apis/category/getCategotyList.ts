@@ -1,6 +1,7 @@
 import { axiosInstance } from '@/apis';
+import { CategoryListType } from '@/types/bank';
 
-export const getCategotyList = async (userId: string) => {
-  const { data } = await axiosInstance.get(`/categories/${userId}`);
+export const getCategotyList = async () => {
+  const { data } = await axiosInstance.get<CategoryListType>('/category');
   return data;
 };

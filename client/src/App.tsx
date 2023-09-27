@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { RecoilRoot } from 'recoil';
 import AppRouter from '@/router/AppRouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,16 +9,18 @@ const App = () => {
       queries: {
         retry: 2,
         suspense: true,
-        useErrorBoundary: true,
+        // useErrorBoundary: true,
       },
     },
   });
   return (
     <React.Fragment>
       <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <AppRouter />
-        </RecoilRoot>
+        <Suspense fallback={<></>}>
+          <RecoilRoot>
+            <AppRouter />
+          </RecoilRoot>
+        </Suspense>
       </QueryClientProvider>
     </React.Fragment>
   );

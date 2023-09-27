@@ -3,33 +3,23 @@ import * as S from '@/components/transaction/TransactionStep/CategoryStep/Catego
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal/Modal';
 import CreateCategoryModal from '@/components/transaction/TransactionStep/CreateCategoryModal/CreateCategoryModal';
+import { useGetCategoryList } from '@/hooks/apiHooks/useGetCategoryList';
+import { CategoryType } from '@/types/bank';
 
 interface IProps {
-  onNext: (categoryId: string) => void;
+  onNext: (categoryId: number) => void;
 }
 
 const CategoryStep = ({ onNext }: IProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const { openModal, closeModal } = useModal();
-
-  const dummy = [
-    {
-      categoryId: 'Id',
-      categoryName: 'name',
-      visibility: 'PUBLIC',
-    },
-    {
-      categoryId: 'Id2',
-      categoryName: 'name2',
-      visibility: 'PRIVATE',
-    },
-  ];
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const { openModal, closeModal } = useModal('createCategory');
+  const { getCategoryListData } = useGetCategoryList();
 
   const convertvisiblity = (visibility: string) => {
     if (visibility === 'PUBLIC') return '전체공개';
     if (visibility === 'PRIVATE') return '비공개';
   };
-
+  console.log(getCategoryListData);
   return (
     <>
       <S.CategoryStepWrapper>
@@ -37,7 +27,7 @@ const CategoryStep = ({ onNext }: IProps) => {
           <S.CategoryHeader>카테고리를 골라주세요</S.CategoryHeader>
         </S.CategoryHeaderContainer>
         <S.CategoryListWrapper>
-          {dummy.map(category => (
+          {getCategoryListData.categoryInfoList.map((category: CategoryType) => (
             <S.CategoryContainer
               key={category.categoryId}
               onClick={() => setSelectedCategory(category.categoryId)}
@@ -51,7 +41,7 @@ const CategoryStep = ({ onNext }: IProps) => {
         </S.CategoryListWrapper>
         <S.NextButton onClick={() => onNext(selectedCategory)}>작성 완료</S.NextButton>
       </S.CategoryStepWrapper>
-      <Modal>
+      <Modal id="createCategory">
         <CreateCategoryModal />
       </Modal>
     </>

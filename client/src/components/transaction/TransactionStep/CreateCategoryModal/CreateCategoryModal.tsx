@@ -5,7 +5,6 @@ import { usePostCategory } from '@/hooks/apiHooks/usePostCategory';
 
 const CreateCategoryModal = () => {
   const initForm = {
-    userId: '',
     categoryName: '',
     visibility: 'PUBLIC',
   };
