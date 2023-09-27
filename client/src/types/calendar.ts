@@ -1,8 +1,8 @@
-interface CalendarInfo {
+interface CalendarInfoResponse {
   date: string;
   emoticon: string;
 }
 
-interface CalendarInfoList {
-  calendarInfoList: CalendarInfo[];
+interface CalendarInfoListResponse {
+  calendarInfoList: CalendarInfoResponse[];
 }
