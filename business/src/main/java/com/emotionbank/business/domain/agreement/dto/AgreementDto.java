@@ -40,7 +40,7 @@ public class AgreementDto {
 			.content(agreement.getTerms().getContent())
 			.mandatory(agreement.getTerms().getMandatory().name())
 			.state(agreement.getState().name())
-			.agreementTime(agreement.getAgreementTime().toString())
+			.agreementTime(agreement.getAgreementTime() != null ? agreement.getAgreementTime().toString() : "")
 			.build();
 	}
 

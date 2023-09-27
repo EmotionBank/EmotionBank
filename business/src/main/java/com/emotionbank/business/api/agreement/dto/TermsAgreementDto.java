@@ -72,16 +72,16 @@ public class TermsAgreementDto {
 
 	@Getter
 	public static class ResponseList {
-		private final List<Response> responses;
+		private final List<Response> agreements;
 
 		@Builder
-		public ResponseList(List<Response> responses) {
-			this.responses = responses;
+		public ResponseList(List<Response> agreements) {
+			this.agreements = agreements;
 		}
 
 		public static ResponseList from(List<Response> responses) {
 			return ResponseList.builder()
-				.responses(responses)
+				.agreements(responses)
 				.build();
 		}
 	}
