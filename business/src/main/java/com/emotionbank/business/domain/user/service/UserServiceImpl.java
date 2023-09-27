@@ -98,7 +98,8 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		int following = followRepository.findByFollower(user).size();
 		int follower = followRepository.findByFollowee(user).size();
-		return UserDto.of(user.getNickname(), following, follower);
+		return UserDto.of(user.getNickname(), user.getUserId(), AccountDto.from(user.getAccounts().get(0)), following,
+			follower);
 	}
 
 	@Override
@@ -128,6 +129,11 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return true;
+	}
+
+	@Override
+	public void getReport(Long userId) {
+
 	}
 
 }
