@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
@@ -146,5 +147,38 @@ class UserServiceImplTest {
 		List<UserDto> followers = userService.getFollowers(userId);
 
 		assertEquals(2, followers.size());
+	}
+
+	@Test
+	@DisplayName("회원정보를 조회한다")
+	public void getMyInfo() {
+		Long userId = 1L;
+		User user = User.builder()
+			.userId(userId)
+			.build();
+
+		when(userRepository.findById(userId)).thenReturn(Optional.ofNullable(user));
+		UserDto userInfo = userService.getUserInfo(userId);
+
+		assertThat(userInfo.getUserId()).isEqualTo(userId);
+	}
+
+	@Test
+	@DisplayName("내 상세정보를 조회한다")
+	public void getMypage() {
+		User user = User.builder()
+			.userId(1L)
+			.nickname("nickname")
+			.build();
+		Account account = Account.builder()
+
+			.build()
+
+	}
+
+	@Test
+	@DisplayName("타인 상세정보를 조회한다")
+	public void getOtherPage() {
+
 	}
 }
