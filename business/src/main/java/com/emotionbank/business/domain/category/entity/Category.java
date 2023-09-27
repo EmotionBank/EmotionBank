@@ -52,6 +52,11 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
+	public void updateCategory(String categoryName, Visibility visibility) {
+		this.categoryName = categoryName;
+		this.visibility = visibility;
+	}
+
 	public static Category of(CategoryDto categoryDto, User user) {
 		return Category.builder()
 			.categoryName(categoryDto.getCategoryName())
