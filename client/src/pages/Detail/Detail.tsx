@@ -1,26 +1,18 @@
 import { useParams } from 'react-router-dom';
 import * as S from '@/pages/Detail/Detsil.style';
 import { useGetTransactionDetail } from '@/hooks/apiHooks/useGetTransactionDetail';
+import { filteredImage } from '@/utils/filterImage';
 
 const Detail = () => {
   const { transactionId } = useParams();
-  // const transactionDetailData = useGetTransactionDetail(Number(transactionId));
-  const transactionDetailData = {
-    title: '제목',
-    emoticon: '감정',
-    amount: 10000,
-    date: '2023-09-16',
-    time: '2023-09-16',
-    content: '아무말이나 일단 써',
-    accountName: '111-111-111',
-    transactionType: 'DEPOSIT',
-  };
+  const { transactionDetailData } = useGetTransactionDetail(Number(transactionId));
+
   return (
     <S.DetailWrapper>
       <S.ReceiptWrapper>
         <S.TransactionTitle>{transactionDetailData.title}</S.TransactionTitle>
         <S.EmotionImageContainer>
-          <S.EmotionImage src="" alt="감정" />
+          <S.EmotionImage src={filteredImage(transactionDetailData.emoticon)} alt="감정" />
         </S.EmotionImageContainer>
         <S.Money>{transactionDetailData.amount}</S.Money>
         <S.EmotionContentContainer>
@@ -31,7 +23,7 @@ const Detail = () => {
           <S.EmotionInfo>{transactionDetailData.date}</S.EmotionInfo>
         </S.EmotionInfoWrapper>
         <S.EmotionInfoWrapper>
-          <S.EmotionInfo>계좌 번호</S.EmotionInfo>
+          <S.EmotionInfo>계좌 이름</S.EmotionInfo>
           <S.EmotionInfo>{transactionDetailData.accountName}</S.EmotionInfo>
         </S.EmotionInfoWrapper>
       </S.ReceiptWrapper>

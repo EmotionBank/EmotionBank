@@ -1,7 +1,6 @@
 import * as S from '@/components/transaction/TransactionStep/CommentStep/CommentStep.style';
 import { useInput } from '@/hooks/useInput';
-import { emotionImageList } from '@/constants/emotions';
-import { useRecoilValue } from 'recoil';
+import { filteredImage } from '@/utils/filterImage';
 
 interface IProps {
   onNext: (amount: number, content: string) => void;
@@ -11,12 +10,11 @@ interface IProps {
 const CommentStep = ({ onNext, emoticon }: IProps) => {
   const [amount, handleAmount] = useInput('0');
   const [content, handleContent] = useInput('');
-  const filteredImage = Object.entries(emotionImageList).filter(([key, value]) => key === emoticon)[0][1];
 
   return (
     <S.CommentStepWrapper>
       <S.EmotionImageContainer>
-        <S.EmotionImage src={filteredImage} />
+        <S.EmotionImage src={filteredImage(emoticon)} />
       </S.EmotionImageContainer>
       <S.BalanceSpan>{localStorage.getItem('balance')}</S.BalanceSpan>
       <S.LabelContainer>

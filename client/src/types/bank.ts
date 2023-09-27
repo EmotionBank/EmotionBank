@@ -30,7 +30,7 @@ export interface TransactionListType {
 export interface TransactionDetailType {
   emoticon: string;
   amount: number;
-  date: Date | string;
+  date: string;
   time: string;
   title: string;
   content: string;
