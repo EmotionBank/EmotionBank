@@ -15,6 +15,7 @@ public class UserMyProfileDto {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
 		String nickname;
+		Long accountId;
 		String accountNumber;
 		Long balance;
 		int following;
@@ -23,6 +24,7 @@ public class UserMyProfileDto {
 		public static Response from(UserDto userDto) {
 			return Response.builder()
 				.nickname(userDto.getNickname())
+				.accountId(userDto.getAccount().getAccountId())
 				.accountNumber(userDto.getAccount().getAccountNumber())
 				.balance(userDto.getAccount().getBalance())
 				.following(userDto.getFollowing())
