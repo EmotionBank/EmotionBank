@@ -3,5 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetUserAccount = () => {
   const { data } = useQuery(['userAccountInfo'], getUserAccountInfo);
-  return { getUserAccountInfoData: data };
+  localStorage.setItem('nickname', data!.nickname);
+  localStorage.setItem('accountNumber', data!.accountNumber);
+  localStorage.setItem('accountId', String(data!.accountId));
+  return { getUserAccountInfoData: data! };
 };
