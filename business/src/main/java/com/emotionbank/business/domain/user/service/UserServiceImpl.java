@@ -1,6 +1,9 @@
 package com.emotionbank.business.domain.user.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -8,9 +11,17 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.calendar.entity.Calendar;
+import com.emotionbank.business.domain.calendar.repository.CalendarRepository;
+import com.emotionbank.business.domain.category.entity.Category;
+import com.emotionbank.business.domain.category.repository.CategoryRepository;
+import com.emotionbank.business.domain.transaction.constant.TransactionType;
+import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
@@ -31,6 +42,9 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final FollowRepository followRepository;
 	private final AccountRepository accountRepository;
+	private final TransactionRepository transactionRepository;
+	private final CategoryRepository categoryRepository;
+	private final CalendarRepository calendarRepository;
 
 	@Override
 	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
@@ -123,17 +137,49 @@ public class UserServiceImpl implements UserService {
 	public boolean checkAdminRole(UserInfoDto userInfoDto) {
 		User user = userRepository.findById(userInfoDto.getUserId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
 		if (!(user.getRole() == Role.ADMIN)) {
 			throw new BusinessException(ErrorCode.TERMS_CREATE_UNAUTHORIZED);
 		}
-
 		return true;
 	}
 
 	@Override
-	public void getReport(Long userId) {
+	public UserReportDto getReport(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		List<Category> categories = categoryRepository.findByUser(user);
+		List<UserReportDto.Report> deposits = new ArrayList<>();
+		List<UserReportDto.Report> withdrawals = new ArrayList<>();
+		List<UserReportDto.Balance> balances = new ArrayList<>();
 
+		int withdrawalSum = 0;
+		int depositSum = 0;
+
+		for (Category category : categories) {
+			List<Transaction> transactions = transactionRepository.findByCategory(category);
+			for (Transaction transaction : transactions) {
+				if (transaction.getTransactionType().equals(TransactionType.WITHDRAWL)) {
+					withdrawalSum += transaction.getAmount();
+				} else if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
+					depositSum += transaction.getAmount();
+				}
+			}
+			deposits.add(UserReportDto.Report.of(category.getCategoryName(), depositSum));
+			withdrawals.add(UserReportDto.Report.of(category.getCategoryName(), withdrawalSum));
+		}
+		LocalDate now = LocalDate.now();
+		
+		for (int i = 1; i <= now.getDayOfMonth(); i++) {
+			Optional<Calendar> calendar = calendarRepository.findByDateAndAccount(
+				LocalDate.of(now.getYear(), now.getMonth(), i), user.getAccounts()
+					.get(0));
+			if (calendar.isPresent()) {
+				// todo: 기분에 따라서 amount 조절하기
+				balances.add(UserReportDto.Balance.builder()
+					.amount(calendar.get().getAmount())
+					.day(i)
+					.build());
+			}
+		}
+		return UserReportDto.of(deposits, withdrawals, balances);
 	}
-
 }
