@@ -1,8 +1,8 @@
-package com.emotionbank.business.domain.signup.dto;
+package com.emotionbank.business.domain.auth.dto;
 
 import java.time.LocalDate;
 
-import com.emotionbank.business.api.signup.dto.RequestSignUpDto;
+import com.emotionbank.business.api.auth.dto.RequestSignUpDto;
 
 import lombok.Builder;
 import lombok.Getter;
