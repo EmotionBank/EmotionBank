@@ -54,5 +54,5 @@ export const DayContainer = styled(Flex)<{ $thisMonth: boolean }>`
 `;
 
 export const EmotionImage = styled.img`
-  width: 100%;
+  width: 120%;
 `;

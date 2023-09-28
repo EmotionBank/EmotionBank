@@ -40,6 +40,16 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
     return str;
   }, []);
 
+  const checkIsPaid = (curDate: DateType) => {
+    let isSame = false;
+    const curDateString = [curDate.year, curDate.month, curDate.date];
+    calendarList.calendarInfoList.forEach(item => {
+      const resultDate = item.date.split('-').map(e => Number(e));
+      isSame = resultDate.every((item, idx) => item === curDateString[idx]);
+    });
+    return isSame;
+  };
+
   return (
     <S.CalendarWrapper>
       <S.CalendarControllerWrapper>
@@ -66,8 +76,7 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
                   $thisMonth={currentDate.month === day.month}
                   onClick={() => selectCalendarDate(day)}
                 >
-                  {/* <span>{day.date}</span> */}
-                  <S.EmotionImage src={happy} />
+                  {checkIsPaid(day) ? <S.EmotionImage src={happy} /> : <span>{day.date}</span>}
                 </S.DayContainer>
               );
             })}
