@@ -11,9 +11,10 @@ interface currnetDateInterface extends DateType {
 interface Props {
   updateDate: (newDate: DateType) => void;
   selectCalendarDate: (select: DateType) => void;
+  calendarList: CalendarInfoListResponse;
 }
 
-const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
+const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
     date: 0,
     day: 0,
