@@ -12,12 +12,12 @@ import Profile from '@/pages/Profile/Profile';
 const AppRouter = () => {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: PATH.ROOT,
       element: <Layout></Layout>,
       errorElement: <></>,
       children: [
         {
-          path: PATH.ROOT,
+          path: '',
           element: <Main />,
         },
         {
