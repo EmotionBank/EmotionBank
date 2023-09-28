@@ -45,7 +45,8 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
     const curDateString = [curDate.year, curDate.month, curDate.date];
     calendarList.calendarInfoList.forEach(item => {
       const resultDate = item.date.split('-').map(e => Number(e));
-      isSame = resultDate.every((item, idx) => item === curDateString[idx]);
+      const result = resultDate.every((item, idx) => item === curDateString[idx]);
+      if (result) isSame = result;
     });
     return isSame;
   };
