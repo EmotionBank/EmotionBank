@@ -1,6 +1,5 @@
 package com.emotionbank.business.domain.auth.repository;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -15,19 +14,23 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class RefreshTokenRepository {
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	public void save(RefreshToken refreshToken) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(String.valueOf(refreshToken.getUserId()), refreshToken.getRefreshToken());
-		redisTemplate.expire(refreshToken.getRefreshToken(), 14, TimeUnit.DAYS);
+		valueOperations.set(String.valueOf(refreshToken.getUserId()), refreshToken.getRefreshToken(), 14,
+			TimeUnit.DAYS);
+	}
+
+	public void delete(Long userId) {
+		redisTemplate.delete(String.valueOf(userId));
 	}
 
 	public Optional<RefreshToken> findRefreshTokenByUserId(Long userId) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		String refreshToken = valueOperations.get(String.valueOf(userId));
 
-		if (Objects.isNull(refreshToken)) {
+		if (refreshToken == null) {
 			return Optional.empty();
 		}
 		return Optional.of(RefreshToken.of(userId, refreshToken));

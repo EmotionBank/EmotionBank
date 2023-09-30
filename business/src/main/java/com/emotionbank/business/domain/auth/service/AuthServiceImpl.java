@@ -15,14 +15,18 @@ import com.emotionbank.business.domain.auth.dto.AccessTokenDto;
 import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.OAuthTokenDto;
+import com.emotionbank.business.domain.auth.dto.SignUpDto;
+import com.emotionbank.business.domain.auth.dto.SignUpUserDto;
 import com.emotionbank.business.domain.auth.entity.RefreshToken;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoTokenClient;
 import com.emotionbank.business.domain.auth.repository.RefreshTokenRepository;
 import com.emotionbank.business.domain.terms.repository.TermsRepository;
+import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.ErrorCode;
 import com.emotionbank.business.global.error.exception.AuthException;
+import com.emotionbank.business.global.error.exception.BusinessException;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -107,6 +111,28 @@ public class AuthServiceImpl implements AuthService {
 			return AccessTokenDto.createBearer(newAccessToken);
 		}
 		throw new AuthException(ErrorCode.REFRESH_TOKEN_INVALID);
+	}
+
+	@Override
+	@Transactional
+	public SignUpUserDto signup(SignUpDto signUpDto) {
+		User user = userRepository.findById(signUpDto.getUserId()).orElseThrow(()
+			-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+		if (user.getRole() != Role.PENDING) {
+			throw new BusinessException(ErrorCode.USER_ALREADY_SIGNUP);
+		}
+
+		user.updateNickname(signUpDto.getNickname());
+		user.updateBirthday(signUpDto.getBirthday());
+		user.updateRole(Role.USER);
+
+		return SignUpUserDto.from(user);
+	}
+
+	@Override
+	public void removeRefreshToken(Long userId) {
+		refreshTokenRepository.delete(userId);
 	}
 
 	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {
