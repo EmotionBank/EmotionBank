@@ -20,7 +20,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.DEPLOY_SECRET }}
         with:
-          source-directory: "client/output"
+          source-directory: "output"
           destination-github-username: Seokjun7074
           destination-repository-name: EmotionBank
           user-email: ${{ secrets.FE_EMAIL }}
