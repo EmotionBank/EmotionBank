@@ -30,6 +30,7 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.22.15",
     "@mui/styled-engine-sc": "^5.14.10",
+    "@svgr/webpack": "^8.1.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/styled-components": "^5.1.27",

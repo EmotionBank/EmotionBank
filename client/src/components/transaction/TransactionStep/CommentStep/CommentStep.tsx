@@ -14,9 +14,7 @@ const CommentStep = ({ onNext, emoticon }: IProps) => {
 
   return (
     <S.CommentStepWrapper>
-      <S.EmotionImageContainer>
-        <S.EmotionImage src={filteredImage(emoticon)} />
-      </S.EmotionImageContainer>
+      <S.EmotionImageContainer>{filteredImage(emoticon)}</S.EmotionImageContainer>
       <S.LabelContainer>
         <S.Inputlabel>금액</S.Inputlabel>
         <S.AmountInput placeholder="금액을 입력하세요." onChange={handleAmount} />

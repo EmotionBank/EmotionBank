@@ -20,7 +20,8 @@ const EmotionStep = ({ onNext }: IProps) => {
       <S.EmotionGrid>
         {Object.entries(emotionImageList).map(([key, value]) => (
           <S.EmotionImageContainer key={key} onClick={() => setSelectedEmotion(key)} $clicked={key === selectedEmotion}>
-            <S.EmotionImage src={value} />
+            {value}
+            {key}
           </S.EmotionImageContainer>
         ))}
       </S.EmotionGrid>

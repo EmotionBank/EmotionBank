@@ -12,9 +12,7 @@ const Detail = () => {
     <S.DetailWrapper>
       <S.ReceiptWrapper>
         <S.TransactionTitle>{transactionDetailData.title}</S.TransactionTitle>
-        <S.EmotionImageContainer>
-          <S.EmotionImage src={filteredImage(transactionDetailData.emoticon)} alt="감정" />
-        </S.EmotionImageContainer>
+        <S.EmotionImageContainer>{filteredImage(transactionDetailData.emoticon)}</S.EmotionImageContainer>
         <S.Money>{setMoneyRegex(transactionDetailData.amount)}</S.Money>
         <S.EmotionContentContainer>
           <p>{transactionDetailData.content}</p>

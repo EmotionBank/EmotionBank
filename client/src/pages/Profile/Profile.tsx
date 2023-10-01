@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getMyInfo } from '@/apis/user/getMyInfo';
 import { Logout } from '@/components/UserInfo/Logout';
 import * as S from '@/pages/Profile/Profile.style';
-import gloomy from '@assets/emotions/gloomy.png';
+import Gloomy from '@assets/emotions/gloomy.svg';
 import EditIcon from '@mui/icons-material/Edit';
 import { updateMyInfo } from '@/apis/user/updateMyInfo';
 const Profile = () => {
@@ -33,7 +33,8 @@ const Profile = () => {
 
   return (
     <>
-      <S.profileImage src={gloomy}></S.profileImage>
+      {/* <S.profileImage src={gloomy}></S.profileImage> */}
+      <Gloomy />
       {!isChangeMode ? (
         <div>
           {nickname}

@@ -99,6 +99,11 @@ module.exports = (env, argv) => {
             filename: 'images/[hash][ext][query]',
           },
         },
+        {
+          test: /\.svg$/i,
+          issuer: /\.[jt]sx?$/,
+          use: ['@svgr/webpack'],
+        },
       ],
     },
     plugins,
