@@ -3,6 +3,7 @@ import { RecoilRoot } from 'recoil';
 import AppRouter from '@/router/AppRouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginCheck from '@/components/common/LoginCheck/LoginCheck';
+import './firebase-messaging-sw.js';
 
 const App = () => {
   const queryClient = new QueryClient({
