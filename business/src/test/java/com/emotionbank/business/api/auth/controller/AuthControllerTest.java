@@ -1,4 +1,4 @@
-package com.emotionbank.business.api.signup.controller;
+package com.emotionbank.business.api.auth.controller;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -14,19 +14,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import com.emotionbank.business.api.signup.dto.RequestSignUpDto;
+import com.emotionbank.business.api.auth.dto.RequestSignUpDto;
 import com.emotionbank.business.common.BaseControllerTest;
+import com.emotionbank.business.domain.auth.service.AuthService;
 import com.emotionbank.business.domain.auth.service.JwtManager;
-import com.emotionbank.business.domain.signup.service.SignUpService;
 import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.constant.SocialType;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 
 @SpringBootTest
-class SignUpControllerTest extends BaseControllerTest {
+class AuthControllerTest extends BaseControllerTest {
 	@Autowired
-	SignUpService signUpService;
+	AuthService authService;
 
 	@Autowired
 	UserRepository userRepository;

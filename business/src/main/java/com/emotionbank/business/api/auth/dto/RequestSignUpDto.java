@@ -1,7 +1,7 @@
-package com.emotionbank.business.api.signup.dto;
+package com.emotionbank.business.api.auth.dto;
 
 import com.emotionbank.business.api.account.dto.CreateAccountDto;
-import com.emotionbank.business.domain.signup.dto.SignUpUserDto;
+import com.emotionbank.business.domain.auth.dto.SignUpUserDto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

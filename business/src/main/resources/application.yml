@@ -24,6 +24,14 @@ spring:
       pageable:
         default-page-size: 5
         max-page-size: 100
+    mongodb:
+      host: localhost
+      port: 27017
+      username: root
+      password: 1234
+      database: mydb
+      authentication-database: admin
+      uri: mongodb://root:1234@localhost:27017/?authSource=admin&authMechanism=SCRAM-SHA-256
 
 redis:
   host: localhost
@@ -40,8 +48,8 @@ redirect-uri: "http://localhost:8080/auth/login/kakao/callback"
 
 kakao:
   client:
-    id: client-id
-    secret: client-secret
+    id: ${KAKAO_REST_KEY}
+    secret: ${KAKAO_SECRET_KEY}
 
 logging:
   level:
@@ -67,3 +75,7 @@ jwt:
   refresh-token-header: Authorization-refresh
   access-token-expiration-time: 600000
   refresh-token-expiration-time: 1209600000
+
+google:
+  credentials: C:\\Users\\SSAFY\\Downloads\\service-account-file.json
+

@@ -50,7 +50,10 @@ public enum ErrorCode {
 	TERMS_NOT_ACTIVE(HttpStatus.UNAUTHORIZED, "E-003", "필수 약관에 동의하지 않은 항목이 있습니다."),
 
 	// Agreement
-	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다.");
+	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다."),
+
+	// Notification
+	NOTIFICATION_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "N-001", "알림을 보낼 수 있는 권한이 없습니다");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;

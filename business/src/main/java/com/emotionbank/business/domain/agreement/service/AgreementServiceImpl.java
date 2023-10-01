@@ -1,6 +1,8 @@
 package com.emotionbank.business.domain.agreement.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +44,16 @@ public class AgreementServiceImpl implements AgreementService {
 		}
 
 		return AgreementDto.from(agreement);
+	}
+
+	@Override
+	public List<AgreementDto> getAgreementList(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+		return agreementRepository.findAllByUser(user)
+			.stream()
+			.map(AgreementDto::from)
+			.collect(Collectors.toList());
 	}
 }
