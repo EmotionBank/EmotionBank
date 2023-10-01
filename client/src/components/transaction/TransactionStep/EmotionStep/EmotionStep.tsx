@@ -10,7 +10,10 @@ const EmotionStep = ({ onNext }: IProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
   const handleNext = () => {
-    if (selectedEmotion === '') return;
+    if (selectedEmotion === '') {
+      alert('감정을 선택해주세요');
+      return;
+    }
     onNext(selectedEmotion);
   };
 
