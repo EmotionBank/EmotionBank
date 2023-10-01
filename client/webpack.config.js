@@ -16,13 +16,6 @@ module.exports = (env, argv) => {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
-      minify:
-        process.env.NODE_ENV === 'production'
-          ? {
-              collapseWhitespace: true, // 빈칸 제거
-              removeComments: true, // 주석 제거
-            }
-          : false,
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
@@ -66,7 +59,7 @@ module.exports = (env, argv) => {
     devtool: prod ? 'hidden-source-map' : 'eval',
     entry: './src/index.tsx',
     output: {
-      path: path.join(__dirname, '/dist'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'app.bundle.js',
       clean: true,
       publicPath: '/',
