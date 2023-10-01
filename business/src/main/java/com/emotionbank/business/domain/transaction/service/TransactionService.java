@@ -14,9 +14,7 @@ public interface TransactionService {
 
 	TransactionDto getTransactionDetail(Long transactionId, Long userId);
 
-	long transfer(TransactionTransferDto transactionTransferDto);
-
 	void updateTransaction(TransactionUpdateDto transactionUpdateDto);
 
-  TransactionDto transfer(TransactionTransferDto transactionTransferDto);
+	TransactionDto transfer(TransactionTransferDto transactionTransferDto);
 }
