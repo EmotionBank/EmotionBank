@@ -2,6 +2,6 @@ import { GetCalendarInfoRequest, getCalendarInfo } from '@/apis/bank/getCalendar
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetCalendarInfo = (calendarParams: GetCalendarInfoRequest) => {
-  const { data } = useQuery(['calendarInfo'], () => getCalendarInfo(calendarParams));
+  const { data } = useQuery(['calendarInfo', calendarParams], () => getCalendarInfo(calendarParams));
   return { getCalendarInfoData: data! };
 };

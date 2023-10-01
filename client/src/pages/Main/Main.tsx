@@ -32,7 +32,7 @@ const Main = () => {
   return (
     <MainPageWrapper>
       <UserInfo />
-      <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} />
+      <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} calendarList={getCalendarInfoData} />
       <TransactionList transactionDatas={transactionListData} />
     </MainPageWrapper>
   );

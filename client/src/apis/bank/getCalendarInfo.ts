@@ -8,6 +8,6 @@ export interface GetCalendarInfoRequest {
 
 // 달력에 뿌릴 데이터
 export const getCalendarInfo = async (calendarParams: GetCalendarInfoRequest) => {
-  const { data } = await axiosInstance.get('/calendar', { params: { ...calendarParams } });
+  const { data } = await axiosInstance.get<CalendarInfoListResponse>('/calendar', { params: { ...calendarParams } });
   return data;
 };

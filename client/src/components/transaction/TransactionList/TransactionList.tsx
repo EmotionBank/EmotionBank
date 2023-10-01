@@ -23,7 +23,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
             navigate(PATH.DETAIL(item.transactionId));
           }}
         >
-          <S.EmotionImage src={filteredImage(item.emoticon)} />
+          <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
           <span>{item.title}</span>
           <span>{setMoneyRegex(item.amount)}</span>
         </S.TransactionListContainer>

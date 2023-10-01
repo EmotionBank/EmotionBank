@@ -2,7 +2,7 @@ import * as S from '@/components/UserInfo/UserInfo.style';
 import { PATH } from '@/constants/path';
 import { useGetUserAccount } from '@/hooks/apiHooks/useGetUserAccount';
 import { setMoneyRegex } from '@/utils/regex';
-import gloomy from '@assets/emotions/gloomy.png';
+import Gloomy from '@assets/emotions/gloomy.svg';
 import { useNavigate } from 'react-router-dom';
 
 const UserInfo = () => {
@@ -13,7 +13,8 @@ const UserInfo = () => {
     <S.UserInfoWrapper>
       <S.UserInfoTop>
         <S.InfoContainer>
-          <S.profileImage src={gloomy} />
+          {/* <S.profileImage src={gloomy} /> */}
+          <Gloomy />
           <S.InfoTextContainer>
             <S.NicknameInfo>{getUserAccountInfoData.nickname}</S.NicknameInfo>
             <span>{getUserAccountInfoData.accountNumber}</span>

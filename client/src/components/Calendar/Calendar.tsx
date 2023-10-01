@@ -4,16 +4,17 @@ import { DAY } from '@/constants/calendar';
 import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
-import happy from '@assets/emotions/happy.png';
+import Happy from '@assets/emotions/happy.svg';
 interface currnetDateInterface extends DateType {
   weekList: DateType[][];
 }
 interface Props {
   updateDate: (newDate: DateType) => void;
   selectCalendarDate: (select: DateType) => void;
+  calendarList: CalendarInfoListResponse;
 }
 
-const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
+const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
   const [currentDate, setCurrentData] = useState<currnetDateInterface>({
     date: 0,
     day: 0,
@@ -38,6 +39,17 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
     if (str.length === 1) return '0' + str;
     return str;
   }, []);
+
+  const checkIsPaid = (curDate: DateType) => {
+    let isSame = false;
+    const curDateString = [curDate.year, curDate.month, curDate.date];
+    calendarList.calendarInfoList.forEach(item => {
+      const resultDate = item.date.split('-').map(e => Number(e));
+      const result = resultDate.every((item, idx) => item === curDateString[idx]);
+      if (result) isSame = result;
+    });
+    return isSame;
+  };
 
   return (
     <S.CalendarWrapper>
@@ -65,8 +77,7 @@ const Calendar = ({ updateDate, selectCalendarDate }: Props) => {
                   $thisMonth={currentDate.month === day.month}
                   onClick={() => selectCalendarDate(day)}
                 >
-                  {/* <span>{day.date}</span> */}
-                  <S.EmotionImage src={happy} />
+                  {checkIsPaid(day) ? <Happy /> : <span>{day.date}</span>}
                 </S.DayContainer>
               );
             })}
