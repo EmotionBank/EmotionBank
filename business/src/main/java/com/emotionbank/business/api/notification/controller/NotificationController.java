@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.emotionbank.business.api.notification.dto.PersonalNotificationApiDto;
 import com.emotionbank.business.api.notification.dto.PublicNotificationApiDto;
+import com.emotionbank.business.domain.notification.dto.PublicNotificationDto;
 import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.emotionbank.business.global.jwt.annotation.UserInfo;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
@@ -26,7 +27,7 @@ public class NotificationController {
 	@PostMapping
 	public ResponseEntity<?> makePublicNotification(@RequestBody PublicNotificationApiDto.Request request, @UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
-		notificationService.sendToTopic(com.emotionbank.business.domain.notification.dto.PublicNotificationDto.from(request), userInfoDto.getUserId());
+		notificationService.sendToTopic(PublicNotificationDto.from(request), userInfoDto.getUserId());
 		return ResponseEntity.ok().build();
 	}
 
