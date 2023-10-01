@@ -1,4 +1,4 @@
-package com.emotionbank.business.domain.signup.dto;
+package com.emotionbank.business.domain.auth.dto;
 
 import java.time.LocalDate;
 

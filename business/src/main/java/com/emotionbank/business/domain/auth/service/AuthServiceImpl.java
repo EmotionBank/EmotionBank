@@ -1,23 +1,32 @@
 package com.emotionbank.business.domain.auth.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.emotionbank.business.domain.agreement.entity.Agreement;
+import com.emotionbank.business.domain.agreement.repository.AgreementRepository;
 import com.emotionbank.business.domain.auth.dto.AccessTokenDto;
 import com.emotionbank.business.domain.auth.dto.GetOAuthInfoDto;
 import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.OAuthTokenDto;
+import com.emotionbank.business.domain.auth.dto.SignUpDto;
+import com.emotionbank.business.domain.auth.dto.SignUpUserDto;
 import com.emotionbank.business.domain.auth.entity.RefreshToken;
 import com.emotionbank.business.domain.auth.kakao.client.KakaoTokenClient;
 import com.emotionbank.business.domain.auth.repository.RefreshTokenRepository;
+import com.emotionbank.business.domain.terms.repository.TermsRepository;
+import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.entity.User;
 import com.emotionbank.business.domain.user.repository.UserRepository;
 import com.emotionbank.business.global.error.ErrorCode;
 import com.emotionbank.business.global.error.exception.AuthException;
+import com.emotionbank.business.global.error.exception.BusinessException;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +42,8 @@ public class AuthServiceImpl implements AuthService {
 	private final UserRepository userRepository;
 	private final JwtManager jwtManager;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final AgreementRepository agreementRepository;
+	private final TermsRepository termsRepository;
 
 	@Value("${kakao.client.id}")
 	private String kakaoClientId;
@@ -65,6 +76,11 @@ public class AuthServiceImpl implements AuthService {
 
 			User savedUser = userRepository.save(user);
 
+			List<Agreement> agreements = termsRepository.findAll()
+				.stream()
+				.map(terms -> agreementRepository.save(Agreement.newSignUpAgreement(savedUser, terms)))
+				.collect(Collectors.toList());
+
 			return LoginJwtDto.of(user.getRole(), jwtManager.createJwtTokens(savedUser.getUserId()));
 		} else {
 			User user = optionalUser.get();
@@ -95,6 +111,28 @@ public class AuthServiceImpl implements AuthService {
 			return AccessTokenDto.createBearer(newAccessToken);
 		}
 		throw new AuthException(ErrorCode.REFRESH_TOKEN_INVALID);
+	}
+
+	@Override
+	@Transactional
+	public SignUpUserDto signup(SignUpDto signUpDto) {
+		User user = userRepository.findById(signUpDto.getUserId()).orElseThrow(()
+			-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+		if (user.getRole() != Role.PENDING) {
+			throw new BusinessException(ErrorCode.USER_ALREADY_SIGNUP);
+		}
+
+		user.updateNickname(signUpDto.getNickname());
+		user.updateBirthday(signUpDto.getBirthday());
+		user.updateRole(Role.USER);
+
+		return SignUpUserDto.from(user);
+	}
+
+	@Override
+	public void removeRefreshToken(Long userId) {
+		refreshTokenRepository.delete(userId);
 	}
 
 	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {
