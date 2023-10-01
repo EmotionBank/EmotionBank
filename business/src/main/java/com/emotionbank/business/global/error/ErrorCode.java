@@ -47,7 +47,7 @@ public enum ErrorCode {
 	// Terms
 	TERMS_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E-001", "약관을 생성할 수 있는 권한이 없습니다."),
 	TERMS_NOT_FOUND(HttpStatus.BAD_REQUEST, "E-002", "약관 정보가 없습니다."),
-	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다.");
+	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다."),
 
 	// Notification
 	NOTIFICATION_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "N-001", "알림을 보낼 수 있는 권한이 없습니다");
