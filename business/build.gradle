@@ -48,6 +48,7 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'com.google.firebase:firebase-admin:9.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 dependencyManagement {
