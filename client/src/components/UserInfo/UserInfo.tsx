@@ -1,13 +1,15 @@
 import * as S from '@/components/UserInfo/UserInfo.style';
 import { PATH } from '@/constants/path';
-import { useGetUserAccount } from '@/hooks/apiHooks/useGetUserAccount';
+import { GetUserAccountInfoResponse } from '@/types/user';
 import { setMoneyRegex } from '@/utils/regex';
 import Gloomy from '@assets/emotions/gloomy.svg';
 import { useNavigate } from 'react-router-dom';
+interface UserInfoProps {
+  getUserAccountInfoData: GetUserAccountInfoResponse;
+}
 
-const UserInfo = () => {
+const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
   const navigate = useNavigate();
-  const { getUserAccountInfoData } = useGetUserAccount();
 
   return (
     <S.UserInfoWrapper>
