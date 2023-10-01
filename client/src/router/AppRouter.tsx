@@ -8,8 +8,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
+import { useRecoilValue } from 'recoil';
+import { isLoginState } from '@/recoils/atom';
 
 const AppRouter = () => {
+  const isLogin = useRecoilValue(isLoginState);
   const router = createBrowserRouter([
     {
       path: PATH.ROOT,
@@ -18,7 +21,7 @@ const AppRouter = () => {
       children: [
         {
           path: '',
-          element: <Main />,
+          element: isLogin ? <Main /> : <Login />,
         },
         {
           path: PATH.DETAIL(':transactionId'),

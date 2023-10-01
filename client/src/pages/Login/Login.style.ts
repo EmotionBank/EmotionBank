@@ -4,8 +4,10 @@ import styled from 'styled-components';
 
 export const LoginWrapper = styled(Flex)`
   width: 100%;
+  height: 100%;
   flex-direction: column;
-  padding: 2rem;
+  justify-content: space-between;
+  padding: 5rem 2rem;
   gap: 1rem;
 `;
 
@@ -13,6 +15,7 @@ export const KakaoLoginButton = styled(Button)`
   width: 100%;
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: bold;
+  background-color: #ffdc00;
 `;
 
 export const NextButton = styled(Button)`

@@ -2,6 +2,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { loginUser } from '@/apis/user/loginUser';
+import { PATH } from '@/constants/path';
 const Redirection = () => {
   const { search } = useLocation();
   const code = search.substring(6);
@@ -16,7 +17,7 @@ const Redirection = () => {
         // 닉네임 있으면 메인 페이지로 navigate
         navigate('/signup');
       } else {
-        navigate('/');
+        window.location.replace(PATH.ROOT);
       }
     };
     login();
