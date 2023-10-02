@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
+import Feed from '@/pages/Feed/Feed';
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const AppRouter = () => {
         {
           path: '/profile',
           element: <Profile />,
+        },
+        {
+          path: '/feed',
+          element: <Feed />,
         },
       ],
     },

@@ -1,15 +1,10 @@
-import { Button } from '@/components/common/Button/Button';
 import styled from 'styled-components';
 
-export const SignupWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+export const BirthdayTitle = styled.h3`
+  color: ${({ theme }) => theme.color.primary};
 `;
 
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
+export const BirthdayWrapper = styled.div``;
 
 export const StyledInput = styled.input`
   flex-grow: 1;

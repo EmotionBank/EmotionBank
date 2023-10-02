@@ -9,15 +9,14 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+let isRefreshing = false;
+let failedRequests:InternalAxiosRequestConfig[] = [];
+
 axiosInstance.interceptors.request.use(
   (req: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-      try {
-        req.headers['Authorization'] = `Bearer ${accessToken}`;
-      } catch (error) {
-        throw error;
-      }
+      req.headers['Authorization'] = `Bearer ${accessToken}`;
     }
     // console.log(req, req.headers['Authorization']);
     return req;
@@ -39,15 +38,29 @@ axiosInstance.interceptors.response.use(
     } = error;
     const originalRequest = config;
     if (data.errorCode === 'J-003') {
+      if(!isRefreshing){
+        isRefreshing =true;
       try {
         const response = await renewAccessToken();
         // console.log(response);
         localStorage.setItem('accessToken', response.accessToken);
+        isRefreshing = false;
+        // 다시 시도하지 못한 요청 처리
+        failedRequests.forEach(cb => cb(response.accessToken));
+        failedRequests = [];
         return axiosInstance(originalRequest);
       } catch (error) {
         console.log('토큰만료시 재요청 보냈을 때의 ' + error);
       }
+    } else {
+      return new Promise((resolve, reject) =>{
+        failedRequests.push(newAccessToken =>{
+          originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+          resolve(axiosInstance(originalRequest))
+        })
+      })
     }
+  }
     // } else if (status === 409){
     //   alert('중복된 닉네임입니다.')
     //   throw(error)
