@@ -8,6 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
+import Feed from '@/pages/Feed/Feed';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '@/recoils/atom';
 
@@ -43,6 +44,10 @@ const AppRouter = () => {
         {
           path: '/profile',
           element: <Profile />,
+        },
+        {
+          path: '/feed',
+          element: <Feed />,
         },
       ],
     },

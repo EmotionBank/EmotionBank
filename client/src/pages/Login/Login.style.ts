@@ -32,6 +32,7 @@ export const NextButton = styled(Button)`
   background: ${({ theme }) => theme.color.secondary};
 `;
 
-export const SignupTitle = styled.h3`
-  color: ${({ theme }) => theme.color.primary};
+export const MainImg = styled.img`
+  width: 80%;
+  height: 80%;
 `;

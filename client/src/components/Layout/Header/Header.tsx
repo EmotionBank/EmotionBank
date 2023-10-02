@@ -1,5 +1,5 @@
 import { HeaderWrapper } from '@/components/Layout/Header/Header.style';
-import { isLoginState, signupIndex } from '@/recoils/atom';
+import { isLoginState, signupStep } from '@/recoils/atom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -7,12 +7,20 @@ import Dropdown from '@/components/Dropdown/Dropdown';
 
 const Header = () => {
   const path = useLocation().pathname;
-  const navigate = useNavigate();
-  const [index, setIndex] = useRecoilState(signupIndex);
+  const [step, setStep] = useRecoilState(signupStep);
   const isLogin = useRecoilValue(isLoginState);
-
-  const handleIndexBack = () => {
-    setIndex(index - 1);
+  const navigate = useNavigate();
+  const handleStepBack = () => {
+    switch (step) {
+      case 'agreement':
+        navigate('/login');
+      case 'nickname':
+        setStep('agreement');
+      case 'birthday':
+        setStep('nickname');
+      case 'accountName':
+        setStep('birthday');
+    }
   };
   const handleBackPage = () => {
     navigate(-1);
