@@ -1,7 +1,12 @@
 package com.emotionbank.business.api.user.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.emotionbank.business.domain.notification.constant.NotificationType;
+import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
+import com.emotionbank.business.domain.notification.service.NotificationService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final NotificationService notificationService;
 
 	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
@@ -78,9 +84,16 @@ public class UserController {
 	}
 
 	@PostMapping("/follow/{userId}")
-	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) {
+	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
 		userService.followUser(FollowDto.of(userId, followeeId));
+		notificationService.followNotification(PersonalNotificationDto.builder()
+						.userId(followeeId)
+						.followerId(userId)
+						.followerNickname(userService.getNickname(userId))
+						.notificationType(NotificationType.FOLLOW)
+						.createTime(LocalDateTime.now())
+				.build());
 		return ResponseEntity.ok().build();
 	}
 

@@ -31,4 +31,6 @@ public interface UserService {
 	boolean checkAdminRole(UserInfoDto userInfoDto);
 
 	UserReportDto getReport(Long userId);
+
+	String getNickname(Long userId);
 }

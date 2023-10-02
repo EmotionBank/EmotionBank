@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.emotionbank.business.domain.notification.service.NotificationService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -181,5 +182,11 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return UserReportDto.of(deposits, withdrawals, balances);
+	}
+
+	@Override
+	public String getNickname(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		return user.getNickname();
 	}
 }
