@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,6 +30,10 @@ public class AgreementInterceptor implements HandlerInterceptor {
 	@SuppressWarnings("checkstyle:OperatorWrap")
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+			return true;
+		}
+
 		String authorizationHeader = request.getHeader(authorization);
 
 		String token = authorizationHeader.split(" ")[1];
