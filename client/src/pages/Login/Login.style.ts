@@ -33,6 +33,5 @@ export const NextButton = styled(Button)`
 `;
 
 export const MainImg = styled.img`
-  width: 80%;
-  height: 80%;
+  width: 50%;
 `;
