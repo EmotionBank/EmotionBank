@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 		Category category = categoryRepository.findByUserAndCategoryId(user, categoryId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_EXIST));
-		
+
 		//  기본 카테고리는 삭제 불가능
 		if (basicCategoryName.equals(category.getCategoryName())) {
 			throw new BusinessException(ErrorCode.BASIC_CATEGORY);
@@ -65,6 +65,8 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryRepository.delete(category);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
 	public List<CategoryDto> getCategoryList(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -75,5 +77,22 @@ public class CategoryServiceImpl implements CategoryService {
 			.map(CategoryDto::from)
 			.collect(Collectors.toList());
 		return categoryDtoList;
+	}
+
+	@Override
+	@Transactional
+	public void updateCategory(CategoryDto categoryDto) {
+		User user = userRepository.findById(categoryDto.getUserId())
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+		Category category = categoryRepository.findByUserAndCategoryId(user, categoryDto.getCategoryId())
+			.orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_EXIST));
+
+		if (basicCategoryName.equals(category.getCategoryName())) {
+			throw new BusinessException(ErrorCode.BASIC_CATEGORY);
+		}
+
+		category.updateCategory(categoryDto.getCategoryName(), categoryDto.getVisibility());
+
 	}
 }

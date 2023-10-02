@@ -34,4 +34,11 @@ public class TermsServiceImpl implements TermsService {
 
 		return TermsDto.from(terms);
 	}
+
+	@Override
+	public List<TermsDto> getTerms() {
+		List<Terms> terms = termsRepository.findAll();
+
+		return terms.stream().map(TermsDto::from).collect(Collectors.toList());
+	}
 }

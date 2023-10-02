@@ -75,31 +75,35 @@ class TransactionServiceImplTest {
 			.receiver("777-7777")
 			.build();
 
-		Account account = Account.builder()
-			.accountNumber("777-7777")
-			.balance(20000L)
-			.build();
-
 		Category category = Category.builder()
 			.categoryId(1L)
 			.categoryName("회사")
 			.build();
 
+		User user = User.builder()
+			.userId(1L)
+			.build();
+		Account account = Account.builder()
+			.accountNumber("777-7777")
+			.balance(20000L)
+			.user(user)
+			.build();
 		Calendar calendar = Calendar.builder()
 			.date(LocalDate.now().atStartOfDay().toLocalDate())
 			.amount(10000L)
 			.account(account)
 			.build();
 
+		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
 		when(accountRepository.findByAccountNumber("777-7777"))
 			.thenReturn(Optional.of(account));
-		when(categoryRepository.findByCategoryId(1L))
+		when(categoryRepository.findByUserAndCategoryId(user, 1L))
 			.thenReturn(Optional.of(category));
 		when(calendarRepository.findByDateAndAccount(LocalDate.now().atStartOfDay().toLocalDate(), account))
 			.thenReturn(Optional.of(calendar));
 
 		// When
-		TransactionDto resultDto = transactionService.updateBalance(transactionDto);
+		TransactionDto resultDto = transactionService.updateBalance(transactionDto, 1L);
 
 		// Then
 		assertThat(resultDto).isNotNull();

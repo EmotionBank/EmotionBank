@@ -1,6 +1,7 @@
 package com.emotionbank.business.domain.category.dto;
 
 import com.emotionbank.business.api.category.dto.CreateCategoryDto;
+import com.emotionbank.business.api.category.dto.UpdateCategoryDto;
 import com.emotionbank.business.domain.category.entity.Category;
 import com.emotionbank.business.domain.transaction.constant.Visibility;
 
@@ -25,6 +26,15 @@ public class CategoryDto {
 	public static CategoryDto of(CreateCategoryDto.Request request, Long userId) {
 		return CategoryDto.builder()
 			.userId(userId)
+			.categoryName(request.getCategoryName())
+			.visibility(Visibility.valueOf(request.getVisibility()))
+			.build();
+	}
+
+	public static CategoryDto of(UpdateCategoryDto.Request request, Long userId) {
+		return CategoryDto.builder()
+			.userId(userId)
+			.categoryId(request.getCategoryId())
 			.categoryName(request.getCategoryName())
 			.visibility(Visibility.valueOf(request.getVisibility()))
 			.build();

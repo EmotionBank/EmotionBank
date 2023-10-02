@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.emotionbank.business.global.component.AgreementInterceptor;
 import com.emotionbank.business.global.jwt.interceptor.AuthInterceptor;
 import com.emotionbank.business.global.jwt.resolver.UserInfoArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 	private final ObjectMapper objectMapper;
 	private final UserInfoArgumentResolver userInfoArgumentResolver;
 	private final AuthInterceptor authInterceptor;
+	private final AgreementInterceptor agreementInterceptor;
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -79,6 +81,16 @@ public class WebConfig implements WebMvcConfigurer {
 				"/auth/login/kakao/callback",
 				"/auth/token",
 				"/health"
+			);
+		registry.addInterceptor(agreementInterceptor)
+			.order(2)
+			.addPathPatterns("/**")
+			.excludePathPatterns(
+				"/auth/login/kakao/callback",
+				"/auth/token",
+				"/health",
+				"/signup",
+				"/agreement"
 			);
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}

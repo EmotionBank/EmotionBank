@@ -18,6 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.emotionbank.business.domain.account.entity.Account;
+import com.emotionbank.business.domain.account.repository.AccountRepository;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
@@ -33,6 +35,8 @@ class UserServiceImplTest {
 	private UserRepository userRepository;
 	@Mock
 	private FollowRepository followRepository;
+	@Mock
+	private AccountRepository accountRepository;
 
 	@BeforeEach
 	public void beforeEach() {
@@ -146,5 +150,70 @@ class UserServiceImplTest {
 		List<UserDto> followers = userService.getFollowers(userId);
 
 		assertEquals(2, followers.size());
+	}
+
+	@Test
+	@DisplayName("회원정보를 조회한다")
+	public void getMyInfo() {
+		Long userId = 1L;
+		User user = User.builder()
+			.userId(userId)
+			.build();
+
+		when(userRepository.findById(userId)).thenReturn(Optional.ofNullable(user));
+		UserDto userInfo = userService.getUserInfo(userId);
+
+		assertThat(userInfo.getUserId()).isEqualTo(userId);
+	}
+
+	@Test
+	@DisplayName("내 상세정보를 조회한다")
+	public void getMyProfile() {
+		User user = User.builder()
+			.userId(1L)
+			.nickname("nickname")
+			.build();
+		Account account = Account.builder()
+			.accountId(1L)
+			.user(user)
+			.build();
+
+		List<Follow> follows = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			follows.add(Follow.builder().build());
+		}
+
+		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
+		when(accountRepository.findByUser(user)).thenReturn(Optional.ofNullable(account));
+		when(followRepository.findByFollower(user)).thenReturn(follows);
+		when(followRepository.findByFollowee(user)).thenReturn(follows);
+
+		UserDto myProfile = userService.getMyProfile(1L);
+		assertEquals(myProfile.getFollower(), 3);
+		assertEquals(myProfile.getFollowing(), 3);
+		assertEquals(myProfile.getNickname(), "nickname");
+	}
+
+	@Test
+	@DisplayName("타인 상세정보를 조회한다")
+	public void getOtherProfile() {
+		User user = User.builder()
+			.userId(1L)
+			.nickname("nickname")
+			.build();
+
+		List<Follow> follows = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			follows.add(Follow.builder().build());
+		}
+
+		when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
+		when(followRepository.findByFollower(user)).thenReturn(follows);
+		when(followRepository.findByFollowee(user)).thenReturn(follows);
+
+		UserDto myProfile = userService.getOtherProfile(1L);
+		assertEquals(myProfile.getFollower(), 3);
+		assertEquals(myProfile.getFollowing(), 3);
+		assertEquals(myProfile.getNickname(), "nickname");
 	}
 }
