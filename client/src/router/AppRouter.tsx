@@ -9,17 +9,20 @@ import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
 import Feed from '@/pages/Feed/Feed';
+import { useRecoilValue } from 'recoil';
+import { isLoginState } from '@/recoils/atom';
 
 const AppRouter = () => {
+  const isLogin = useRecoilValue(isLoginState);
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: PATH.ROOT,
       element: <Layout></Layout>,
       errorElement: <></>,
       children: [
         {
-          path: PATH.ROOT,
-          element: <Main />,
+          path: '',
+          element: isLogin ? <Main /> : <Login />,
         },
         {
           path: PATH.DETAIL(':transactionId'),

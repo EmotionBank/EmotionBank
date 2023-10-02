@@ -1,6 +1,7 @@
 import * as S from '@/components/transaction/TransactionStep/CommentStep/CommentStep.style';
 import { useInput } from '@/hooks/useInput';
 import { filteredImage } from '@/utils/filterImage';
+import { setMoneyRegex } from '@/utils/regex';
 
 interface IProps {
   onNext: (amount: number, content: string) => void;
@@ -13,10 +14,7 @@ const CommentStep = ({ onNext, emoticon }: IProps) => {
 
   return (
     <S.CommentStepWrapper>
-      <S.EmotionImageContainer>
-        <S.EmotionImage src={filteredImage(emoticon)} />
-      </S.EmotionImageContainer>
-      <S.BalanceSpan>{localStorage.getItem('balance')}</S.BalanceSpan>
+      <S.EmotionImageContainer>{filteredImage(emoticon)}</S.EmotionImageContainer>
       <S.LabelContainer>
         <S.Inputlabel>금액</S.Inputlabel>
         <S.AmountInput placeholder="금액을 입력하세요." onChange={handleAmount} />

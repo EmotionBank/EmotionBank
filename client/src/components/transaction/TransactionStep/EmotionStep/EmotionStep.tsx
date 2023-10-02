@@ -10,7 +10,10 @@ const EmotionStep = ({ onNext }: IProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
   const handleNext = () => {
-    if (selectedEmotion === '') return;
+    if (selectedEmotion === '') {
+      alert('감정을 선택해주세요');
+      return;
+    }
     onNext(selectedEmotion);
   };
 
@@ -20,7 +23,8 @@ const EmotionStep = ({ onNext }: IProps) => {
       <S.EmotionGrid>
         {Object.entries(emotionImageList).map(([key, value]) => (
           <S.EmotionImageContainer key={key} onClick={() => setSelectedEmotion(key)} $clicked={key === selectedEmotion}>
-            <S.EmotionImage src={value} />
+            {value}
+            {key}
           </S.EmotionImageContainer>
         ))}
       </S.EmotionGrid>

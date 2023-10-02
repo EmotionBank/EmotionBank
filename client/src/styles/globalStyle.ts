@@ -26,7 +26,6 @@ const GlobalStyle = createGlobalStyle`
         color: inherit;
         &:focus {
         outline: none;
-        background-color: transparent;
         }
         &:disabled {
         cursor: not-allowed;

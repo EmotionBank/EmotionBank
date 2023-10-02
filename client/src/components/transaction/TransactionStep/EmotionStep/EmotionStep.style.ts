@@ -16,7 +16,7 @@ export const EmotionHeader = styled.h1`
 `;
 
 export const EmotionGrid = styled.div`
-  width: 60%;
+  width: 70%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
@@ -24,6 +24,7 @@ export const EmotionGrid = styled.div`
 
 export const EmotionImageContainer = styled(Flex)<{ $clicked: boolean }>`
   flex-direction: column;
+  justify-content: space-between;
   padding: 1rem;
   cursor: pointer;
   border-radius: 8px;
@@ -33,10 +34,6 @@ export const EmotionImageContainer = styled(Flex)<{ $clicked: boolean }>`
           ${float} 0.7s ease-in-out infinite
         `
       : 'none'};
-`;
-
-export const EmotionImage = styled.img`
-  width: 100%;
 `;
 
 export const NextButton = styled(Button)`

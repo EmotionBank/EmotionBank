@@ -13,9 +13,7 @@ const Login = () => {
   return (
     <S.LoginWrapper>
       <S.MainImg src={EmotionBank}></S.MainImg>
-      <KakaoLoginButton onClick={handleLogin} $kakao>
-        카카오로 로그인 하기
-      </KakaoLoginButton>
+      <KakaoLoginButton onClick={handleLogin}>카카오로 로그인 하기</KakaoLoginButton>
     </S.LoginWrapper>
   );
 };

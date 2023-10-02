@@ -19,6 +19,6 @@ export const TransactionListContainer = styled(Flex)`
   cursor: pointer;
 `;
 
-export const EmotionImage = styled.img`
-  height: 4.5rem;
+export const EmotionImage = styled.div`
+  width: 15%;
 `;

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import * as S from '@/pages/Detail/Detsil.style';
 import { useGetTransactionDetail } from '@/hooks/apiHooks/useGetTransactionDetail';
 import { filteredImage } from '@/utils/filterImage';
+import { setMoneyRegex } from '@/utils/regex';
 
 const Detail = () => {
   const { transactionId } = useParams();
@@ -11,10 +12,8 @@ const Detail = () => {
     <S.DetailWrapper>
       <S.ReceiptWrapper>
         <S.TransactionTitle>{transactionDetailData.title}</S.TransactionTitle>
-        <S.EmotionImageContainer>
-          <S.EmotionImage src={filteredImage(transactionDetailData.emoticon)} alt="감정" />
-        </S.EmotionImageContainer>
-        <S.Money>{transactionDetailData.amount}</S.Money>
+        <S.EmotionImageContainer>{filteredImage(transactionDetailData.emoticon)}</S.EmotionImageContainer>
+        <S.Money>{setMoneyRegex(transactionDetailData.amount)}</S.Money>
         <S.EmotionContentContainer>
           <p>{transactionDetailData.content}</p>
         </S.EmotionContentContainer>

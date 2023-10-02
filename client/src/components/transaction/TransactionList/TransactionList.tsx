@@ -2,6 +2,7 @@ import * as S from '@/components/transaction/TransactionList/TransactionList.sty
 import { PATH } from '@/constants/path';
 import { TransactionResponse, GetTransactionListResponse } from '@/types/bank';
 import { filteredImage } from '@/utils/filterImage';
+import { setMoneyRegex } from '@/utils/regex';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
@@ -22,9 +23,9 @@ const TransactionList = ({ transactionDatas }: Props) => {
             navigate(PATH.DETAIL(item.transactionId));
           }}
         >
-          <S.EmotionImage src={filteredImage(item.emoticon)} />
+          <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
           <span>{item.title}</span>
-          <span>{item.amount}</span>
+          <span>{setMoneyRegex(item.amount)}</span>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>
