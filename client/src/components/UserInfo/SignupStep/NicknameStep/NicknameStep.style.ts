@@ -1,11 +1,17 @@
 import { Button } from '@/components/common/Button/Button';
 import styled from 'styled-components';
 
-export const SignupWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+export const NicknameWrapper = styled.div`
+  width: 100%;
+`;
+export const NicknameTitle = styled.h3`
+  color: ${({ theme }) => theme.color.primary};
 `;
 
+export const NextButton = styled(Button)`
+  color: ${({ theme }) => theme.color.primary};
+  background: ${({ theme }) => theme.color.secondary};
+`;
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;

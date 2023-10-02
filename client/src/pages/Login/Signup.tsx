@@ -1,127 +1,130 @@
-import { createAccount } from '@/apis/bank/createAccount';
-import { nicknameCheck } from '@/apis/user/nicknameCheck';
 import { signupUser } from '@/apis/user/signupUser';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NextButton, SignupTitle } from './Login.style';
 import { useRecoilState } from 'recoil';
-import { signupIndex } from '@/recoils/atom';
+import { signupStep } from '@/recoils/atom';
 import * as S from './Signup.style';
+import AgreementStep from '@/components/UserInfo/SignupStep/AgreementStep/AgreementStep';
+import NicknameStep from '@/components/UserInfo/SignupStep/NicknameStep/NicknameStep';
+import BirthdayStep from '@/components/UserInfo/SignupStep/BirthdayStep/BirthdayStep';
+import AccountNameStep from '@/components/UserInfo/SignupStep/AccountNameStep/AccountNameStep';
+import { putAgreement } from '@/apis/Terms/putAgreement';
+
+interface Agreement {
+  termsId: number;
+  state: string;
+}
 
 const Signup = () => {
-  const [index, setIndex] = useRecoilState(signupIndex);
-  const [isChecked, setIsChecked] = useState(false);
+  const [step, setStep] = useRecoilState(signupStep);
+  const initSignupRequest = {
+    nickname: '',
+    birthday: '',
+    accountName: '',
+  };
+  const [request, setRequest] = useState(initSignupRequest);
+
   const navigate = useNavigate();
-  const [inputs, setInputs] = useState(['', '', '', '']);
 
   useEffect(() => {
-    if (index === -1) {
-      navigate('/login');
-    }
+    // if (index === 4) {
+    //   console.log(inputs);
+    //   const birthday = inputs[2];
+    //   const userInfo = {
+    //     // 'agree': inputs[0],
+    //     nickname: inputs[1],
+    //     birthday: birthday.substring(0, 4) + '-' + birthday.substring(4, 6) + '-' + birthday.substring(6, 8),
+    //     accountName: inputs[3],
+    //   };
+    //   const response = signupUser(userInfo);
+    //   console.log(response);
+    //   navigate('/');
+    // }
+  }, [step]);
 
-    if (index === 4) {
-      console.log(inputs);
-      const birthday = inputs[2];
-      const userInfo = {
-        // 'agree': inputs[0],
-        nickname: inputs[1],
-        birthday: birthday.substring(0, 4) + '-' + birthday.substring(4, 6) + '-' + birthday.substring(6, 8),
-        accountName: inputs[3],
-      };
-      const response = signupUser(userInfo);
-      console.log(response);
-      navigate('/');
-    }
-  }, [index]);
+  // const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   let inputValue = e.target.value;
 
-  const handleIndexNext = () => {
-    if (inputs[index] === '') {
+  //   const allowedCharactersPattern = /^[0-9a-zA-Zㄱ-ㅎ가-힣]*$/;
+  //   console.log(allowedCharactersPattern.test(inputValue));
+  //   if (!allowedCharactersPattern.test(inputValue)) {
+  //     const filteredValue = inputValue.replace(/[^0-9a-zA-Zㄱ-ㅎ가-힣]/g, '');
+  //     inputValue = filteredValue;
+  //     alert('특수문자를 제외한 숫자, 영어, 한글을 적어주세요');
+  //   }
+  //   setInputs(prevInputs => {
+  //     const updatedInputs = [...prevInputs];
+  //     updatedInputs[index] = inputValue;
+  //     return updatedInputs;
+  //   });
+  // };
+
+  const confirmAgreementStep = (content: boolean[]) => {
+    console.log(content);
+    const newAgreementRequest: Agreement[] = [];
+    content.map((value, index) => {
+      if (value) {
+        newAgreementRequest.push({
+          termsId: index + 1,
+          state: 'ACTIVE',
+        });
+      } else {
+        newAgreementRequest.push({
+          termsId: index + 1,
+          state: 'REJECT',
+        });
+      }
+    });
+    console.log(newAgreementRequest);
+    const requestBody = { requests: newAgreementRequest };
+    const response = putAgreement(requestBody);
+    console.log(response);
+    setStep('nickname');
+  };
+  const confirmNicknameStep = (nickname: string, isChecked: boolean) => {
+    if (!isChecked) {
+      alert('중복 확인해주세요.');
+    } else if (nickname === '') {
       alert('내용을 입력해주세요.');
     } else {
-      if (index === 1 && !isChecked) {
-        alert('중복검사를 해주세요.');
-      } else {
-        setIndex(index + 1);
+      setRequest(prev => ({ ...prev, nickname }));
+      console.log(request);
+      setStep('birthday');
+    }
+  };
+
+  const confirmBirthdayStep = (birthday: string) => {
+    const birthdayPattern = /^(19|20)\d\d-(0[1-9]|1[0-2])-([0-2][1-9]|3[0-1])$/;
+    if (birthdayPattern.test(birthday)) {
+      setRequest(prev => ({ ...prev, birthday }));
+      console.log(request);
+      setStep('accountName');
+    } else {
+      alert('올바른 생일 형식이 아닙니다. (예: 2000-01-01)');
+    }
+  };
+
+  const confirmAccountNameStep = async (accountName: string) => {
+    if (accountName === '') {
+      alert('내용을 입력해주세요.');
+    } else {
+      const updatedRequest = { ...request, accountName };
+      try {
+        const response = await signupUser(updatedRequest);
+        console.log(response);
+        navigate('/');
+      } catch (error) {
+        console.log('회원가입 요청 중 오류 발생:', error);
       }
     }
   };
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = e.target.value;
-
-    const allowedCharactersPattern = /^[0-9a-zA-Zㄱ-ㅎ가-힣]*$/;
-    console.log(allowedCharactersPattern.test(inputValue));
-    if (!allowedCharactersPattern.test(inputValue)) {
-      const filteredValue = inputValue.replace(/[^0-9a-zA-Zㄱ-ㅎ가-힣]/g, '');
-      inputValue = filteredValue;
-      alert('특수문자를 제외한 숫자, 영어, 한글을 적어주세요');
-    }
-    setInputs(prevInputs => {
-      const updatedInputs = [...prevInputs];
-      updatedInputs[index] = inputValue;
-      return updatedInputs;
-    });
-  };
-
-  const handleNicknameCheck = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(inputs[index]);
-    try {
-      const request = {
-        nickname: inputs[index],
-      };
-      const response = await nicknameCheck(request);
-      console.log(response);
-      if (response.possible) {
-        alert('해당 닉네임을 사용할 수 있습니다.');
-        setIsChecked(true);
-      } else {
-        alert('해당 닉네임이 이미 존재합니다.');
-      }
-    } catch (error) {
-      console.log('Error:', error);
-    }
-  };
-
   return (
-    <>
-      {index === 0 && (
-        <>
-          <input type="checkbox" onChange={handleInput} />
-          약관 동의 1
-        </>
-      )}
-      {index === 1 && (
-        <>
-          <SignupTitle>닉네임을 입력해주세요</SignupTitle>
-          <form id="nickname-form" onSubmit={handleNicknameCheck}>
-            <S.InputWrapper>
-              <S.StyledInput type="text" name="nickname" onChange={handleInput} value={inputs[index]} />
-              <S.StyledButton type="submit">중복검사</S.StyledButton>
-            </S.InputWrapper>
-          </form>
-        </>
-      )}
-      {index === 2 && (
-        <>
-          <SignupTitle>생일을 입력해주세요</SignupTitle>
-          <S.StyledInput
-            type="text"
-            name="birthday"
-            onChange={handleInput}
-            value={inputs[index]}
-            placeholder="yyyyMMdd"
-          />
-        </>
-      )}
-      {index === 3 && (
-        <>
-          <SignupTitle>계좌 이름을 설정해주세요</SignupTitle>
-          <input type="text" name="account" onChange={handleInput} value={inputs[index]} />
-        </>
-      )}
-      <NextButton onClick={handleIndexNext}>다음</NextButton>
-    </>
+    <S.SignupWrapper>
+      {step === 'agreement' && <AgreementStep onNext={confirmAgreementStep} />}
+      {step === 'nickname' && <NicknameStep onNext={confirmNicknameStep} />}
+      {step === 'birthday' && <BirthdayStep onNext={confirmBirthdayStep} />}
+      {step === 'accountName' && <AccountNameStep onNext={confirmAccountNameStep} />}
+    </S.SignupWrapper>
   );
 };
 

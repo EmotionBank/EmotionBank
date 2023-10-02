@@ -10,6 +10,7 @@ import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '@/recoils/atom';
+import Feed from '@/pages/Feed/Feed';
 
 const AppRouter = () => {
   const isLogin = useRecoilValue(isLoginState);
@@ -43,6 +44,10 @@ const AppRouter = () => {
         {
           path: '/profile',
           element: <Profile />,
+        },
+        {
+          path: '/feed',
+          element: <Feed />,
         },
       ],
     },

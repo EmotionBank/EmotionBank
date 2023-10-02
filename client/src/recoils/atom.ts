@@ -10,7 +10,7 @@ export const modalState = atomFamily({
   default: false,
 });
 
-export const signupIndex = atom({
-  key: 'signupIndex',
-  default: 0,
+export const signupStep = atom<'agreement' | 'nickname' | 'birthday' | 'accountName'>({
+  key: 'signupStep',
+  default: 'agreement',
 });
