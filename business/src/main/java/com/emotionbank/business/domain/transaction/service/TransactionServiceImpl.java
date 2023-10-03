@@ -34,13 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
+	private static final String transferCategory = "이체";
 	private final TransactionRepository transactionRepository;
 	private final AccountRepository accountRepository;
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
 	private final UserRepository userRepository;
-
-	private static final String transferCategory = "transaction";
 
 	@Transactional
 	@Override
