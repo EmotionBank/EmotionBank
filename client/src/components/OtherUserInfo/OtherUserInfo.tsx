@@ -1,4 +1,5 @@
 import * as S from '@/components/OtherUserInfo/OtherUserInfo.style';
+import { usePostFollow } from '@/hooks/apiHooks/usePostFollow';
 import { GetOtherAccountInfoResponse } from '@/types/user';
 import EmotionBankLogo from '@assets/emotionbank_logo.png';
 
@@ -7,6 +8,12 @@ interface OtherUserInfoProps {
 }
 
 const OtherUserInfo = ({ getOtherAccountInfoData }: OtherUserInfoProps) => {
+  const postFollowMutation = usePostFollow();
+
+  const handleFollowUser = () => {
+    postFollowMutation.mutate(getOtherAccountInfoData.userId);
+  };
+
   return (
     <S.OtherUserInfoWrapper>
       <S.OtherUserInfoTop>
@@ -27,7 +34,7 @@ const OtherUserInfo = ({ getOtherAccountInfoData }: OtherUserInfoProps) => {
       </S.OtherUserInfoTop>
       <S.OtherUserInfoBottom>
         <S.TransactionButton>이체</S.TransactionButton>
-        <S.TransactionButton>팔로우</S.TransactionButton>
+        <S.TransactionButton onClick={handleFollowUser}>팔로우</S.TransactionButton>
       </S.OtherUserInfoBottom>
     </S.OtherUserInfoWrapper>
   );
