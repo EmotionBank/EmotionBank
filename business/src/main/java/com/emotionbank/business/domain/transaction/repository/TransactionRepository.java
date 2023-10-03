@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -29,4 +30,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 	Optional<Transaction> findByTransactionId(Long transactionId);
 
 	List<Transaction> findByCategory(Category category);
+
+	@Query("SELECT t FROM Transaction t WHERE (t.sender = t.receiver) AND (t.sender <> :account) AND (t.receiver <> : account)")
+	List<Transaction> findFeed(Account account, Pageable pageable);
 }

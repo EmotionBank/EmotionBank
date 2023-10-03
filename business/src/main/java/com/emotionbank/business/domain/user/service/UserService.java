@@ -6,7 +6,7 @@ import com.emotionbank.business.domain.user.dto.ReportDto;
 
 import org.springframework.data.domain.Pageable;
 
-import com.emotionbank.business.api.user.dto.UserReportDto;
+import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
@@ -37,4 +37,6 @@ public interface UserService {
 	boolean isFollow(Long followerId, Long followeeId);
 
 	ReportDto getReport(Long userId);
+
+	FeedsDto getFeed(Long userId, Pageable pageable);
 }

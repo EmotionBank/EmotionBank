@@ -3,6 +3,8 @@ package com.emotionbank.business.api.user.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.emotionbank.business.domain.notification.constant.NotificationType;
 import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
 import com.emotionbank.business.domain.notification.service.NotificationService;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.emotionbank.business.api.user.dto.UserFeedDto;
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserMyProfileDto;
@@ -30,6 +33,7 @@ import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
 import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
+import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
@@ -45,6 +49,7 @@ public class UserController {
 
 	private final UserService userService;
 	private final NotificationService notificationService;
+	private final int PAGESIZE = 12;
 
 	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
@@ -112,9 +117,16 @@ public class UserController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/report/{userId}")
-	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
-		ReportDto reportDto = userService.getReport(userId);
+	@GetMapping("/feed")
+	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto, @RequestParam int page) {
+		Pageable pageable = PageRequest.of(page, PAGESIZE);
+		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
+		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
+	}
+
+	@GetMapping("/report")
+	public ResponseEntity<UserReportDto.Response> getReport(@UserInfo UserInfoDto userInfoDto) {
+		ReportDto reportDto = userService.getReport(userInfoDto.getUserId());
 		return ResponseEntity.ok(UserReportDto.Response.from(reportDto));
 	}
 }

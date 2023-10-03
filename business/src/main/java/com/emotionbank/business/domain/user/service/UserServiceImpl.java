@@ -25,7 +25,10 @@ import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
+import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.domain.user.constant.Role;
+import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
@@ -202,4 +205,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
+	@Override
+	public FeedsDto getFeed(Long userId, Pageable pageable) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		Account account = accountRepository.findByUser(user)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		List<Transaction> feeds = transactionRepository.findFeed(account, pageable);
+		List<FeedsDto.FeedDto> feedDtos = feeds.stream().map(FeedsDto.FeedDto::of).collect(Collectors.toList());
+		return FeedsDto.of(feedDtos);
+	}
+
 }
