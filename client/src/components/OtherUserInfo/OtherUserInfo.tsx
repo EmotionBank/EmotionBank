@@ -12,7 +12,7 @@ const OtherUserInfo = ({ getOtherAccountInfoData }: OtherUserInfoProps) => {
       <S.OtherUserInfoTop>
         <S.InfoContainer>
           <S.Logoimage src={EmotionBankLogo} />
-          <S.NicknameInfo>닉네임</S.NicknameInfo>
+          <S.NicknameInfo>{getOtherAccountInfoData.nickname}</S.NicknameInfo>
         </S.InfoContainer>
         <S.FollowContainer>
           <S.FollowingInfo>

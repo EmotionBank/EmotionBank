@@ -8,6 +8,8 @@ import { useGetTransactionList } from '@/hooks/apiHooks/useGetTransactionList';
 import { useGetCalendarInfo } from '@/hooks/apiHooks/useGetCalendarInfo';
 import { useGetOtherAccountInfo } from '@/hooks/apiHooks/useGetOtherAccountInfo';
 import OtherUserInfo from '@/components/OtherUserInfo/OtherUserInfo';
+import Calendar from '@/components/Calendar/Calendar';
+import TransactionList from '@/components/transaction/TransactionList/TransactionList';
 
 const OtherUser = () => {
   const { userId } = useParams();
@@ -15,7 +17,7 @@ const OtherUser = () => {
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
   const [selectedDate, setSelectedDate] = useState<DateType>(getNewDateObj(new Date())); // 거래내역 조회 시 사용
   const { getOtherAccountInfoData } = useGetOtherAccountInfo(userId!);
-  console.log(getOtherAccountInfoData);
+
   const initTransactionData = {
     accountId: Number(getOtherAccountInfoData?.accountId),
     startDate: convertYYYYMMDD(selectedDate),
@@ -30,9 +32,14 @@ const OtherUser = () => {
   // const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
   // const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
 
+  const updateDate = (newDate: DateType) => setDate({ ...newDate });
+  const selectCalendarDate = (select: DateType) => setSelectedDate(select);
+
   return (
     <S.OtherUserWrapper>
       <OtherUserInfo getOtherAccountInfoData={getOtherAccountInfoData} />
+      {/* <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} calendarList={getCalendarInfoData} /> */}
+      {/* <TransactionList transactionDatas={transactionListData} /> */}
     </S.OtherUserWrapper>
   );
 };
