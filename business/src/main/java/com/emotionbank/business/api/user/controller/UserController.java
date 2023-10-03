@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
-	private final int PAGESIZE = 10;
+	private final int PAGESIZE = 12;
 
 	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
