@@ -1,5 +1,10 @@
-export const setMoneyRegex = (money: number) => {
-  return money.toLocaleString();
+export const setMoneyRegex = (money: string) => {
+  if (money === '') return ''; // 빈 문자열 반환
+  const numericValue = money.replace(/[^0-9.]/g, '');
+  const parsedValue = parseFloat(numericValue);
+  if (isNaN(parsedValue)) return ''; // NaN이면 빈 문자열 반환
+  const formattedValue = parsedValue.toLocaleString('en-US');
+  return formattedValue;
 };
 
 export const setAccountRegex = (account: string) => {
@@ -11,5 +16,5 @@ export const setAccountRegex = (account: string) => {
 };
 
 export const replaceDash = (str: string) => {
-  return str.replace(/-/g, '');
+  return str.replace(/,/g, '');
 };
