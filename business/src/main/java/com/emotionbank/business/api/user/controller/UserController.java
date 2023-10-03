@@ -93,7 +93,7 @@ public class UserController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/follow/{userId}")
+	@PostMapping("/follow/{followeeId}")
 	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
