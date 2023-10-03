@@ -2,8 +2,9 @@ import * as S from '@/components/UserInfo/UserInfo.style';
 import { PATH } from '@/constants/path';
 import { GetUserAccountInfoResponse } from '@/types/user';
 import { setMoneyRegex } from '@/utils/regex';
-import Gloomy from '@assets/emotions/gloomy.svg';
 import { useNavigate } from 'react-router-dom';
+import EmotionBankLogo from '@assets/emotionbank_logo.png';
+
 interface UserInfoProps {
   getUserAccountInfoData: GetUserAccountInfoResponse;
 }
@@ -15,11 +16,10 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
     <S.UserInfoWrapper>
       <S.UserInfoTop>
         <S.InfoContainer>
-          {/* <S.profileImage src={gloomy} /> */}
-          <Gloomy />
+          <S.Logoimage src={EmotionBankLogo} />
           <S.InfoTextContainer>
             <S.NicknameInfo>{getUserAccountInfoData.nickname}</S.NicknameInfo>
-            <span>{getUserAccountInfoData.accountNumber}</span>
+            <S.AccountNumberInfo>{getUserAccountInfoData.accountNumber}</S.AccountNumberInfo>
           </S.InfoTextContainer>
         </S.InfoContainer>
         <S.FollowContainer>
@@ -34,7 +34,7 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
         </S.FollowContainer>
       </S.UserInfoTop>
       <S.UserInfoBottom>
-        <span>{setMoneyRegex(getUserAccountInfoData.balance)}원</span>
+        <span>{setMoneyRegex(String(getUserAccountInfoData.balance))}원</span>
         <S.TransactionButton onClick={() => navigate(PATH.TRANSACTION)}>입/출금</S.TransactionButton>
       </S.UserInfoBottom>
     </S.UserInfoWrapper>

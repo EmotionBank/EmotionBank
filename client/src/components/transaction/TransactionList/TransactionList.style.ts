@@ -5,6 +5,7 @@ export const TransactionListWrapper = styled(Flex)`
   width: 100%;
   flex-direction: column;
   gap: 0.5rem;
+  overflow: scroll;
 `;
 export const TransactionListContainer = styled(Flex)`
   padding: 0 2rem;

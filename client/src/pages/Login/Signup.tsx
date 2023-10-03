@@ -8,7 +8,7 @@ import AgreementStep from '@/components/UserInfo/SignupStep/AgreementStep/Agreem
 import NicknameStep from '@/components/UserInfo/SignupStep/NicknameStep/NicknameStep';
 import BirthdayStep from '@/components/UserInfo/SignupStep/BirthdayStep/BirthdayStep';
 import AccountNameStep from '@/components/UserInfo/SignupStep/AccountNameStep/AccountNameStep';
-import { putAgreement } from '@/apis/Terms/putAgreement';
+import { putAgreement } from '@/apis/terms/putAgreement';
 
 interface Agreement {
   termsId: number;

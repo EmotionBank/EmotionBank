@@ -5,4 +5,5 @@ export const PATH = {
   REDIRECTION: '/redirection',
   DETAIL: (transactionId: string | number) => `/detail/${transactionId}`,
   TRANSACTION: '/transaction',
+  OTHER_USER: (userId: string | number) => `/user/${userId}`,
 };

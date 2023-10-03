@@ -28,9 +28,18 @@ export interface GetMyInfoResponse {
 
 export interface GetUserAccountInfoResponse {
   nickname: string;
-  accountId: number;
+  accountId: string;
   accountNumber: string;
   balance: number;
+  following: number;
+  follower: number;
+}
+
+export interface GetOtherAccountInfoResponse {
+  nickname: string;
+  accountId: string;
+  userId: string;
+  isFollow: boolean;
   following: number;
   follower: number;
 }

@@ -24,3 +24,9 @@ export const emotionImageList = {
   ANGRY: <Angry />,
   GLOOMY: <Gloomy />,
 };
+
+export const positiveEmotionImageList = {
+  EXCITING: <Exciting />,
+  HAPPY: <Happy />,
+  FLUTTER: <Flutter />,
+};
