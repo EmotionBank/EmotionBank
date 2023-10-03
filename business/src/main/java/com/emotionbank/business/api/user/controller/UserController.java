@@ -1,8 +1,17 @@
 package com.emotionbank.business.api.user.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
+import com.emotionbank.business.domain.notification.constant.NotificationType;
+import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
+import com.emotionbank.business.domain.notification.service.NotificationService;
+import com.google.firebase.messaging.FirebaseMessagingException;
+
+import com.emotionbank.business.domain.user.dto.ReportDto;
+import com.google.firebase.database.core.Repo;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +29,7 @@ import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserMyProfileDto;
 import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
+import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FeedsDto;
@@ -37,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final NotificationService notificationService;
 	private final int PAGESIZE = 12;
 
 	@GetMapping("/me")
@@ -61,9 +72,10 @@ public class UserController {
 	}
 
 	@GetMapping("/info/{userId}")
-	public ResponseEntity<?> getOtherProfile(@PathVariable long userId) {
+	public ResponseEntity<?> getOtherProfile(@PathVariable long userId, @UserInfo UserInfoDto userInfoDto) {
 		UserDto otherProfile = userService.getOtherProfile(userId);
-		return ResponseEntity.ok(UserOtherProfileDto.Response.from(otherProfile));
+		return ResponseEntity.ok(
+			UserOtherProfileDto.Response.of(otherProfile, userService.isFollow(userInfoDto.getUserId(), userId)));
 	}
 
 	@PostMapping("/check")
@@ -81,9 +93,12 @@ public class UserController {
 	}
 
 	@PostMapping("/follow/{userId}")
-	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) {
+	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
+		FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
 		userService.followUser(FollowDto.of(userId, followeeId));
+		notificationService.followNotification(
+			PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
 		return ResponseEntity.ok().build();
 	}
 
@@ -106,5 +121,11 @@ public class UserController {
 		Pageable pageable = PageRequest.of(page, PAGESIZE);
 		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
+	}
+
+	@GetMapping("/report/{userId}")
+	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
+		ReportDto reportDto = userService.getReport(userId);
+		return ResponseEntity.ok(UserReportDto.Response.from(reportDto));
 	}
 }
