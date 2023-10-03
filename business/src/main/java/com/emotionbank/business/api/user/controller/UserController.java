@@ -8,6 +8,8 @@ import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
 import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 
+import com.emotionbank.business.domain.user.dto.ReportDto;
+import com.google.firebase.database.core.Repo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,7 +112,7 @@ public class UserController {
 
 	@GetMapping("/report/{userId}")
 	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
-		UserReportDto userReportDto = userService.getReport(userId);
-		return ResponseEntity.ok(UserReportDto.Response.from(userReportDto));
+		ReportDto reportDto = userService.getReport(userId);
+		return ResponseEntity.ok(UserReportDto.Response.from(reportDto));
 	}
 }
