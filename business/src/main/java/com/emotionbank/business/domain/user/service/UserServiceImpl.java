@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.emotionbank.business.domain.user.dto.ReportDto;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -184,6 +185,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return ReportDto.of(deposits, withdrawals, balances);
 	}
+
 	@Override
 	public String getNickname(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -191,8 +193,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public boolean isFollow(Long followerId, Long followeeId) {
-		User followee = userRepository.findById(followeeId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-		User follower = userRepository.findById(followerId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		User followee = userRepository.findById(followeeId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		User follower = userRepository.findById(followerId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		if (followRepository.findByFolloweeAndFollower(followee, follower).isPresent()) {
 			return true;
 		}

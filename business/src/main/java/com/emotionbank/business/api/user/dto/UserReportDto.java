@@ -3,6 +3,7 @@ package com.emotionbank.business.api.user.dto;
 import java.util.List;
 
 import com.emotionbank.business.domain.user.dto.ReportDto;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class UserReportDto {
-
 
 	@Builder
 	@Getter
@@ -29,6 +29,4 @@ public class UserReportDto {
 				.build();
 		}
 	}
-
-
 }

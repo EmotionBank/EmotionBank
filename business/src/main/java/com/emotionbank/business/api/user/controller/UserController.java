@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 
 import com.emotionbank.business.domain.user.dto.ReportDto;
 import com.google.firebase.database.core.Repo;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +70,8 @@ public class UserController {
 	@GetMapping("/info/{userId}")
 	public ResponseEntity<?> getOtherProfile(@PathVariable long userId, @UserInfo UserInfoDto userInfoDto) {
 		UserDto otherProfile = userService.getOtherProfile(userId);
-		return ResponseEntity.ok(UserOtherProfileDto.Response.of(otherProfile,userService.isFollow(userInfoDto.getUserId(),userId)));
+		return ResponseEntity.ok(
+			UserOtherProfileDto.Response.of(otherProfile, userService.isFollow(userInfoDto.getUserId(), userId)));
 	}
 
 	@PostMapping("/check")
