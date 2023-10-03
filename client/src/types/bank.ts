@@ -37,6 +37,11 @@ export interface GetTransactionDetailResponse {
   accountName: string; // 계좌명
   transactionType: string;
 }
+export interface PostTransactionOtherResponse {
+  receiver: string;
+  amount: string;
+  emoticon: string;
+}
 
 export interface CategoryResponse {
   categoryId: number;
