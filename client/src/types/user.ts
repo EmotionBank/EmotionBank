@@ -30,7 +30,7 @@ export interface GetUserAccountInfoResponse {
   nickname: string;
   accountId: string;
   accountNumber: string;
-  balance: string;
+  balance: number;
   following: number;
   follower: number;
 }

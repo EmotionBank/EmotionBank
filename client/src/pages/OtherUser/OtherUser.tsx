@@ -7,6 +7,7 @@ import { convertYYYYMMDD } from '@/utils/convertDateToString';
 import { useGetTransactionList } from '@/hooks/apiHooks/useGetTransactionList';
 import { useGetCalendarInfo } from '@/hooks/apiHooks/useGetCalendarInfo';
 import { useGetOtherAccountInfo } from '@/hooks/apiHooks/useGetOtherAccountInfo';
+import OtherUserInfo from '@/components/OtherUserInfo/OtherUserInfo';
 
 const OtherUser = () => {
   const { userId } = useParams();
@@ -29,7 +30,11 @@ const OtherUser = () => {
   // const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
   // const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
 
-  return <S.OtherUserWrapper></S.OtherUserWrapper>;
+  return (
+    <S.OtherUserWrapper>
+      <OtherUserInfo getOtherAccountInfoData={getOtherAccountInfoData} />
+    </S.OtherUserWrapper>
+  );
 };
 
 export default OtherUser;
