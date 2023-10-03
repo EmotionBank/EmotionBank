@@ -23,10 +23,13 @@ export const EmotionGrid = styled.div`
 `;
 
 export const EmotionImageContainer = styled(Flex)<{ $clicked: boolean }>`
+  min-width: 10rem;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
   cursor: pointer;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.lightgray};
   border-radius: 8px;
   animation: ${({ $clicked }) =>
     $clicked
