@@ -40,13 +40,13 @@ public class PersonalNotificationDto {
 			.createTime(personalNotification.getCreateTime())
 			.build();
 	}
-	public static PersonalNotificationDto of(Long followerId, Long userId,String followerNickname,NotificationType notificationType, LocalDateTime createTime){
+	public static PersonalNotificationDto of(Long followerId, Long userId,String followerNickname){
 		return PersonalNotificationDto.builder()
 				.followerId(followerId)
 				.userId(userId)
 				.followerNickname(followerNickname)
-				.notificationType(notificationType)
-				.createTime(createTime)
+				.notificationType(NotificationType.FOLLOW)
+				.createTime(LocalDateTime.now())
 				.build();
 	}
 
