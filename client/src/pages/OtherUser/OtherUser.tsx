@@ -37,7 +37,7 @@ const OtherUser = () => {
 
   return (
     <S.OtherUserWrapper>
-      <OtherUserInfo getOtherAccountInfoData={getOtherAccountInfoData} />
+      <OtherUserInfo getOtherAccountInfoData={getOtherAccountInfoData} userId={userId!} />
       {/* <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} calendarList={getCalendarInfoData} /> */}
       {/* <TransactionList transactionDatas={transactionListData} /> */}
     </S.OtherUserWrapper>

@@ -8,16 +8,16 @@ import EmotionBankLogo from '@assets/emotionbank_logo.png';
 
 interface OtherUserInfoProps {
   getOtherAccountInfoData: GetOtherAccountInfoResponse;
+  userId: string;
 }
 
-const OtherUserInfo = ({ getOtherAccountInfoData }: OtherUserInfoProps) => {
+const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) => {
   const { openModal } = useModal();
   const postFollowMutation = usePostFollow();
 
   const handleFollowUser = () => {
-    postFollowMutation.mutate(getOtherAccountInfoData.userId);
+    postFollowMutation.mutate(String(getOtherAccountInfoData.userId));
   };
-
   return (
     <>
       <S.OtherUserInfoWrapper>
@@ -43,7 +43,7 @@ const OtherUserInfo = ({ getOtherAccountInfoData }: OtherUserInfoProps) => {
         </S.OtherUserInfoBottom>
       </S.OtherUserInfoWrapper>
       <Modal>
-        <TransferModal />
+        <TransferModal userId={userId} />
       </Modal>
     </>
   );

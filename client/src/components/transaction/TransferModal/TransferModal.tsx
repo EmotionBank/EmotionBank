@@ -3,12 +3,21 @@ import * as S from '@/components/transaction/TransferModal/TransferModal.style';
 import { positiveEmotionImageList } from '@/constants/emotions';
 import { setEmotionName } from '@/utils/setEmotionName';
 import { replaceDash, setMoneyRegex } from '@/utils/regex';
+import { usePostTransactionOther } from '@/hooks/apiHooks/usePostTransactionOther';
 
-const TransferModal = () => {
+const TransferModal = ({ userId }: { userId: string }) => {
+  const postTransactionOtherMutation = usePostTransactionOther();
   const [selectedEmotion, setSelectedEmotion] = useState('0');
   const [amount, setAmount] = useState('');
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const requsetData = {
+      receiver: userId,
+      amount: replaceDash(amount),
+      emoticon: selectedEmotion,
+    };
+    postTransactionOtherMutation.mutate({ ...requsetData });
+  };
 
   return (
     <S.TransferModalWrapper>
