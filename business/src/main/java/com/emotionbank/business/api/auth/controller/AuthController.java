@@ -62,7 +62,7 @@ public class AuthController {
 			LoginAccessTokenDto.of(RenewalAccessTokenDto.from(jwtTokens.getAccessToken()), loginJwtDto.getRole()));
 	}
 
-	@GetMapping("/token")
+	@GetMapping("/auth/token")
 	public ResponseEntity<RenewalAccessTokenDto> renewalAccessToken(
 		@CookieValue("refresh-token") final String refreshToken,
 		@RequestHeader("Authorization") final String authorizationHeader) {
