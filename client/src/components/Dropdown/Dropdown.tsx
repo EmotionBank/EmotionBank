@@ -17,7 +17,7 @@ const Dropdown = () => {
       </button>
       {isDropdownOpen && (
         <DropdownWrapper>
-          <DropdownItem>피드</DropdownItem>
+          <DropdownItem onClick={()=> navigate('/feed')}>피드</DropdownItem>
           <DropdownItem onClick={() => navigate('/profile')}>마이페이지</DropdownItem>
           <DropdownItem>리포트</DropdownItem>
         </DropdownWrapper>

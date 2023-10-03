@@ -1,4 +1,4 @@
-import { getAgreement } from '@/apis/Terms/getAgreement';
+import { getAgreement } from '@/apis/terms/getAgreement';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetTermList = () => {

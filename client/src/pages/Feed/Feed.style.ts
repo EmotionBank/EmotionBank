@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+export const FeedWrapper = styled.div`
+`
 export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -19,3 +21,7 @@ export const Content = styled.div`
 export const EmotionImg = styled.img`
   width: 30px;
 `;
+
+export const Target = styled.div`
+  height: 1px;
+`

@@ -1,6 +1,6 @@
 import * as S from '@/pages/Login/Login.style';
 import { KakaoLoginButton } from './Login.style';
-import EmotionBank from '@assets/emotions/EmotionBank.png';
+import EmotionBank from '@assets/emotionbank_logo.png';
 const Login = () => {
   const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT;
