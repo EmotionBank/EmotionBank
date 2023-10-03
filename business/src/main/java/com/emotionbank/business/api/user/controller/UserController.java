@@ -38,6 +38,7 @@ public class UserController {
 
 	private final UserService userService;
 	private final int PAGESIZE = 10;
+
 	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
@@ -99,9 +100,10 @@ public class UserController {
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
 	}
+
 	@GetMapping("/feed")
-	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto,@RequestParam int page){
-		Pageable pageable = PageRequest.of(page,PAGESIZE);
+	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto, @RequestParam int page) {
+		Pageable pageable = PageRequest.of(page, PAGESIZE);
 		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
 	}
