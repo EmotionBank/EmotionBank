@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
+
 import com.emotionbank.business.domain.notification.constant.NotificationType;
 import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
 import com.emotionbank.business.domain.notification.service.NotificationService;
@@ -123,9 +124,9 @@ public class UserController {
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
 	}
 
-	@GetMapping("/report/{userId}")
-	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
-		ReportDto reportDto = userService.getReport(userId);
+	@GetMapping("/report")
+	public ResponseEntity<UserReportDto.Response> getReport(@UserInfo UserInfoDto userInfoDto) {
+		ReportDto reportDto = userService.getReport(userInfoDto.getUserId());
 		return ResponseEntity.ok(UserReportDto.Response.from(reportDto));
 	}
 }
