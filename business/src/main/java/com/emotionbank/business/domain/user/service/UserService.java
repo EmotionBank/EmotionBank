@@ -2,8 +2,10 @@ package com.emotionbank.business.domain.user.service;
 
 import java.util.List;
 
+import com.emotionbank.business.domain.user.dto.ReportDto;
 import org.springframework.data.domain.Pageable;
 
+import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
@@ -28,4 +30,6 @@ public interface UserService {
 	boolean checkDuplicateNickname(String nickname);
 
 	boolean checkAdminRole(UserInfoDto userInfoDto);
+
+	ReportDto getReport(Long userId);
 }

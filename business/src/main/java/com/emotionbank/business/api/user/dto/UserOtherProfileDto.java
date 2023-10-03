@@ -18,12 +18,16 @@ public class UserOtherProfileDto {
 		String nickname;
 		int following;
 		int follower;
+		long accountId;
+		long userId;
 
 		public static Response from(UserDto userDto) {
 			return Response.builder()
 				.nickname(userDto.getNickname())
 				.following(userDto.getFollowing())
 				.follower(userDto.getFollower())
+				.userId(userDto.getUserId())
+				.accountId(userDto.getAccount().getAccountId())
 				.build();
 		}
 	}

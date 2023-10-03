@@ -84,9 +84,11 @@ public class UserDto {
 			.build();
 	}
 
-	public static UserDto of(String nickname, int following, int follower) {
+	public static UserDto of(String nickname, Long userId, AccountDto accountDto, int following, int follower) {
 		return UserDto.builder()
 			.nickname(nickname)
+			.userId(userId)
+			.account(accountDto)
 			.following(following)
 			.follower(follower)
 			.build();
@@ -94,6 +96,8 @@ public class UserDto {
 
 	public static UserDto from(User user) {
 		return UserDto.builder()
+			.userId(user.getUserId())
+			.birthDay(user.getBirthday())
 			.nickname(user.getNickname())
 			.image(user.getImage())
 			.account(AccountDto.from(user.getAccounts().get(0)))

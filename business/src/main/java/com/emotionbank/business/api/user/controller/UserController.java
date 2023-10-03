@@ -2,6 +2,8 @@ package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
 
+import com.emotionbank.business.domain.user.dto.ReportDto;
+import com.google.firebase.database.core.Repo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserMyProfileDto;
 import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
+import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
@@ -95,5 +98,11 @@ public class UserController {
 		List<UserDto> followers = userService.getFollowers(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/report/{userId}")
+	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
+		ReportDto reportDto = userService.getReport(userId);
+		return ResponseEntity.ok(UserReportDto.Response.from(reportDto));
 	}
 }
