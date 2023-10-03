@@ -20,14 +20,16 @@ public class UserOtherProfileDto {
 		int follower;
 		long accountId;
 		long userId;
+		boolean isFollow;
 
-		public static Response from(UserDto userDto) {
+		public static Response of(UserDto userDto, boolean isFollow) {
 			return Response.builder()
 				.nickname(userDto.getNickname())
 				.following(userDto.getFollowing())
 				.follower(userDto.getFollower())
 				.userId(userDto.getUserId())
 				.accountId(userDto.getAccount().getUserId())
+				.isFollow(isFollow)
 				.build();
 		}
 	}

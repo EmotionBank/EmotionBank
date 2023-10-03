@@ -7,6 +7,7 @@ import com.emotionbank.business.domain.notification.constant.NotificationType;
 import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
 import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.google.firebase.messaging.FirebaseMessagingException;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,75 +40,77 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    private final NotificationService notificationService;
+	private final UserService userService;
+	private final NotificationService notificationService;
 
-    @GetMapping("/me")
-    public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
-        long userId = userInfoDto.getUserId();
-        UserDto userInfo = userService.getUserInfo(userId);
-        return ResponseEntity.ok(UserInformationDto.Response.from(userInfo));
-    }
+	@GetMapping("/me")
+	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
+		long userId = userInfoDto.getUserId();
+		UserDto userInfo = userService.getUserInfo(userId);
+		return ResponseEntity.ok(UserInformationDto.Response.from(userInfo));
+	}
 
-    @PatchMapping("/me")
-    public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request, @UserInfo UserInfoDto userInfoDto) {
-        long userId = userInfoDto.getUserId();
-        UserDto userDto = UserDto.of(userId, request.getNickname());
-        userService.updateUser(userDto);
-        return ResponseEntity.ok().build();
-    }
+	@PatchMapping("/me")
+	public ResponseEntity updateUser(@RequestBody UserUpdateDto.Request request, @UserInfo UserInfoDto userInfoDto) {
+		long userId = userInfoDto.getUserId();
+		UserDto userDto = UserDto.of(userId, request.getNickname());
+		userService.updateUser(userDto);
+		return ResponseEntity.ok().build();
+	}
 
-    @GetMapping("/info/me")
-    public ResponseEntity<UserMyProfileDto.Response> getMyProfile(@UserInfo UserInfoDto userInfoDto) {
-        UserDto myProfile = userService.getMyProfile(userInfoDto.getUserId());
-        return ResponseEntity.ok(UserMyProfileDto.Response.from(myProfile));
-    }
+	@GetMapping("/info/me")
+	public ResponseEntity<UserMyProfileDto.Response> getMyProfile(@UserInfo UserInfoDto userInfoDto) {
+		UserDto myProfile = userService.getMyProfile(userInfoDto.getUserId());
+		return ResponseEntity.ok(UserMyProfileDto.Response.from(myProfile));
+	}
 
-    @GetMapping("/info/{userId}")
-    public ResponseEntity<?> getOtherProfile(@PathVariable long userId) {
-        UserDto otherProfile = userService.getOtherProfile(userId);
-        return ResponseEntity.ok(UserOtherProfileDto.Response.from(otherProfile));
-    }
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<?> getOtherProfile(@PathVariable long userId, @UserInfo UserInfoDto userInfoDto) {
+		UserDto otherProfile = userService.getOtherProfile(userId);
+		return ResponseEntity.ok(UserOtherProfileDto.Response.of(otherProfile,userService.isFollow(userInfoDto.getUserId(),userId)));
+	}
 
-    @PostMapping("/check")
-    public ResponseEntity<UserNicknameCheckDto.Response> checkDuplicateNickname(
-            @RequestBody UserNicknameCheckDto.Request request) {
-        return ResponseEntity.ok(
-                UserNicknameCheckDto.Response.of(userService.checkDuplicateNickname(request.getNickname())));
-    }
+	@PostMapping("/check")
+	public ResponseEntity<UserNicknameCheckDto.Response> checkDuplicateNickname(
+		@RequestBody UserNicknameCheckDto.Request request) {
+		return ResponseEntity.ok(
+			UserNicknameCheckDto.Response.of(userService.checkDuplicateNickname(request.getNickname())));
+	}
 
-    @GetMapping("/search")
-    public ResponseEntity<UserSearchDto.Response> searchUser(@RequestParam String nickname, Pageable pageable) {
-        List<UserDto> userDtos = userService.searchUser(nickname, pageable);
-        UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping("/search")
+	public ResponseEntity<UserSearchDto.Response> searchUser(@RequestParam String nickname, Pageable pageable) {
+		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
+		UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
+		return ResponseEntity.ok(response);
+	}
 
-    @PostMapping("/follow/{userId}")
-    public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws FirebaseMessagingException {
-        Long userId = userInfoDto.getUserId();
-        userService.followUser(FollowDto.of(userId, followeeId));
-        notificationService.followNotification(PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
-        return ResponseEntity.ok().build();
-    }
+	@PostMapping("/follow/{userId}")
+	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
+		FirebaseMessagingException {
+		Long userId = userInfoDto.getUserId();
+		userService.followUser(FollowDto.of(userId, followeeId));
+		notificationService.followNotification(
+			PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
+		return ResponseEntity.ok().build();
+	}
 
-    @GetMapping("/followee/{userId}")
-    public ResponseEntity<UserFollowsDto.Response> getFollowees(@PathVariable Long userId) {
-        List<UserDto> followees = userService.getFollowees(userId);
-        UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping("/followee/{userId}")
+	public ResponseEntity<UserFollowsDto.Response> getFollowees(@PathVariable Long userId) {
+		List<UserDto> followees = userService.getFollowees(userId);
+		UserFollowsDto.Response response = UserFollowsDto.Response.from(followees);
+		return ResponseEntity.ok(response);
+	}
 
-    @GetMapping("/follower/{userId}")
-    public ResponseEntity<UserFollowsDto.Response> getFollowers(@PathVariable Long userId) {
-        List<UserDto> followers = userService.getFollowers(userId);
-        UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping("/follower/{userId}")
+	public ResponseEntity<UserFollowsDto.Response> getFollowers(@PathVariable Long userId) {
+		List<UserDto> followers = userService.getFollowers(userId);
+		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
+		return ResponseEntity.ok(response);
+	}
 
-    @GetMapping("/report/{userId}")
-    public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
-        UserReportDto userReportDto = userService.getReport(userId);
-        return ResponseEntity.ok(UserReportDto.Response.from(userReportDto));
-    }
+	@GetMapping("/report/{userId}")
+	public ResponseEntity<UserReportDto.Response> getReport(@PathVariable Long userId) {
+		UserReportDto userReportDto = userService.getReport(userId);
+		return ResponseEntity.ok(UserReportDto.Response.from(userReportDto));
+	}
 }

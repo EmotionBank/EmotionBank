@@ -33,4 +33,6 @@ public interface UserService {
 	UserReportDto getReport(Long userId);
 
 	String getNickname(Long userId);
+
+	boolean isFollow(Long followerId, Long followeeId);
 }
