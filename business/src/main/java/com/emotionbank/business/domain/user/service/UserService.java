@@ -2,6 +2,7 @@ package com.emotionbank.business.domain.user.service;
 
 import java.util.List;
 
+import com.emotionbank.business.domain.user.dto.ReportDto;
 import org.springframework.data.domain.Pageable;
 
 import com.emotionbank.business.api.user.dto.UserReportDto;
@@ -30,5 +31,5 @@ public interface UserService {
 
 	boolean checkAdminRole(UserInfoDto userInfoDto);
 
-	UserReportDto getReport(Long userId);
+	ReportDto getReport(Long userId);
 }

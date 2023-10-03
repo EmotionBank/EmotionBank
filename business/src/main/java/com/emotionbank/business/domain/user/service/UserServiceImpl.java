@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.emotionbank.business.domain.user.dto.ReportDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -144,27 +145,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserReportDto getReport(Long userId) {
+	public ReportDto getReport(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		List<Category> categories = categoryRepository.findByUser(user);
-		List<UserReportDto.Report> deposits = new ArrayList<>();
-		List<UserReportDto.Report> withdrawals = new ArrayList<>();
-		List<UserReportDto.Balance> balances = new ArrayList<>();
+		List<ReportDto.Report> deposits = new ArrayList<>();
+		List<ReportDto.Report> withdrawals = new ArrayList<>();
+		List<ReportDto.Balance> balances = new ArrayList<>();
 
-		int withdrawalSum = 0;
-		int depositSum = 0;
+		long withdrawalSum = 0;
+		long depositSum = 0;
 
 		for (Category category : categories) {
 			List<Transaction> transactions = transactionRepository.findByCategory(category);
 			for (Transaction transaction : transactions) {
-				if (transaction.getTransactionType().equals(TransactionType.WITHDRAWL)) {
+				if (TransactionType.WITHDRAWL.equals(transaction.getTransactionType())) {
 					withdrawalSum += transaction.getAmount();
 				} else if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
 					depositSum += transaction.getAmount();
 				}
 			}
-			deposits.add(UserReportDto.Report.of(category.getCategoryName(), depositSum));
-			withdrawals.add(UserReportDto.Report.of(category.getCategoryName(), withdrawalSum));
+			deposits.add(ReportDto.Report.of(category.getCategoryName(), depositSum));
+			withdrawals.add(ReportDto.Report.of(category.getCategoryName(), withdrawalSum));
 		}
 		LocalDate now = LocalDate.now();
 		
@@ -174,12 +175,12 @@ public class UserServiceImpl implements UserService {
 					.get(0));
 			if (calendar.isPresent()) {
 				// todo: 기분에 따라서 amount 조절하기
-				balances.add(UserReportDto.Balance.builder()
+				balances.add(ReportDto.Balance.builder()
 					.amount(calendar.get().getAmount())
 					.day(i)
 					.build());
 			}
 		}
-		return UserReportDto.of(deposits, withdrawals, balances);
+		return ReportDto.of(deposits, withdrawals, balances);
 	}
 }

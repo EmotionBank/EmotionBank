@@ -27,7 +27,7 @@ public class UserOtherProfileDto {
 				.following(userDto.getFollowing())
 				.follower(userDto.getFollower())
 				.userId(userDto.getUserId())
-				.accountId(userDto.getAccount().getUserId())
+				.accountId(userDto.getAccount().getAccountId())
 				.build();
 		}
 	}
