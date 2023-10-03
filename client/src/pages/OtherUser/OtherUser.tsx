@@ -29,8 +29,8 @@ const OtherUser = () => {
     month: date.month,
   };
 
-  // const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
-  // const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
+  const { transactionListData } = useGetTransactionList(initTransactionData); // 특정 날짜 조회
+  const { getCalendarInfoData } = useGetCalendarInfo(initCalendarData);
 
   const updateDate = (newDate: DateType) => setDate({ ...newDate });
   const selectCalendarDate = (select: DateType) => setSelectedDate(select);
@@ -38,8 +38,8 @@ const OtherUser = () => {
   return (
     <S.OtherUserWrapper>
       <OtherUserInfo getOtherAccountInfoData={getOtherAccountInfoData} userId={userId!} />
-      {/* <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} calendarList={getCalendarInfoData} /> */}
-      {/* <TransactionList transactionDatas={transactionListData} /> */}
+      <Calendar updateDate={updateDate} selectCalendarDate={selectCalendarDate} calendarList={getCalendarInfoData} />
+      <TransactionList transactionDatas={transactionListData} />
     </S.OtherUserWrapper>
   );
 };
