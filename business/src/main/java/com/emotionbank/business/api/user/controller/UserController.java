@@ -2,6 +2,7 @@ package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.emotionbank.business.api.user.dto.UserFeedDto;
 import com.emotionbank.business.api.user.dto.UserFollowsDto;
 import com.emotionbank.business.api.user.dto.UserInformationDto;
 import com.emotionbank.business.api.user.dto.UserMyProfileDto;
@@ -20,6 +22,7 @@ import com.emotionbank.business.api.user.dto.UserNicknameCheckDto;
 import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
+import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
@@ -34,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
-
+	private final int PAGESIZE = 10;
 	@GetMapping("/me")
 	public ResponseEntity<UserInformationDto.Response> myInfo(@UserInfo UserInfoDto userInfoDto) {
 		long userId = userInfoDto.getUserId();
@@ -95,5 +98,11 @@ public class UserController {
 		List<UserDto> followers = userService.getFollowers(userId);
 		UserFollowsDto.Response response = UserFollowsDto.Response.from(followers);
 		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/feed")
+	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto,@RequestParam int page){
+		Pageable pageable = PageRequest.of(page,PAGESIZE);
+		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
+		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
 	}
 }

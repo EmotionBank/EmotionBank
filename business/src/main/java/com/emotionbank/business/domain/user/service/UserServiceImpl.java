@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
+import com.emotionbank.business.domain.transaction.entity.Transaction;
+import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.domain.user.constant.Role;
+import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final FollowRepository followRepository;
 	private final AccountRepository accountRepository;
+	private final TransactionRepository transactionRepository;
 
 	@Override
 	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
@@ -128,6 +132,16 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return true;
+	}
+
+	@Override
+	public FeedsDto getFeed(Long userId, Pageable pageable) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		Account account = accountRepository.findByUser(user)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
+		List<Transaction> feeds = transactionRepository.findFeed(account, pageable);
+		List<FeedsDto.FeedDto> feedDtos = feeds.stream().map(FeedsDto.FeedDto::of).collect(Collectors.toList());
+		return FeedsDto.of(feedDtos);
 	}
 
 }

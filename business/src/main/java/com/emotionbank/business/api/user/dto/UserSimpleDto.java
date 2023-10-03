@@ -15,11 +15,13 @@ import lombok.NoArgsConstructor;
 public class UserSimpleDto {
 	String nickname;
 	String image;
+	Long userId;
 
 	public static UserSimpleDto from(UserDto userDto) {
 		return UserSimpleDto.builder()
 			.nickname(userDto.getNickname())
 			.image(userDto.getEmail())
+			.userId(userDto.getUserId())
 			.build();
 	}
 
