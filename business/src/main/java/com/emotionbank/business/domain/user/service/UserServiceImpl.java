@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.emotionbank.business.domain.user.dto.ReportDto;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -168,7 +170,7 @@ public class UserServiceImpl implements UserService {
 			withdrawals.add(ReportDto.Report.of(category.getCategoryName(), withdrawalSum));
 		}
 		LocalDate now = LocalDate.now();
-		
+
 		for (int i = 1; i <= now.getDayOfMonth(); i++) {
 			Optional<Calendar> calendar = calendarRepository.findByDateAndAccount(
 				LocalDate.of(now.getYear(), now.getMonth(), i), user.getAccounts()
@@ -182,5 +184,22 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return ReportDto.of(deposits, withdrawals, balances);
+	}
+
+	@Override
+	public String getNickname(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		return user.getNickname();
+	}
+
+	public boolean isFollow(Long followerId, Long followeeId) {
+		User followee = userRepository.findById(followeeId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		User follower = userRepository.findById(followerId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+		if (followRepository.findByFolloweeAndFollower(followee, follower).isPresent()) {
+			return true;
+		}
+		return false;
 	}
 }

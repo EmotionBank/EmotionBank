@@ -39,13 +39,13 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void reportNotification(PersonalNotificationDto personalNotificationDto) throws FirebaseMessagingException {
 		User user = userRepository.findById(personalNotificationDto.getUserId())
-			.orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		List<FcmToken> userTokens = tokenRepository.findByUser(user);
 		Notification notification = Notification.builder()
 			.setTitle(personalNotificationDto.getNotificationType().getTitle())
 			.setBody(user.getNickname() + "님의 감정 리포트가 도착했습니다.")
 			.build();
-		for(FcmToken token:userTokens) {
+		for (FcmToken token : userTokens) {
 			firebaseMessaging.send(Message.builder()
 				.setNotification(notification)
 				.setToken(token.getToken())
@@ -57,15 +57,15 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void followNotification(PersonalNotificationDto personalNotificationDto) throws FirebaseMessagingException {
 		User follower = userRepository.findById(personalNotificationDto.getFollowerId())
-			.orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		User user = userRepository.findById(personalNotificationDto.getUserId())
-			.orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		List<FcmToken> userTokens = tokenRepository.findByUser(user);
 		Notification notification = Notification.builder()
 			.setTitle(personalNotificationDto.getNotificationType().getTitle())
 			.setBody(follower.getNickname() + "님이 회원님을 팔로우하기 시작했습니다.")
 			.build();
-		for(FcmToken token:userTokens) {
+		for (FcmToken token : userTokens) {
 			firebaseMessaging.send(Message.builder()
 				.setNotification(notification)
 				.setToken(token.getToken())
@@ -75,10 +75,11 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void sendToTopic(PublicNotificationDto publicNotificationDto, Long userId) throws FirebaseMessagingException {
+	public void sendToTopic(PublicNotificationDto publicNotificationDto, Long userId) throws
+		FirebaseMessagingException {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-		if (user.getRole() != Role.ADMIN){
+		if (user.getRole() != Role.ADMIN) {
 			throw new BusinessException(ErrorCode.NOTIFICATION_CREATE_UNAUTHORIZED);
 		}
 		Notification notification = Notification.builder()
@@ -95,7 +96,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public List<PersonalNotificationDto> getPersonalNotifications(Long userId) {
 		userRepository.findById(userId)
-			.orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		return personalNotificationRepository.findByUserId(userId).stream()
 			.map(PersonalNotificationDto::from)
 			.collect(Collectors.toList());
@@ -104,7 +105,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public List<PublicNotificationDto> getPublicNotifications(Long userId) {
 		userRepository.findById(userId)
-			.orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		return publicNotificationRepository.findByCreateTimeAfter(LocalDateTime.now().minusDays(30))
 			.stream()
 			.map(PublicNotificationDto::from)
