@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import * as S from '@/components/FollowListModal/FollowListModal.style';
 import { useGetFolloweeList } from '@/hooks/apiHooks/useGetFolloweeList';
 import { useGetFollowerList } from '@/hooks/apiHooks/useGetFollowerList';
-import { useState } from 'react';
+import emotionBank_logo from '@assets/emotionbank_logo.png';
 
 interface FollowListModalProps {
   userId: string;
@@ -27,6 +28,7 @@ const FollowListModal = ({ userId }: FollowListModalProps) => {
       <S.ItemContainer>
         {listData?.map(item => (
           <S.FollowListModalItem key={item.nickname}>
+            {item.image ? item.image : <S.FollowImg src={emotionBank_logo} />}
             <span>{item.nickname}</span>
           </S.FollowListModalItem>
         ))}

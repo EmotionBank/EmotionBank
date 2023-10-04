@@ -51,7 +51,7 @@ export interface GetRenewAccessTokenResponse {
 
 export interface FollowType {
   nickname: string;
-  emoticon: string;
+  image: string;
   userId: number;
 }
 

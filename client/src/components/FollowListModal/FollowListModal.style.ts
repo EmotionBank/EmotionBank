@@ -15,6 +15,8 @@ export const FollowListModalHeader = styled(Flex)`
 `;
 
 export const FollowSelectButton = styled(Flex)<{ $isSelected: boolean }>`
+  width: 50%;
+  height: 100%;
   font-weight: bold;
   cursor: pointer;
   color: ${({ theme, $isSelected }) => ($isSelected ? theme.color.darkgray : theme.color.lightgray)};
@@ -26,11 +28,16 @@ export const ItemContainer = styled(Flex)`
   gap: 1rem;
   padding: 0 1rem;
 `;
+
+export const FollowImg = styled.img`
+  height: 70%;
+`;
+
 export const FollowListModalItem = styled(Flex)`
   font-weight: bold;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0 1rem;
   justify-content: space-between;
   height: 5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.color.lightgray};
+  border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
 `;
