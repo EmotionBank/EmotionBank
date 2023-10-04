@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
+import './Font.css';
 
 const GlobalStyle = createGlobalStyle`
+
     *, *::before, *::after {
         box-sizing: border-box;
         padding: 0;
@@ -13,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         overflow-x: hidden;
         font-size: 1.6rem;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: "Pretendard ExtraBold";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -37,5 +39,7 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         outline: none;
     }
+    
+
 `;
 export default GlobalStyle;
