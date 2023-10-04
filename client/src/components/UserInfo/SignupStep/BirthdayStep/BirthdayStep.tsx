@@ -10,8 +10,10 @@ const BirthdayStep = ({ onNext }: IProps) => {
 
   return (
     <S.BirthdayWrapper>
-      <S.BirthdayTitle>생일을 입력해주세요.</S.BirthdayTitle>
-      <S.StyledInput onChange={handleContent} value={content} placeholder="yyyy-MM-dd"></S.StyledInput>
+      <S.BirthdayBody>
+        <S.BirthdayTitle>생일을 입력해주세요.</S.BirthdayTitle>
+        <S.StyledInput onChange={handleContent} value={content} placeholder="yyyy-MM-dd"></S.StyledInput>
+      </S.BirthdayBody>
       <S.StyledButton onClick={() => onNext(content)}>다음</S.StyledButton>
     </S.BirthdayWrapper>
   );

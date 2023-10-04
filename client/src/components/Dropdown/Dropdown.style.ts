@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const DropdownWrapper = styled.div`
-
-`;
+export const DropdownWrapper = styled.div``;
 export const DropdownButton = styled.button``;
 export const DropdownContent = styled.div<{ isOpen: boolean }>`
   width: 121px;
@@ -20,13 +18,12 @@ export const DropdownContent = styled.div<{ isOpen: boolean }>`
   top: 60%;
   left: 3%;
   display: ${props => (props.isOpen ? 'block' : 'none')};
-  /* Other styling for the dropdown content */
 `;
 export const DropdownItem = styled.li`
   margin-top: 6px;
   cursor: pointer;
   &:hover {
-    background: aliceblue;
-    color: ${({ theme }) => theme.color.darkgray};
+    background: ${({ theme }) => theme.color.secondary};
+    color: ${({ theme }) => theme.color.primary};
   }
 `;

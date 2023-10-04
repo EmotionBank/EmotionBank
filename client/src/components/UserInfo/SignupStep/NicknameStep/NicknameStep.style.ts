@@ -1,7 +1,17 @@
 import { Button } from '@/components/common/Button/Button';
+import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
 
-export const NicknameWrapper = styled.div`
+export const NicknameWrapper = styled(Flex)`
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem 2rem;
+  gap: 1rem;
+`;
+
+export const NicknameBody = styled.div`
   width: 100%;
 `;
 export const NicknameTitle = styled.h3`

@@ -33,13 +33,15 @@ const NicknameStep = ({ onNext }: IProps) => {
 
   return (
     <S.NicknameWrapper>
-      <S.NicknameTitle>닉네임을 입력해주세요</S.NicknameTitle>
-      <form id="nickname-form" onSubmit={handleNicknameCheck}>
-        <S.InputWrapper>
-          <S.StyledInput type="text" name="nickname" onChange={handleContent} value={content} />
-          <S.StyledButton type="submit">중복검사</S.StyledButton>
-        </S.InputWrapper>
-      </form>
+      <S.NicknameBody>
+        <S.NicknameTitle>닉네임을 입력해주세요</S.NicknameTitle>
+        <form id="nickname-form" onSubmit={handleNicknameCheck}>
+          <S.InputWrapper>
+            <S.StyledInput type="text" name="nickname" onChange={handleContent} value={content} />
+            <S.StyledButton type="submit">중복검사</S.StyledButton>
+          </S.InputWrapper>
+        </form>
+      </S.NicknameBody>
       <S.NextButton onClick={() => onNext(content, check)}>다음</S.NextButton>
     </S.NicknameWrapper>
   );

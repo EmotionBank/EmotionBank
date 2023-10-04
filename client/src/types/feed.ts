@@ -4,6 +4,10 @@ export interface UserFeed {
   userId: number;
 }
 
+interface FeedList {
+  feeds: UserFeed[];
+}
+
 export interface getUserFeedResponse {
-    userFeedList : UserFeed[]
+  feedList: FeedList;
 }

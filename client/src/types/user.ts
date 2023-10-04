@@ -39,3 +39,13 @@ export interface GetRenewAccessTokenResponse {
   tokenType: string;
   accessToken: string;
 }
+
+export interface SearchUser {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetSearchUserResponse {
+  users: SearchUser[]
+}
