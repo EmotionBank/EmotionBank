@@ -12,7 +12,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '@/recoils/atom';
 import OtherUser from '@/pages/OtherUser/OtherUser';
-import Report from '@/pages/Report/Report'
+import Report from '@/pages/EmotionReport/EmotionReport';
 
 const AppRouter = () => {
   const isLogin = useRecoilValue(isLoginState);
@@ -58,7 +58,7 @@ const AppRouter = () => {
         {
           path: PATH.REPORT,
           element: <Report />,
-        }
+        },
       ],
     },
   ]);

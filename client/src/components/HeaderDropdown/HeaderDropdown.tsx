@@ -8,7 +8,7 @@ const HeaderDropdown = () => {
     <HeaderDropdownWrapper>
       <HeaderDropdownItem onClick={() => navigate(PATH.FEED)}>피드</HeaderDropdownItem>
       <HeaderDropdownItem onClick={() => navigate(PATH.PROFILE)}>마이페이지</HeaderDropdownItem>
-      <HeaderDropdownItem>리포트</HeaderDropdownItem>
+      <HeaderDropdownItem onClick={() => navigate(PATH.REPORT)}>리포트</HeaderDropdownItem>
     </HeaderDropdownWrapper>
   );
 };
