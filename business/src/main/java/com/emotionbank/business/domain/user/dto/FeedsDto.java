@@ -20,6 +20,7 @@ public class FeedsDto {
 			.build();
 	}
 
+	@Getter
 	@Builder
 	public static class FeedDto {
 		String nickname;
