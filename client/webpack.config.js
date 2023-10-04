@@ -97,6 +97,10 @@ module.exports = (env, argv) => {
           issuer: /\.[jt]sx?$/,
           use: ['@svgr/webpack'],
         },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
       ],
     },
     plugins,
