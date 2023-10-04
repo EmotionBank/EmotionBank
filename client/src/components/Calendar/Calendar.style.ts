@@ -16,7 +16,7 @@ export const CalendarControllerWrapper = styled(Flex)`
 `;
 
 export const CalendarControllerContainer = styled(Flex)`
-  gap: 2rem;
+  gap: 0.5rem;
 `;
 
 export const CalendarController = styled.span`

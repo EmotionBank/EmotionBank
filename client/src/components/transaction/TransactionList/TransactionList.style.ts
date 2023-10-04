@@ -6,6 +6,9 @@ export const TransactionListWrapper = styled(Flex)`
   flex-direction: column;
   gap: 0.5rem;
   overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const TransactionListContainer = styled(Flex)`
   padding: 0 2rem;
