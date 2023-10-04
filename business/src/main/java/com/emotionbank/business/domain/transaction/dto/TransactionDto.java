@@ -70,7 +70,7 @@ public class TransactionDto {
 			.categoryId(request.getCategoryId())
 			.amount(request.getAmount())
 			.balance(request.getBalance())
-			.title(request.getContent().substring(0, 10))
+			.title(request.getContent().length() >= 10 ? request.getContent().substring(0, 10) : request.getContent())
 			.content(request.getContent())
 			.emoticon(Emoticon.valueOf(request.getEmoticon()))
 			.sender(request.getAccountNumber())

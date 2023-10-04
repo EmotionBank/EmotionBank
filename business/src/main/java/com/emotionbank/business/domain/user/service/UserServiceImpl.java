@@ -8,13 +8,9 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.emotionbank.business.domain.notification.service.NotificationService;
-import com.emotionbank.business.domain.user.dto.ReportDto;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.domain.account.dto.AccountDto;
 import com.emotionbank.business.domain.account.entity.Account;
 import com.emotionbank.business.domain.account.repository.AccountRepository;
@@ -25,11 +21,10 @@ import com.emotionbank.business.domain.category.repository.CategoryRepository;
 import com.emotionbank.business.domain.transaction.constant.TransactionType;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
-import com.emotionbank.business.domain.transaction.entity.Transaction;
-import com.emotionbank.business.domain.transaction.repository.TransactionRepository;
 import com.emotionbank.business.domain.user.constant.Role;
 import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
+import com.emotionbank.business.domain.user.dto.ReportDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.entity.Follow;
 import com.emotionbank.business.domain.user.entity.User;
@@ -53,8 +48,8 @@ public class UserServiceImpl implements UserService {
 	private final CalendarRepository calendarRepository;
 
 	@Override
-	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
-		List<User> users = userRepository.findByNicknameContains(userNickname, pageable);
+	public List<UserDto> searchUser(String userNickname) {
+		List<User> users = userRepository.findByNicknameContains(userNickname);
 		List<UserDto> userDtos = users.stream()
 			.map(UserDto::from)
 			.collect(Collectors.toList());
@@ -110,7 +105,7 @@ public class UserServiceImpl implements UserService {
 		AccountDto accountDto = AccountDto.from(account);
 		int following = followRepository.findByFollower(user).size();
 		int follower = followRepository.findByFollowee(user).size();
-		return UserDto.of(user.getNickname(), accountDto, following, follower);
+		return UserDto.of(user.getUserId(), user.getNickname(), accountDto, following, follower);
 	}
 
 	@Override
@@ -205,6 +200,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
+
 	@Override
 	public FeedsDto getFeed(Long userId, Pageable pageable) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
