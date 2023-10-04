@@ -5,7 +5,6 @@ import styled from 'styled-components';
 export const UserInfoWrapper = styled(Flex)`
   width: 100%;
   flex-direction: column;
-  padding: 2rem;
   gap: 1rem;
 `;
 
@@ -16,6 +15,9 @@ export const UserInfoTop = styled(Flex)`
 `;
 export const UserInfoBottom = styled(UserInfoTop)`
   height: 4rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.darkgray};
+  padding: 0 1rem;
 `;
 
 export const profileImage = styled.img`
@@ -54,6 +56,7 @@ export const FollowContainer = styled(Flex)`
   gap: 2rem;
   font-weight: bold;
   width: 40%;
+  font-size: 1.4rem;
   color: ${({ theme }) => theme.color.darkgray};
 `;
 

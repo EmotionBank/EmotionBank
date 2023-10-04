@@ -48,3 +48,13 @@ export interface GetRenewAccessTokenResponse {
   tokenType: string;
   accessToken: string;
 }
+
+export interface FollowType {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetFollowList {
+  follows: FollowType[];
+}

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 export const OtherUserInfoWrapper = styled(Flex)`
   width: 100%;
   flex-direction: column;
-  padding: 2rem;
   gap: 1rem;
 `;
 
@@ -16,6 +15,7 @@ export const OtherUserInfoTop = styled(Flex)`
 `;
 export const OtherUserInfoBottom = styled(OtherUserInfoTop)`
   height: 4rem;
+  padding: 0 1rem;
 `;
 
 export const InfoContainer = styled(Flex)`
@@ -35,6 +35,7 @@ export const FollowContainer = styled(Flex)`
   gap: 2rem;
   font-weight: bold;
   width: 40%;
+  font-size: 1.4rem;
   color: ${({ theme }) => theme.color.darkgray};
 `;
 

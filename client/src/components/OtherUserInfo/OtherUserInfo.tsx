@@ -1,3 +1,4 @@
+import FollowListModal from '@/components/FollowListModal/FollowListModal';
 import * as S from '@/components/OtherUserInfo/OtherUserInfo.style';
 import Modal from '@/components/common/Modal/Modal';
 import TransferModal from '@/components/transaction/TransferModal/TransferModal';
@@ -12,7 +13,8 @@ interface OtherUserInfoProps {
 }
 
 const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) => {
-  const { openModal } = useModal();
+  const { openModal: openTransferModal } = useModal('transfer');
+  const { openModal: openFollowModal } = useModal('follow');
   const postFollowMutation = usePostFollow();
 
   const handleFollowUser = () => {
@@ -26,24 +28,27 @@ const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) 
             <S.Logoimage src={EmotionBankLogo} />
             <S.NicknameInfo>{getOtherAccountInfoData.nickname}</S.NicknameInfo>
           </S.InfoContainer>
-          <S.FollowContainer>
+          <S.FollowContainer onClick={openFollowModal}>
             <S.FollowingInfo>
               <span>팔로잉</span>
               <span>{getOtherAccountInfoData.following}</span>
             </S.FollowingInfo>
             <S.FollowerInfo>
               <span>팔로워</span>
-              <span>{getOtherAccountInfoData.following}</span>
+              <span>{getOtherAccountInfoData.follower}</span>
             </S.FollowerInfo>
           </S.FollowContainer>
         </S.OtherUserInfoTop>
         <S.OtherUserInfoBottom>
-          <S.TransactionButton onClick={openModal}>이체</S.TransactionButton>
+          <S.TransactionButton onClick={openTransferModal}>이체</S.TransactionButton>
           <S.TransactionButton onClick={handleFollowUser}>팔로우</S.TransactionButton>
         </S.OtherUserInfoBottom>
       </S.OtherUserInfoWrapper>
-      <Modal>
+      <Modal id="transfer">
         <TransferModal userId={userId} />
+      </Modal>
+      <Modal id="follow">
+        <FollowListModal userId={userId} />
       </Modal>
     </>
   );
