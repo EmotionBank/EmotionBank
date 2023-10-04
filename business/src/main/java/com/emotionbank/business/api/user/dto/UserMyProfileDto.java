@@ -20,6 +20,7 @@ public class UserMyProfileDto {
 		Long balance;
 		int following;
 		int follower;
+		long userId;
 
 		public static Response from(UserDto userDto) {
 			return Response.builder()
@@ -29,6 +30,7 @@ public class UserMyProfileDto {
 				.balance(userDto.getAccount().getBalance())
 				.following(userDto.getFollowing())
 				.follower(userDto.getFollower())
+				.userId(userDto.getUserId())
 				.build();
 		}
 	}
