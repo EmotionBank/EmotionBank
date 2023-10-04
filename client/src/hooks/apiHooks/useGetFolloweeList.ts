@@ -3,5 +3,5 @@ import { getFolloweeList } from '@/apis/user/getFolloweeList';
 
 export const useGetFolloweeList = (userId: string) => {
   const { data } = useQuery(['followeeList'], () => getFolloweeList(userId));
-  return { GetFolloweeListData: data };
+  return { getFolloweeListData: data };
 };
