@@ -1,18 +1,8 @@
 package com.emotionbank.business.api.user.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
-
-import com.emotionbank.business.domain.notification.constant.NotificationType;
-import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
-import com.emotionbank.business.domain.notification.service.NotificationService;
-import com.google.firebase.messaging.FirebaseMessagingException;
-
-import com.emotionbank.business.domain.user.dto.ReportDto;
-import com.google.firebase.database.core.Repo;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,12 +23,16 @@ import com.emotionbank.business.api.user.dto.UserOtherProfileDto;
 import com.emotionbank.business.api.user.dto.UserReportDto;
 import com.emotionbank.business.api.user.dto.UserSearchDto;
 import com.emotionbank.business.api.user.dto.UserUpdateDto;
+import com.emotionbank.business.domain.notification.dto.PersonalNotificationDto;
+import com.emotionbank.business.domain.notification.service.NotificationService;
 import com.emotionbank.business.domain.user.dto.FeedsDto;
 import com.emotionbank.business.domain.user.dto.FollowDto;
+import com.emotionbank.business.domain.user.dto.ReportDto;
 import com.emotionbank.business.domain.user.dto.UserDto;
 import com.emotionbank.business.domain.user.service.UserService;
 import com.emotionbank.business.global.jwt.annotation.UserInfo;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
+import com.google.firebase.messaging.FirebaseMessagingException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -118,7 +112,8 @@ public class UserController {
 	}
 
 	@GetMapping("/feed")
-	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto, @RequestParam int page) {
+	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto,
+		@RequestParam("page") int page) {
 		Pageable pageable = PageRequest.of(page, PAGESIZE);
 		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
