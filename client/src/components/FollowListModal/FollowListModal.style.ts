@@ -26,6 +26,8 @@ export const ItemContainer = styled(Flex)`
   width: 100%;
   flex-direction: column;
   gap: 1rem;
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.color.darkgray};
   padding: 0 1rem;
 `;
 
