@@ -48,13 +48,13 @@ class UserServiceImplTest {
 	void searchUser() {
 		List<User> fakeUsers = Arrays.asList(User.builder().build(), User.builder().build(), User.builder().build());
 		Pageable pageable = PageRequest.of(0, 1);
-		when(userRepository.findByNicknameContains("user", pageable)).thenReturn((fakeUsers));
+		when(userRepository.findByNicknameContains("user")).thenReturn((fakeUsers));
 
-		List<UserDto> result = userService.searchUser("user", pageable);
+		List<UserDto> result = userService.searchUser("user");
 
 		assertThat(result).hasSize(3);
 
-		verify(userRepository, times(1)).findByNicknameContains("user", pageable);
+		verify(userRepository, times(1)).findByNicknameContains("user");
 	}
 
 	@Test
