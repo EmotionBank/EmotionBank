@@ -57,11 +57,11 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
   return (
     <S.CalendarWrapper>
       <S.CalendarControllerWrapper>
-        <S.CalendarController>
-          {currentDate.year}. {convertDateFormat(currentDate.month)}
-        </S.CalendarController>
         <S.CalendarControllerContainer>
           <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
+          <S.YearAndMonth>
+            {currentDate.year}. {convertDateFormat(currentDate.month)}
+          </S.YearAndMonth>
           <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
         </S.CalendarControllerContainer>
       </S.CalendarControllerWrapper>
@@ -80,7 +80,7 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
                   $thisMonth={currentDate.month === day.month}
                   onClick={() => selectCalendarDate(day)}
                 >
-                  {checkIsPaid(day) ? filteredImage(checkIsPaid(day)) : <span>{day.date}</span>}
+                  {checkIsPaid(day) ? filteredImage(checkIsPaid(day)) : <S.DateSpan>{day.date}</S.DateSpan>}
                 </S.DayContainer>
               );
             })}
