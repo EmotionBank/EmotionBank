@@ -168,8 +168,8 @@ public class TransactionServiceImpl implements TransactionService {
 			.orElseThrow(() -> new BusinessException(CATEGORY_NOT_EXIST));
 		// 출금 거래 내역 만들기
 		Transaction withdrawl = Transaction.of(TransactionType.WITHDRAWL, senderCategory, amount, balance,
-			senderAccount,
 			receiverAccount,
+			senderAccount,
 			transactionTransferDto.getEmoticon());
 		transactionRepository.save(withdrawl);
 

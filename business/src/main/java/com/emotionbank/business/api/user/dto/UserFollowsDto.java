@@ -18,11 +18,11 @@ public class UserFollowsDto {
 	@AllArgsConstructor
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	public static class Response {
-		List<UserSimpleDto> followees;
+		List<UserSimpleDto> follows;
 
 		public static Response from(List<UserDto> userDtos) {
 			return Response.builder()
-				.followees(userDtos.stream().map(UserSimpleDto::from).collect(Collectors.toList()))
+				.follows(userDtos.stream().map(UserSimpleDto::from).collect(Collectors.toList()))
 				.build();
 		}
 	}
