@@ -7,5 +7,6 @@ export const PATH = {
   TRANSACTION: '/transaction',
   PROFILE: '/profile',
   FEED: '/feed',
+  REPORT: '/report',
   OTHER_USER: (userId: string | number) => `/user/${userId}`,
 };
