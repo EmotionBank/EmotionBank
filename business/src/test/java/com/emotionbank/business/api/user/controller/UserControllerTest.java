@@ -46,7 +46,7 @@ class UserControllerTest extends BaseControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
 			.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
 			.build();
-		when(userService.searchUser("닉네임", pageable)).thenReturn(new ArrayList<>());
+		when(userService.searchUser("닉네임")).thenReturn(new ArrayList<>());
 		MockitoAnnotations.openMocks(this);
 		pageable = PageRequest.of(0, 5);
 	}
@@ -55,7 +55,7 @@ class UserControllerTest extends BaseControllerTest {
 	@DisplayName("응답 코드 확인")
 	public void checkStatus() {
 		String nickname = "닉네임";
-		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
+		ResponseEntity<?> responseEntity = userController.searchUser(nickname);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}
 
@@ -63,7 +63,7 @@ class UserControllerTest extends BaseControllerTest {
 	@DisplayName("응답 본문 확인")
 	public void checkBody() {
 		String nickname = "닉네임";
-		ResponseEntity<?> responseEntity = userController.searchUser(nickname, pageable);
+		ResponseEntity<?> responseEntity = userController.searchUser(nickname);
 		UserSearchDto.Response responseBody = (UserSearchDto.Response)responseEntity.getBody();
 		assertNotNull(responseBody);
 		List<UserSimpleDto> users = responseBody.getUsers();

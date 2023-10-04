@@ -81,8 +81,8 @@ public class UserController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<UserSearchDto.Response> searchUser(@RequestParam String nickname, Pageable pageable) {
-		List<UserDto> userDtos = userService.searchUser(nickname, pageable);
+	public ResponseEntity<UserSearchDto.Response> searchUser(@RequestParam String nickname) {
+		List<UserDto> userDtos = userService.searchUser(nickname);
 		UserSearchDto.Response response = UserSearchDto.Response.from(userDtos);
 		return ResponseEntity.ok(response);
 	}

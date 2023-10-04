@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService {
 	private final CalendarRepository calendarRepository;
 
 	@Override
-	public List<UserDto> searchUser(String userNickname, Pageable pageable) {
-		List<User> users = userRepository.findByNicknameContains(userNickname, pageable);
+	public List<UserDto> searchUser(String userNickname) {
+		List<User> users = userRepository.findByNicknameContains(userNickname);
 		List<UserDto> userDtos = users.stream()
 			.map(UserDto::from)
 			.collect(Collectors.toList());
