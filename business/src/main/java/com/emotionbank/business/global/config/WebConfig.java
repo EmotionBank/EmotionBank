@@ -80,7 +80,8 @@ public class WebConfig implements WebMvcConfigurer {
 			.excludePathPatterns(
 				"/auth/login/kakao/callback",
 				"/auth/token",
-				"/health"
+				"/health",
+				"/actuator/prometheus"
 			);
 		registry.addInterceptor(agreementInterceptor)
 			.order(2)
@@ -90,7 +91,8 @@ public class WebConfig implements WebMvcConfigurer {
 				"/auth/token",
 				"/health",
 				"/signup",
-				"/agreement"
+				"/agreement",
+				"/actuator/prometheus"
 			);
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
