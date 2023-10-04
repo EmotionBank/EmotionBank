@@ -15,13 +15,20 @@ import com.emotionbank.business.domain.transaction.constant.Visibility;
 import com.emotionbank.business.domain.transaction.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
+	@Query("SELECT t FROM Transaction t WHERE ((t.sender = :account and t.receiver = :account) or (t.sender = :account and t.transactionType = 'WITHDRAWL') or (t.receiver =:account and t.transactionType = 'DEPOSIT')) AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
 	List<Transaction> searchTransactionByAccountAndDate(Account account,
 		Date startDate,
 		Date endDate
 	);
 
-	@Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND t.category.visibility = :visibility AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
+	// @Query("SELECT t FROM Transaction t WHERE (t.sender = :account OR t.receiver = :account) AND t.category.visibility = :visibility AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
+	// List<Transaction> findByAccountAndDateAndVisibility(Account account,
+	// 	Date startDate,
+	// 	Date endDate,
+	// 	Visibility visibility
+	// );
+
+	@Query("SELECT t FROM Transaction t WHERE ((t.sender = :account and t.receiver = :account) or (t.sender = :account and t.transactionType = 'WITHDRAWL') or (t.receiver =:account and t.transactionType = 'DEPOSIT')) AND t.category.visibility = :visibility AND DATE(t.transactionTime) BETWEEN :startDate AND :endDate")
 	List<Transaction> findByAccountAndDateAndVisibility(Account account,
 		Date startDate,
 		Date endDate,
