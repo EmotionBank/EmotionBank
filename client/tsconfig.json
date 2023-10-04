@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react-jsx",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    // 절대경로 설정
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
+    }
+  },
+  "include": ["./src"]
+}
