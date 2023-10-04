@@ -1,12 +1,9 @@
 package com.emotionbank.business.domain.user.dto;
 
-import com.emotionbank.business.api.user.dto.UserReportDto;
-import com.google.firebase.database.core.Repo;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 @Builder
@@ -24,6 +21,7 @@ public class ReportDto {
 	}
 
 	@Builder
+	@Getter
 	public static class Report {
 		String categoryName;
 		Long amount;
@@ -37,6 +35,7 @@ public class ReportDto {
 	}
 
 	@Builder
+	@Getter
 	public static class Balance {
 		int day;
 		Long amount;
