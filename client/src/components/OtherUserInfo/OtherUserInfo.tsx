@@ -33,7 +33,7 @@ const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) 
             </S.FollowingInfo>
             <S.FollowerInfo>
               <span>팔로워</span>
-              <span>{getOtherAccountInfoData.following}</span>
+              <span>{getOtherAccountInfoData.follower}</span>
             </S.FollowerInfo>
           </S.FollowContainer>
         </S.OtherUserInfoTop>
