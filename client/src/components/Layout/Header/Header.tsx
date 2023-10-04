@@ -3,7 +3,8 @@ import { isLoginState, signupStep } from '@/recoils/atom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import Dropdown from '@/components/Dropdown/Dropdown';
+import Dropdown from '@/components/common/Dropdown/Dropdown';
+import HeaderDropdown from '@/components/HeaderDropdown/HeaderDropdown';
 
 const Header = () => {
   const path = useLocation().pathname;
@@ -16,7 +17,12 @@ const Header = () => {
   };
 
   const checkHeaderDropDown = () => {
-    if (path === '/' && isLogin) return <Dropdown />;
+    if (path === '/' && isLogin)
+      return (
+        <Dropdown>
+          <HeaderDropdown />
+        </Dropdown>
+      );
     if (path === '/' && !isLogin) return null;
     return <ArrowBackIosNewIcon onClick={handleBackPage} />;
   };
