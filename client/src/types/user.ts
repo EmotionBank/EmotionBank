@@ -33,6 +33,7 @@ export interface GetUserAccountInfoResponse {
   balance: number;
   following: number;
   follower: number;
+  userId: number;
 }
 
 export interface GetOtherAccountInfoResponse {
@@ -59,7 +60,6 @@ export interface GetFollowList {
   follows: FollowType[];
 }
 
-
 export interface SearchUser {
   nickname: string;
   image: string;
@@ -67,5 +67,5 @@ export interface SearchUser {
 }
 
 export interface GetSearchUserResponse {
-  users: SearchUser[]
+  users: SearchUser[];
 }

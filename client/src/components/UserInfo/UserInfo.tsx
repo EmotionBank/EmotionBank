@@ -44,7 +44,7 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
         </S.UserInfoBottom>
       </S.UserInfoWrapper>
       <Modal>
-        <FollowListModal userId="1" />
+        <FollowListModal userId={localStorage.getItem('userId')!} />
       </Modal>
     </>
   );

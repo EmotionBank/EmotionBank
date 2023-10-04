@@ -8,6 +8,7 @@ export const useGetUserAccount = () => {
   localStorage.setItem('accountNumber', data!.accountNumber);
   localStorage.setItem('accountId', String(data!.accountId));
   localStorage.setItem('balance', String(data!.balance));
+  localStorage.setItem('userId', String(data!.userId));
 
   return { getUserAccountInfoData: data! };
 };
