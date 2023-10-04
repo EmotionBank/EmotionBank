@@ -11,6 +11,7 @@ import Feed from '@/pages/Feed/Feed';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '@/recoils/atom';
+import OtherUser from '@/pages/OtherUser/OtherUser';
 
 const AppRouter = () => {
   const isLogin = useRecoilValue(isLoginState);
@@ -48,6 +49,10 @@ const AppRouter = () => {
         {
           path: PATH.FEED,
           element: <Feed />,
+        },
+        {
+          path: PATH.OTHER_USER(':userId'),
+          element: <OtherUser />,
         },
       ],
     },

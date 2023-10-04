@@ -1,5 +1,6 @@
 import * as S from '@/components/transaction/TransactionStep/EmotionStep/EmotionStep.style';
 import { emotionImageList } from '@/constants/emotions';
+import { setEmotionName } from '@/utils/setEmotionName';
 import { useState } from 'react';
 
 interface IProps {
@@ -24,7 +25,7 @@ const EmotionStep = ({ onNext }: IProps) => {
         {Object.entries(emotionImageList).map(([key, value]) => (
           <S.EmotionImageContainer key={key} onClick={() => setSelectedEmotion(key)} $clicked={key === selectedEmotion}>
             {value}
-            {key}
+            {setEmotionName(key)}
           </S.EmotionImageContainer>
         ))}
       </S.EmotionGrid>

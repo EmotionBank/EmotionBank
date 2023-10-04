@@ -28,9 +28,18 @@ export interface GetMyInfoResponse {
 
 export interface GetUserAccountInfoResponse {
   nickname: string;
-  accountId: number;
+  accountId: string;
   accountNumber: string;
   balance: number;
+  following: number;
+  follower: number;
+}
+
+export interface GetOtherAccountInfoResponse {
+  nickname: string;
+  accountId: string;
+  userId: string;
+  isFollow: boolean;
   following: number;
   follower: number;
 }
@@ -39,6 +48,17 @@ export interface GetRenewAccessTokenResponse {
   tokenType: string;
   accessToken: string;
 }
+
+export interface FollowType {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetFollowList {
+  follows: FollowType[];
+}
+
 
 export interface SearchUser {
   nickname: string;

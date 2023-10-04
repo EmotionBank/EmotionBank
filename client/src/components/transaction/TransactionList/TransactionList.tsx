@@ -25,7 +25,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
         >
           <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
           <span>{item.title}</span>
-          <span>{setMoneyRegex(item.amount)}</span>
+          <span>{setMoneyRegex(String(item.amount))}</span>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>
