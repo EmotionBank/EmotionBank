@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { renewAccessToken } from './user/renewAccessToken';
+import { useNavigate } from 'react-router-dom';
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
@@ -10,7 +11,7 @@ export const axiosInstance = axios.create({
 });
 
 let isRefreshing = false;
-let failedRequests:InternalAxiosRequestConfig[] = [];
+let failedRequests: InternalAxiosRequestConfig[] = [];
 
 axiosInstance.interceptors.request.use(
   (req: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
@@ -18,7 +19,6 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       req.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-    // console.log(req, req.headers['Authorization']);
     return req;
   },
   error => {
@@ -38,32 +38,35 @@ axiosInstance.interceptors.response.use(
     } = error;
     const originalRequest = config;
     if (data.errorCode === 'J-003') {
-      if(!isRefreshing){
-        isRefreshing =true;
-      try {
-        const response = await renewAccessToken();
-        // console.log(response);
-        localStorage.setItem('accessToken', response.accessToken);
-        isRefreshing = false;
-        // 다시 시도하지 못한 요청 처리
-        failedRequests.forEach(cb => cb(response.accessToken));
-        failedRequests = [];
-        return axiosInstance(originalRequest);
-      } catch (error) {
-        console.log('토큰만료시 재요청 보냈을 때의 ' + error);
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const response = await renewAccessToken();
+          // console.log(response);
+          localStorage.setItem('accessToken', response.accessToken);
+          isRefreshing = false;
+          // 다시 시도하지 못한 요청 처리
+          failedRequests.forEach(cb => cb(response.accessToken));
+          failedRequests = [];
+          return axiosInstance(originalRequest);
+        } catch (error) {
+          console.log('토큰만료시 재요청 보냈을 때의 ' + error);
+        }
+      } else {
+        return new Promise((resolve, reject) => {
+          failedRequests.push(newAccessToken => {
+            originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+            resolve(axiosInstance(originalRequest));
+          });
+        });
       }
-    } else {
-      return new Promise((resolve, reject) =>{
-        failedRequests.push(newAccessToken =>{
-          originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
-          resolve(axiosInstance(originalRequest))
-        })
-      })
+    } else if (data.errorCode === 'J-002') {
+      const navigate = useNavigate();
+      const goToLogin = () => navigate('/login');
+      console.log('유효하지 않은 refresh token');
+      alert('로그인 화면으로 이동합니다.');
+      goToLogin();
     }
-  }
-    // } else if (status === 409){
-    //   alert('중복된 닉네임입니다.')
-    //   throw(error)
     // } else if (status === 500) {
     //   console.log('여긴 500 에러', error);
     // }

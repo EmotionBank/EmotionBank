@@ -58,3 +58,14 @@ export interface FollowType {
 export interface GetFollowList {
   follows: FollowType[];
 }
+
+
+export interface SearchUser {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetSearchUserResponse {
+  users: SearchUser[]
+}
