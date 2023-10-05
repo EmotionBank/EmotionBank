@@ -14,7 +14,7 @@ export const BirthdayWrapper = styled(Flex)`
 
 export const BirthdayTitle = styled.h3`
   color: ${({ theme }) => theme.color.darkgray};
-  margin-bottom:16px;
+  margin-bottom: 16px;
 `;
 
 export const BirthdayBody = styled.div`
