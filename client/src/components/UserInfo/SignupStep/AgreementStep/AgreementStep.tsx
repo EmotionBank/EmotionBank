@@ -30,7 +30,7 @@ const AgreementStep = ({ onNext }: Iprops) => {
 
   return (
     <S.AgreementForm>
-      <S.AgreementTitle style={{ marginBottom: '20px' }}>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
+      <S.AgreementTitle>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
       <S.AgreementWrapper>
         {agreements.map((agreement, index) => (
           <div key={index} style={{ width:'100%'}}>
@@ -39,21 +39,23 @@ const AgreementStep = ({ onNext }: Iprops) => {
               type="checkbox"
               checked={checkboxStates[index]}
               onChange={() => handleCheckboxChange(index)}
-              style={{ marginRight: '5px' }}
+              style={{ width:'20px', height:'20px' ,marginRight: '5px' }}
             />
-            <span
+            <div
               style={{
                 marginRight: '5px',
                 color: agreement.mandatory === 'ESSENTIAL' ? 'red' : 'inherit',
               }}
             >
               ({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})
-            </span>
+            </div>
 
-            <span onClick={() => handleOpenChange(index)}>
-              {openStates[index]?(<ArrowDropDownIcon />) : (<ArrowRightIcon />)}
+            <div onClick={() => handleOpenChange(index)} style={{width:'80%', display:'flex'}}>
+              <div style={{width:'90%', fontWeight:'bold'}}>
               {agreement.title}
-            </span>
+              </div>
+              {openStates[index]?(<S.DetailButton>접기</S.DetailButton>) : (<S.DetailButton>보기</S.DetailButton>)}
+            </div>
           </S.AgreementContent>
           {openStates[index] && <S.AgreementDetail>{agreement.content}</S.AgreementDetail>}
           </div>

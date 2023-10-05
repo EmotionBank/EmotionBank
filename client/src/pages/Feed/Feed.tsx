@@ -71,7 +71,7 @@ const Feed = () => {
               {searchResult?.map((user, index) => (
                 <S.SearchResultItem key={index} onClick={() => handleOtherProfile(user.userId)}>
                   <S.SearchResultImg src={emotionLogo} />
-                  {user.nickname}
+                  <span>{user.nickname}</span>
                 </S.SearchResultItem>
               ))}
             </div>
