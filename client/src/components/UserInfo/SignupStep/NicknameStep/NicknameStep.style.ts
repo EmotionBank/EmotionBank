@@ -7,43 +7,39 @@ export const NicknameWrapper = styled(Flex)`
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5rem 2rem;
-  gap: 1rem;
+  padding: 4rem 0;
 `;
 
 export const NicknameBody = styled.div`
   width: 100%;
 `;
 export const NicknameTitle = styled.h3`
-  color: ${({ theme }) => theme.color.primary};
+  color: ${({ theme }) => theme.color.darkgray};
 `;
 
-export const NextButton = styled(Button)`
-  color: ${({ theme }) => theme.color.primary};
-  background: ${({ theme }) => theme.color.secondary};
-`;
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
+export const InputWrapper = styled(Flex)`
+  width: 80%;
+  gap: 1rem;
 `;
 
 export const StyledInput = styled.input`
-  flex-grow: 1;
-  border: 1px solid #ccc;
+  width: 40%;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.color.lightgray};
 `;
 
-export const StyledButton = styled.button`
-  margin-left: 8px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+export const StyledButton = styled(Button)`
+  width: 30%;
+  border-radius: 8px;
   padding: 8px 12px;
-  cursor: pointer;
+  font-weight: bold;
+`;
 
-  &:hover {
-    background-color: #0056b3;
-  }
+export const NextButton = styled(Button)`
+  width: 80%;
+  background-color: ${({ theme }) => theme.color.navy};
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 12px;
 `;
