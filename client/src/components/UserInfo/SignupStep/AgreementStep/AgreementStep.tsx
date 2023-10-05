@@ -37,23 +37,32 @@ const AgreementStep = ({ onNext }: Iprops) => {
   console.log(checkboxStates);
 
   return (
-    <S.AgreementWrapper>
-      <S.AgreementBody>
-        <S.AgreementTitle>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
-        {agreements.map((agreement, index) => (
-          <S.AgreementContent key={index}>
-            <input type="checkbox" checked={checkboxStates[index]} onChange={() => handleCheckboxChange(index)} />
-            <span>({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})</span>
-            <span onClick={() => handleOpenChange(index)}>{agreement.title}</span>
-            {openStates[index] && <p>{agreement.content}</p>}
-          </S.AgreementContent>
-        ))}
-      </S.AgreementBody>
+    <S.AgreementForm>
+      <S.AgreementTitle style={{ marginBottom: '20px' }}>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
 
-      <S.AgreementButton disabled={!meetRequired} onClick={() => onNext(checkboxStates)}>
+      {agreements.map((agreement, index) => (
+        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <input
+            type="checkbox"
+            checked={checkboxStates[index]}
+            onChange={() => handleCheckboxChange(index)}
+            style={{ marginRight: '5px' }}
+          />
+          <span
+            style={{
+              marginRight: '5px',
+              color: agreement.mandatory === 'ESSENTIAL' ? 'red' : 'inherit',
+            }}
+          >
+            ({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})
+          </span>
+          <span>{agreement.title}</span>
+        </div>
+      ))}
+      <S.NextButton disabled={!meetRequired} onClick={() => onNext(checkboxStates)}>
         다음
-      </S.AgreementButton>
-    </S.AgreementWrapper>
+      </S.NextButton>
+    </S.AgreementForm>
   );
 };
 
