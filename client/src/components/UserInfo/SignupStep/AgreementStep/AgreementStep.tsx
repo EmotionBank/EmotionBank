@@ -1,11 +1,11 @@
 import * as S from './AgreementStep.style';
 import { useState } from 'react';
 import { useGetTermList } from '@/hooks/apiHooks/useGetAgreementList';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 interface Iprops {
   onNext: (requests: boolean[]) => void;
 }
+
 const AgreementStep = ({ onNext }: Iprops) => {
   const {
     getTermsListData: { agreements },
