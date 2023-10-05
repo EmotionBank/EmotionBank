@@ -53,7 +53,10 @@ public enum ErrorCode {
 	AGREEMENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "G-001", "약관 동의 정보가 없습니다."),
 
 	// Notification
-	NOTIFICATION_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "N-001", "알림을 보낼 수 있는 권한이 없습니다");
+	NOTIFICATION_CREATE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "N-001", "알림을 보낼 수 있는 권한이 없습니다"),
+
+	// Follow
+	FOLLOW_BAD_REQUEST(HttpStatus.BAD_REQUEST,"F-001","자기 자신을 팔로우 할 수 없습니다.");
 
 	ErrorCode(HttpStatus httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
