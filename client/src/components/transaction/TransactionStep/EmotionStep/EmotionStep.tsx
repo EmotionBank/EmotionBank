@@ -1,12 +1,12 @@
 import * as S from '@/components/transaction/TransactionStep/EmotionStep/EmotionStep.style';
-import { emotionImageList } from '@/constants/emotions';
+import { emotionImageList, positiveEmotion } from '@/constants/emotions';
 import { setEmotionName } from '@/utils/setEmotionName';
 import { useState } from 'react';
 
 interface IProps {
   onNext: (newData: string) => void;
 }
-
+const isPositiveEmotion = (emoticon: string) => positiveEmotion.includes(emoticon);
 const EmotionStep = ({ onNext }: IProps) => {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
@@ -29,7 +29,7 @@ const EmotionStep = ({ onNext }: IProps) => {
           </S.EmotionImageContainer>
         ))}
       </S.EmotionGrid>
-      <S.NextButton onClick={handleNext}>다음</S.NextButton>
+      <S.NextButton onClick={handleNext}>{isPositiveEmotion(selectedEmotion) ? '입금하기' : '출금하기'}</S.NextButton>
     </S.EmotionStepWrapper>
   );
 };
