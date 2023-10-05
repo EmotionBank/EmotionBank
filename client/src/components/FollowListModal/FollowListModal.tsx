@@ -3,17 +3,23 @@ import * as S from '@/components/FollowListModal/FollowListModal.style';
 import { useGetFolloweeList } from '@/hooks/apiHooks/useGetFolloweeList';
 import { useGetFollowerList } from '@/hooks/apiHooks/useGetFollowerList';
 import emotionBank_logo from '@assets/emotionbank_logo.png';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/constants/path';
 
 interface FollowListModalProps {
   userId: string;
 }
 
 const FollowListModal = ({ userId }: FollowListModalProps) => {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState('FOLLOWER');
   const { getFollowerListData } = useGetFollowerList(userId);
   const { getFolloweeListData } = useGetFolloweeList(userId);
-  console.log(getFolloweeListData?.follows);
   const listData = selected === 'FOLLOWER' ? getFollowerListData?.follows : getFolloweeListData?.follows;
+
+  const handleNavigate = (userId: string | number) => {
+    navigate(PATH.OTHER_USER(userId));
+  };
 
   return (
     <S.FollowListModalWrapper>
@@ -27,7 +33,7 @@ const FollowListModal = ({ userId }: FollowListModalProps) => {
       </S.FollowListModalHeader>
       <S.ItemContainer>
         {listData?.map(item => (
-          <S.FollowListModalItem key={item.nickname}>
+          <S.FollowListModalItem key={item.nickname} onClick={() => handleNavigate(item.userId)}>
             {item.image ? item.image : <S.FollowImg src={emotionBank_logo} />}
             <span>{item.nickname}</span>
           </S.FollowListModalItem>

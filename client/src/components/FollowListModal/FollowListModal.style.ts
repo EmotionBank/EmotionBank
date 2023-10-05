@@ -42,4 +42,5 @@ export const FollowListModalItem = styled(Flex)`
   justify-content: space-between;
   height: 5rem;
   border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
+  cursor: pointer;
 `;
