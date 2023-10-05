@@ -14,7 +14,7 @@ import Modal from '@/components/common/Modal/Modal';
 const Profile = () => {
   const [content, handleContent] = useInput('');
   const [nicknamePossible, setNicknamePossible] = useState(false);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const { getMyInfoData } = useGetMyInfo();
 
@@ -35,6 +35,7 @@ const Profile = () => {
     e.preventDefault();
     if (nicknamePossible) {
       await updateMyInfo(content);
+      closeModal();
       return;
     }
     alert('중복 검사를 해주세요.');
