@@ -39,7 +39,7 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
           </S.FollowContainer>
         </S.UserInfoTop>
         <S.UserInfoBottom>
-          <span>{setMoneyRegex(String(getUserAccountInfoData.balance))}원</span>
+          <S.MoneySpan>{setMoneyRegex(String(getUserAccountInfoData.balance))}원</S.MoneySpan>
           <S.TransactionButton onClick={() => navigate(PATH.TRANSACTION)}>입/출금</S.TransactionButton>
         </S.UserInfoBottom>
       </S.UserInfoWrapper>

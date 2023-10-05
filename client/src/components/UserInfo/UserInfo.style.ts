@@ -67,6 +67,10 @@ export const FollowingInfo = styled(Flex)`
 `;
 export const FollowerInfo = styled(FollowingInfo)``;
 
+export const MoneySpan = styled.span`
+  letter-spacing: 1.5px;
+`;
+
 export const TransactionButton = styled(Button)`
   width: 40%;
   background-color: ${({ theme }) => theme.color.secondary};
