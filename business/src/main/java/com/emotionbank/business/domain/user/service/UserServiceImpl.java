@@ -126,18 +126,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void updateUser(UserDto userDto) {
+		if (checkDuplicateNickname(userDto.getNickname())) {
+			throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
+		}
 		User user = userRepository.findById(userDto.getUserId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-		if (checkDuplicateNickname(userDto.getNickname())) {
-			throw (new BusinessException(ErrorCode.NICKNAME_DUPLICATE));
-		}
 		user.updateNickname(userDto.getNickname());
 
 	}
 
 	@Override
 	public boolean checkDuplicateNickname(String nickname) {
-		return !userRepository.existsByNickname(nickname);
+		return userRepository.existsByNickname(nickname);
 	}
 
 	@Override
