@@ -91,9 +91,10 @@ public class UserController {
 	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
-		userService.followUser(FollowDto.of(followeeId, userId));
-		notificationService.followNotification(
-			PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
+		if (userService.followUser(FollowDto.of(followeeId, userId))) {
+			notificationService.followNotification(
+				PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
+		}
 		return ResponseEntity.ok().build();
 	}
 

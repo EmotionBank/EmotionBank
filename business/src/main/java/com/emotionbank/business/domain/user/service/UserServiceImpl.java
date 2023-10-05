@@ -57,17 +57,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void followUser(FollowDto followDto) {
+	public boolean followUser(FollowDto followDto) {
 		User follower = userRepository.findById(followDto.getFollower())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		User followee = userRepository.findById(followDto.getFollowee())
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-		followRepository.findByFolloweeAndFollower(followee, follower)
-			.ifPresentOrElse(
-				followRepository::delete,
-				() -> followRepository.save(Follow.of(follower, followee))
-			);
+		if(follower == followee) throw new BusinessException(ErrorCode.FOLLOW_BAD_REQUEST);
+
+		Optional<Follow> follow = followRepository.findByFolloweeAndFollower(followee, follower);
+		if(follow.isPresent()){
+			followRepository.delete(follow.get());
+			return false;
+		}
+		followRepository.save(Follow.of(follower,followee));
+		return true;
 	}
 
 	@Override

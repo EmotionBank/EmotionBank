@@ -13,7 +13,7 @@ import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 public interface UserService {
 	List<UserDto> searchUser(String userNickname);
 
-	void followUser(FollowDto followDto);
+	boolean followUser(FollowDto followDto);
 
 	List<UserDto> getFollowees(Long userId);
 
