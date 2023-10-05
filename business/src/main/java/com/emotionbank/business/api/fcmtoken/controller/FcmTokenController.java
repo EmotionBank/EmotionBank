@@ -23,7 +23,8 @@ public class FcmTokenController {
 	private final FcmTokenService tokenService;
 
 	@PostMapping
-	public ResponseEntity<?> registerToken(@RequestBody RegisterTokenDto.Request request, @UserInfo UserInfoDto userInfoDto) throws
+	public ResponseEntity<Void> registerToken(@RequestBody RegisterTokenDto.Request request,
+		@UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		tokenService.createToken(FcmTokenDto.of(request, userInfoDto.getUserId()));
 		return ResponseEntity.ok().build();

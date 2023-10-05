@@ -25,21 +25,23 @@ public class NotificationController {
 	private final NotificationService notificationService;
 
 	@PostMapping
-	public ResponseEntity<?> makePublicNotification(@RequestBody PublicNotificationApiDto.Request request, @UserInfo UserInfoDto userInfoDto) throws
+	public ResponseEntity<Void> makePublicNotification(@RequestBody PublicNotificationApiDto.Request request,
+		@UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		notificationService.sendToTopic(PublicNotificationDto.from(request), userInfoDto.getUserId());
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/public")
-	public ResponseEntity<?> getPublicNotifications(@UserInfo UserInfoDto userInfoDto) {
+	public ResponseEntity<PublicNotificationApiDto.Response> getPublicNotifications(@UserInfo UserInfoDto userInfoDto) {
 		PublicNotificationApiDto.Response response = PublicNotificationApiDto.Response
 			.from(notificationService.getPublicNotifications(userInfoDto.getUserId()));
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<?> getPersonalNotification(@UserInfo UserInfoDto userInfoDto) {
+	public ResponseEntity<PersonalNotificationApiDto.Response> getPersonalNotification(
+		@UserInfo UserInfoDto userInfoDto) {
 		PersonalNotificationApiDto.Response response = PersonalNotificationApiDto.Response
 			.from(notificationService.getPersonalNotifications(
 				userInfoDto.getUserId()));
