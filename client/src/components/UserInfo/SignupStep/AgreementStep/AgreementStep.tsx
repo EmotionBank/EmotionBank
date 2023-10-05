@@ -1,7 +1,8 @@
 import * as S from './AgreementStep.style';
 import { useState } from 'react';
 import { useGetTermList } from '@/hooks/apiHooks/useGetAgreementList';
-
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 interface Iprops {
   onNext: (requests: boolean[]) => void;
 }
@@ -32,7 +33,8 @@ const AgreementStep = ({ onNext }: Iprops) => {
       <S.AgreementTitle style={{ marginBottom: '20px' }}>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
       <S.AgreementWrapper>
         {agreements.map((agreement, index) => (
-          <S.AgreementContent key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+          <div key={index} style={{ width:'100%'}}>
+          <S.AgreementContent style={{ alignItems: 'center', marginBottom: '10px', padding: 'auto' }}>
             <input
               type="checkbox"
               checked={checkboxStates[index]}
@@ -47,8 +49,14 @@ const AgreementStep = ({ onNext }: Iprops) => {
             >
               ({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})
             </span>
-            <span>{agreement.title}</span>
+
+            <span onClick={() => handleOpenChange(index)}>
+              {openStates[index]?(<ArrowDropDownIcon />) : (<ArrowRightIcon />)}
+              {agreement.title}
+            </span>
           </S.AgreementContent>
+          {openStates[index] && <S.AgreementDetail>{agreement.content}</S.AgreementDetail>}
+          </div>
         ))}
       </S.AgreementWrapper>
 
