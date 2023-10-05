@@ -93,11 +93,15 @@ const Signup = () => {
     }
   };
 
-  const confirmBirthdayStep = (birthday: string) => {
+  const confirmBirthdayStep = day => {
+    const originalDate = new Date(day);
+    const birthday = `${originalDate.getFullYear()}-${(originalDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${originalDate.getDate().toString().padStart(2, '0')}`;
+    console.log(birthday);
     const birthdayPattern = /^(19|20)\d\d-(0[1-9]|1[0-2])-([0-2][1-9]|3[0-1])$/;
     if (birthdayPattern.test(birthday)) {
       setRequest(prev => ({ ...prev, birthday }));
-      console.log(request);
       setStep('accountName');
     } else {
       alert('올바른 생일 형식이 아닙니다. (예: 2000-01-01)');
