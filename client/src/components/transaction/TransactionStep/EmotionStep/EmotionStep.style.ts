@@ -16,7 +16,6 @@ export const EmotionHeader = styled.h1`
 `;
 
 export const EmotionGrid = styled.div`
-  width: 70%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
