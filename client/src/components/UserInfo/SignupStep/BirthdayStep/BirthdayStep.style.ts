@@ -1,10 +1,22 @@
+import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
 
 export const BirthdayTitle = styled.h3`
   color: ${({ theme }) => theme.color.primary};
 `;
 
-export const BirthdayWrapper = styled.div``;
+export const BirthdayWrapper = styled(Flex)`
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem 2rem;
+  gap: 1rem;
+`;
+
+export const BirthdayBody = styled.div`
+  width: 100%;
+`;
 
 export const StyledInput = styled.input`
   flex-grow: 1;

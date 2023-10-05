@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { signupStep } from '@/recoils/atom';
-import * as S from './Signup.style';
 import AgreementStep from '@/components/UserInfo/SignupStep/AgreementStep/AgreementStep';
 import NicknameStep from '@/components/UserInfo/SignupStep/NicknameStep/NicknameStep';
 import BirthdayStep from '@/components/UserInfo/SignupStep/BirthdayStep/BirthdayStep';
@@ -119,12 +118,12 @@ const Signup = () => {
     }
   };
   return (
-    <S.SignupWrapper>
+    <>
       {step === 'agreement' && <AgreementStep onNext={confirmAgreementStep} />}
       {step === 'nickname' && <NicknameStep onNext={confirmNicknameStep} />}
       {step === 'birthday' && <BirthdayStep onNext={confirmBirthdayStep} />}
       {step === 'accountName' && <AccountNameStep onNext={confirmAccountNameStep} />}
-    </S.SignupWrapper>
+    </>
   );
 };
 

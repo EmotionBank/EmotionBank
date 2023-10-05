@@ -1,6 +1,5 @@
 import * as S from './AgreementStep.style';
 import { useState } from 'react';
-import { Button } from '../../../common/Button/Button';
 import { useGetTermList } from '@/hooks/apiHooks/useGetAgreementList';
 
 interface Iprops {
@@ -14,7 +13,12 @@ const AgreementStep = ({ onNext }: Iprops) => {
   const [meetRequired, setMeetRequired] = useState(false);
 
   const [checkboxStates, setCheckboxStates] = useState<boolean[]>(new Array(agreements.length).fill(false));
-
+  const [openStates, setOpenStates] = useState<boolean[]>(new Array(agreements.length).fill(false));
+  const handleOpenChange = (index: number) => {
+    const newOpenStates = [...openStates];
+    newOpenStates[index] = !newOpenStates[index];
+    setOpenStates(newOpenStates);
+  };
   const handleCheckboxChange = (index: number) => {
     const newCheckboxStates = [...checkboxStates];
     newCheckboxStates[index] = !newCheckboxStates[index];
@@ -28,14 +32,6 @@ const AgreementStep = ({ onNext }: Iprops) => {
     // 체크박스 상태 업데이트
     setCheckboxStates(newCheckboxStates);
   };
-
-  // useEffect(() => {
-  //   agreements.map((agreement, index) => {
-  //     if (agreement.mandatory === 'ESSENTIAL') {
-  //       setMandatoryIndexList([...mandatoryIndexList, index]);
-  //     }
-  //   });
-  // }, []);
 
   console.log(agreements);
   console.log(checkboxStates);
