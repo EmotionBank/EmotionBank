@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as S from '@/pages/OtherUser/OtherUser.style';
 import { DateType } from '@/types/date';
 import { getNewDateObj } from '@/utils/getNewDateObj';
@@ -10,9 +10,17 @@ import { useGetOtherAccountInfo } from '@/hooks/apiHooks/useGetOtherAccountInfo'
 import OtherUserInfo from '@/components/OtherUserInfo/OtherUserInfo';
 import Calendar from '@/components/Calendar/Calendar';
 import TransactionList from '@/components/transaction/TransactionList/TransactionList';
+import { PATH } from '@/constants/path';
 
 const OtherUser = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userId === localStorage.getItem('userId')) {
+      navigate(PATH.ROOT);
+      return;
+    }
+  }, []);
 
   const [date, setDate] = useState<DateType>({ ...getNewDateObj(new Date()) });
   const [selectedDate, setSelectedDate] = useState<DateType>(getNewDateObj(new Date())); // 거래내역 조회 시 사용
