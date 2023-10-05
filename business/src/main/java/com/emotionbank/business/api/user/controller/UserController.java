@@ -2,8 +2,6 @@ package com.emotionbank.business.api.user.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -67,7 +65,8 @@ public class UserController {
 	}
 
 	@GetMapping("/info/{userId}")
-	public ResponseEntity<?> getOtherProfile(@PathVariable long userId, @UserInfo UserInfoDto userInfoDto) {
+	public ResponseEntity<UserOtherProfileDto.Response> getOtherProfile(@PathVariable long userId,
+		@UserInfo UserInfoDto userInfoDto) {
 		UserDto otherProfile = userService.getOtherProfile(userId);
 		return ResponseEntity.ok(
 			UserOtherProfileDto.Response.of(otherProfile, userService.isFollow(userInfoDto.getUserId(), userId)));
@@ -88,10 +87,10 @@ public class UserController {
 	}
 
 	@PostMapping("/follow/{followeeId}")
-	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
+	public ResponseEntity<Void> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
-		if(userService.followUser(FollowDto.of(followeeId, userId))) {
+		if (userService.followUser(FollowDto.of(followeeId, userId))) {
 			notificationService.followNotification(
 				PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
 		}
@@ -114,7 +113,7 @@ public class UserController {
 
 	@GetMapping("/feed")
 	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto
-		) {
+	) {
 		FeedsDto feed = userService.getFeed(userInfoDto.getUserId());
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
 	}

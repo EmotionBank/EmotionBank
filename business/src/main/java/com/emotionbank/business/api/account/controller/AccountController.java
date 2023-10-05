@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountController {
 
 	private final AccountService accountService;
+
 	@GetMapping("/balance")
 	public ResponseEntity<CheckAccountBalanceDto.Response> getAccountBalance(@RequestParam Long accountId) {
 		AccountDto accountDto = accountService.getAccountBalance(accountId);
@@ -28,7 +29,7 @@ public class AccountController {
 	}
 
 	@PutMapping
-	public ResponseEntity<?> updateAccountName(@RequestBody UpdateAccountDto.Request request) {
+	public ResponseEntity<Void> updateAccountName(@RequestBody UpdateAccountDto.Request request) {
 		accountService.updateAccountName(AccountDto.from(request));
 		return ResponseEntity.ok().build();
 	}
