@@ -62,17 +62,21 @@ export const SearchButton = styled.button`
 
 export const SearchResultBody = styled.div`
   width: 300px;
-  height: 300px;
   padding: 10px;
+  max-height: 500px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const SearchResultItem = styled(Flex)`
-font-weight: bold;
-width: 100%;
-padding: 0 1rem;
-justify-content: space-between;
-height: 5rem;
-border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
-cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  padding: 0 1rem;
+  justify-content: space-between;
+  height: 5rem;
+  border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
+  cursor: pointer;
 `;
 
 export const SearchResultImg = styled.img`

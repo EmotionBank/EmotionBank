@@ -20,29 +20,11 @@ const Notification = () => {
 
 const NotificationModal = () => {
   const { getMyNotificationData } = useGetMyNotification();
-  // const { getNotificationData } = useGetNotification();
-  // const dummy = {
-  //   personalNotificationList: [
-  //     {
-  //       followerId: 4,
-  //       followerNickname: '지은',
-  //       body: '지은님이 회원님을 팔로우하기 시작했습니다.',
-  //       notificationType: 'FOLLOW',
-  //       createTime: '2023-10-05T13:19:30.597',
-  //     },
-  //     {
-  //       followerId: 2,
-  //       followerNickname: 'test',
-  //       body: 'test님이 회원님을 팔로우하기 시작했습니다.',
-  //       notificationType: 'FOLLOW',
-  //       createTime: '2023-10-04T13:19:30.597',
-  //     },
-  //   ],
-  // };
+
   return (
     <S.NorificationWrapper>
-      <h3>💡 공지</h3>
-      {getMyNotificationData.personalNotificationList.map(item => (
+      <h3>💡 알림</h3>
+      {getMyNotificationData.personalNotificationList.reverse().map(item => (
         <S.NorificationItem key={item.followerId}>{item.body}</S.NorificationItem>
       ))}
     </S.NorificationWrapper>

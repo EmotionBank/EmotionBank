@@ -5,7 +5,7 @@ import { useInput } from '@/hooks/useInput';
 import { searchUser } from '@/apis/user/searchUser';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal/Modal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SearchUser } from '@/types/user';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/constants/path';
@@ -14,38 +14,38 @@ import SearchIcon from '@mui/icons-material/Search';
 import { setEmotionName } from '@/utils/setEmotionName';
 import emotionLogo from '@assets/emotionbank_logo.png';
 const Feed = () => {
-  const [content, handleContent] = useInput('');
+  // const [content, handleContent] = useInput('');
+  const content = useRef('');
   const navigate = useNavigate();
   const response = useGetUserFeed(0);
   const users = response.feedList.feeds;
-  const [emptyState, setEmptyState] = useState(true);
   const [searchResult, setSearchResult] = useState<SearchUser[] | null>([]);
   const { openModal, closeModal } = useModal('searchUser');
+
   const handleSearch = async () => {
-    const { users } = await searchUser(content);
-    console.log(users);
+    const { users } = await searchUser(content.current);
     setSearchResult(users);
     openModal();
   };
-  useEffect(() => {
-    if (content === '') {
-      setEmptyState(true);
-    } else {
-      setEmptyState(false);
-    }
-  }, [content]);
+
+  const handleContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    content.current = value;
+  };
 
   const handleOtherProfile = (id: number) => {
     closeModal();
     navigate(PATH.OTHER_USER(id));
   };
+
   const createRandomNumber = () => Math.floor(Math.random() * (4 - 2 + 1)) + 2;
+
   return (
     <>
       <S.FeedWrapper>
         <S.SearchBody>
-          <S.SearchInput onChange={handleContent} value={content} placeholder="유저 닉네임으로 검색" />
-          <S.SearchButton onClick={() => handleSearch()} disabled={emptyState}>
+          <S.SearchInput onChange={handleContent} placeholder="유저 닉네임으로 검색" />
+          <S.SearchButton onClick={handleSearch}>
             <SearchIcon fontSize="large" />
           </S.SearchButton>
         </S.SearchBody>
