@@ -1,8 +1,5 @@
 import { useInput } from '@/hooks/useInput';
 import * as S from '@/components/UserInfo/SignupStep/BirthdayStep/BirthdayStep.style';
-import { Button } from '@/components/common/Button/Button';
-
-import { NextButton } from '../AgreementStep/AgreementStep.style';
 
 interface IProps {
   onNext: (accountName: string) => void;

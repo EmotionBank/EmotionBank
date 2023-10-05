@@ -1,6 +1,7 @@
 import * as S from './AgreementStep.style';
 import { useState } from 'react';
 import { useGetTermList } from '@/hooks/apiHooks/useGetAgreementList';
+import { transformLetters } from '@/utils/transformLetter';
 
 interface Iprops {
   onNext: (requests: boolean[]) => void;
@@ -27,7 +28,7 @@ const AgreementStep = ({ onNext }: Iprops) => {
     setMeetRequired(allMandatoryAgreed);
     setCheckboxStates(newCheckboxStates);
   };
-
+  console.log(agreements)
   return (
     <S.AgreementForm>
       <S.AgreementTitle>서비스 이용을 위해 약관에 동의해주세요</S.AgreementTitle>
@@ -57,7 +58,7 @@ const AgreementStep = ({ onNext }: Iprops) => {
               {openStates[index]?(<S.DetailButton>접기</S.DetailButton>) : (<S.DetailButton>보기</S.DetailButton>)}
             </div>
           </S.AgreementContent>
-          {openStates[index] && <S.AgreementDetail>{agreement.content}</S.AgreementDetail>}
+          {openStates[index] && <S.AgreementDetail dangerouslySetInnerHTML={{__html:transformLetters( agreement.content)}} />}
           </div>
         ))}
       </S.AgreementWrapper>
