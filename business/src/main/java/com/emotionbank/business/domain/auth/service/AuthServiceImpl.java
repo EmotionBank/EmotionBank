@@ -140,7 +140,7 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public void addBlackList(String token) {
-		redisTemplate.expire(token, 30, TimeUnit.MINUTES);
+		redisTemplate.expire(token, 10, TimeUnit.MINUTES);
 		redisTemplate.opsForValue().set(token, "BlackList");
 	}
 

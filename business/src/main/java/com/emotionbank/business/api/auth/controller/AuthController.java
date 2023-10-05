@@ -2,6 +2,7 @@ package com.emotionbank.business.api.auth.controller;
 
 import static org.springframework.http.HttpHeaders.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseCookie;
@@ -34,9 +35,11 @@ import com.emotionbank.business.global.jwt.annotation.UserInfo;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 	public static final int COOKIE_AGE_SECOND = 1209600;
 
@@ -88,10 +91,11 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/logout")
-	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response,HttpServletResponse request) {
+	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response,
+		HttpServletRequest request) {
 		String accessToken = request.getHeader("Authorization");
 		String[] token = accessToken.split(" ");
-		authService.addBlackList(token[0]);
+		authService.addBlackList(token[1]);
 		authService.removeRefreshToken(userInfoDto.getUserId());
 
 		final ResponseCookie cookie = ResponseCookie.from("refresh-token", "")
