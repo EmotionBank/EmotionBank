@@ -39,7 +39,6 @@ const BirthdayStep = ({ onNext }: IProps) => {
     //   <S.StyledInput onChange={handleContent} value={content} placeholder="yyyy-MM-dd"></S.StyledInput>
     //   <S.StyledButton onClick={() => onNext(content)}>다음</S.StyledButton>
     // </S.BirthdayWrapper>
-
   );
 };
 
