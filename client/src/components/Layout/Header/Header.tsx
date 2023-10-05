@@ -24,7 +24,7 @@ const Header = () => {
         </Dropdown>
       );
     if (path === '/' && !isLogin) return null;
-    return <ArrowBackIosNewIcon onClick={handleBackPage} />;
+    return <ArrowBackIosNewIcon onClick={handleBackPage} style={{ fontSize: '2rem', cursor: 'pointer' }} />;
   };
 
   const handleStepBack = () => {

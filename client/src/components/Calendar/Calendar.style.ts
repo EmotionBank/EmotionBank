@@ -4,8 +4,9 @@ import styled from 'styled-components';
 export const CalendarWrapper = styled(Flex)`
   flex-direction: column;
   width: 100%;
-  border-radius: 5px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: whitesmoke;
 `;
 
 export const CalendarControllerWrapper = styled(Flex)`
