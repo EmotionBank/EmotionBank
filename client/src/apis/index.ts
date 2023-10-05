@@ -42,7 +42,7 @@ axiosInstance.interceptors.response.use(
       return axiosInstance(originalRequest)
     } else if (data.errorCode === 'A-005'){
       alert('잔액이 부족합니다.')
-    } else if (data.errorCode === 'J-002') {
+    } else if (data.errorCode === 'J-002'|| data.errorCode === 'J-001') {
       localStorage.clear();
       alert('로그인 화면으로 돌아갑니다.')
       window.location.replace(PATH.ROOT);
