@@ -17,7 +17,7 @@ import { useState } from 'react';
 ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const EmotionReport = () => {
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
   const { getUserReportData } = useGetUserReport();
   const lineLabels = getUserReportData!.balances.map(e => String(e.day) + '일');
   const depositsLabels = getUserReportData!.deposits.map(e => e.categoryName);
@@ -77,11 +77,11 @@ const EmotionReport = () => {
     <S.EmotionReportWrapper>
       <S.SelectHeader>
         <S.SelectContainer>
-          <S.ToggleButton $toggle={toggle} onClick={() => setToggle(true)}>
-            전체
-          </S.ToggleButton>
           <S.ToggleButton $toggle={!toggle} onClick={() => setToggle(false)}>
             입/출금
+          </S.ToggleButton>
+          <S.ToggleButton $toggle={toggle} onClick={() => setToggle(true)}>
+            전체
           </S.ToggleButton>
         </S.SelectContainer>
       </S.SelectHeader>
