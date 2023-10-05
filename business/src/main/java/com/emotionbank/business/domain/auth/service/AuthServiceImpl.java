@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -140,8 +141,8 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public void addBlackList(String token) {
-		redisTemplate.expire(token, 10, TimeUnit.MINUTES);
-		redisTemplate.opsForValue().set(token, "BlackList");
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		valueOperations.set(token, "BlackList", 10, TimeUnit.MINUTES);
 	}
 
 	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {
