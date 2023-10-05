@@ -1,7 +1,8 @@
 import { axiosInstance } from '@/apis';
+import { GetMyNotificationResponse } from '@/types/user';
 
 export const getMyNotification = async () => {
-  const { data } = await axiosInstance.get('/notification/me');
+  const { data } = await axiosInstance.get<GetMyNotificationResponse>('/notification/me');
   return data;
 };
 

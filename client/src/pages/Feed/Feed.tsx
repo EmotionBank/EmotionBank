@@ -10,7 +10,7 @@ import { SearchUser } from '@/types/user';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '@/constants/path';
 import { filteredImage } from '@/utils/filterImage';
-import SearchIcon from '@mui/icons-material/Search'
+import SearchIcon from '@mui/icons-material/Search';
 
 const Feed = () => {
   // const { data, hasNextPage, isFetching, fetchNextPage } = useGetUserFeed();
@@ -39,11 +39,10 @@ const Feed = () => {
     <>
       <S.FeedWrapper>
         <S.SearchBody>
-        <S.SearchInput onChange={handleContent} value={content} placeholder='유저 닉네임으로 검색'/>
-        <S.SearchButton onClick={() => handleSearch()}>
-          <SearchIcon />
-        </S.SearchButton>
-
+          <S.SearchInput onChange={handleContent} value={content} placeholder="유저 닉네임으로 검색" />
+          <S.SearchButton onClick={() => handleSearch()}>
+            <SearchIcon />
+          </S.SearchButton>
         </S.SearchBody>
         <S.GridContainer>
           {users.map((user, index) => (

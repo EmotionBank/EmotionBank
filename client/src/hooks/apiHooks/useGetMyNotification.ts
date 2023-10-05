@@ -3,5 +3,5 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetMyNotification = () => {
   const { data } = useQuery(['myNotification'], getMyNotification);
-  return { getMyNotificationData: data };
+  return { getMyNotificationData: data! };
 };

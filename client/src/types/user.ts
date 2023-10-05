@@ -90,3 +90,14 @@ export interface GetUserReportResponse {
   withdrawals: Withdrawals[];
   balances: Balances[];
 }
+
+export interface PersonalNotification {
+  followerId: number;
+  followerNickname: string;
+  body: string;
+  notificationType: string;
+  createTime: string;
+}
+export interface GetMyNotificationResponse {
+  personalNotificationList: PersonalNotification[];
+}
