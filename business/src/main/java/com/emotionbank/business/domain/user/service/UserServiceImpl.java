@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
 	private final CategoryRepository categoryRepository;
 	private final CalendarRepository calendarRepository;
 
+	private final int limit = 12;
 	@Override
 	public List<UserDto> searchUser(String userNickname) {
 		List<User> users = userRepository.findByNicknameContains(userNickname);
@@ -206,11 +208,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public FeedsDto getFeed(Long userId, Pageable pageable) {
+	public FeedsDto getFeed(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 		Account account = accountRepository.findByUser(user)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_NOT_EXIST));
-		List<Transaction> feeds = transactionRepository.findFeed(account, pageable);
+
+		Pageable pageable = PageRequest.of(0, limit);
+
+		List<Transaction> feeds = transactionRepository.findFeed(account,pageable);
 		List<FeedsDto.FeedDto> feedDtos = feeds.stream().map(FeedsDto.FeedDto::of).collect(Collectors.toList());
 		return FeedsDto.of(feedDtos);
 	}

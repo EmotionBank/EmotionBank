@@ -91,7 +91,7 @@ public class UserController {
 	public ResponseEntity<?> followUser(@PathVariable Long followeeId, @UserInfo UserInfoDto userInfoDto) throws
 		FirebaseMessagingException {
 		Long userId = userInfoDto.getUserId();
-		if (userService.followUser(FollowDto.of(followeeId, userId))) {
+		if(userService.followUser(FollowDto.of(followeeId, userId))) {
 			notificationService.followNotification(
 				PersonalNotificationDto.of(userId, followeeId, userService.getNickname(userId)));
 		}
@@ -113,10 +113,9 @@ public class UserController {
 	}
 
 	@GetMapping("/feed")
-	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto,
-		@RequestParam("page") int page) {
-		Pageable pageable = PageRequest.of(page, PAGESIZE);
-		FeedsDto feed = userService.getFeed(userInfoDto.getUserId(), pageable);
+	public ResponseEntity<UserFeedDto.Response> getFeed(@UserInfo UserInfoDto userInfoDto
+		) {
+		FeedsDto feed = userService.getFeed(userInfoDto.getUserId());
 		return ResponseEntity.ok(UserFeedDto.Response.from(feed));
 	}
 

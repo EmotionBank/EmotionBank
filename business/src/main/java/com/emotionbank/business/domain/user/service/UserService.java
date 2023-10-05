@@ -37,5 +37,5 @@ public interface UserService {
 
 	ReportDto getReport(Long userId);
 
-	FeedsDto getFeed(Long userId, Pageable pageable);
+	FeedsDto getFeed(Long userId);
 }

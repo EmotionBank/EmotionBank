@@ -25,7 +25,6 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
 
 	private final ObjectMapper objectMapper;
