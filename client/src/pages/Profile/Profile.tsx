@@ -18,7 +18,6 @@ const Profile = () => {
 
   const { getMyInfoData } = useGetMyInfo();
 
-  console.log(getMyInfoData);
   const handleNicknameCheck = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (content === '') return;
