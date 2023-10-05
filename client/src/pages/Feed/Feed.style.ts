@@ -65,10 +65,14 @@ export const SearchResultBody = styled.div`
   height: 300px;
   padding: 10px;
 `;
-export const SearchResultItem = styled.div`
-  padding: 20px 0;
-  cursor: pointer;
-  margin: 10px 10px 0 0;
+export const SearchResultItem = styled(Flex)`
+font-weight: bold;
+width: 100%;
+padding: 0 1rem;
+justify-content: space-between;
+height: 5rem;
+border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
+cursor: pointer;
 `;
 
 export const SearchResultImg = styled.img`

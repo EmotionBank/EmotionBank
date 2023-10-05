@@ -4,15 +4,17 @@ import { Flex } from '@/components/common/Flex/Flex';
 
 export const AgreementTitle = styled.h3`
   color: ${({ theme }) => theme.color.black};
+  margin-bottom: 16px;
 `;
 
 export const AgreementForm = styled(Flex)`
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-start;
   height: 100%;
   padding: 4rem 0;
-  width: 80%;
+  width: 100%;
 `;
 export const NextButton = styled(Button)`
   width: 100%;
@@ -26,12 +28,12 @@ export const AgreementWrapper = styled(Flex)`
   width: 100%;
   height: 100%;
   flex-direction: column;
-  padding: 5rem 2rem;
+  padding: 1rem 0rem;
+  justify-content: start;
   align-items: flex-start;
   gap: 1rem;
 `;
 export const AgreementContent = styled(Flex)`
-  width: 200px;
   justify-content: start;
 `;
 
@@ -47,9 +49,15 @@ export const AgreementButton = styled(Button)`
 `;
 
 export const AgreementDetail = styled.div`
-  width:100%;
-  margin-left:15px;
+  width: 100%;
+  margin-left: 15px;
   padding: 5px 10px;
-  border: 1px solid ${({theme}) => theme.color.darkgray};
+  border: 1px solid ${({ theme }) => theme.color.darkgray};
   border-radius: 4px;
-`
+`;
+
+export const DetailButton = styled.div`
+  width: 10%;
+  color: '#6b7685';
+  font-weight: bold;
+`;
