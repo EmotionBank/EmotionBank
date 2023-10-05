@@ -42,21 +42,24 @@ const AgreementStep = ({ onNext }: Iprops) => {
 
       {agreements.map((agreement, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-          <input
-            type="checkbox"
-            checked={checkboxStates[index]}
-            onChange={() => handleCheckboxChange(index)}
-            style={{ marginRight: '5px' }}
-          />
-          <span
-            style={{
-              marginRight: '5px',
-              color: agreement.mandatory === 'ESSENTIAL' ? 'red' : 'inherit',
-            }}
-          >
-            ({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})
-          </span>
-          <span>{agreement.title}</span>
+          <div>
+            <input
+              type="checkbox"
+              checked={checkboxStates[index]}
+              onChange={() => handleCheckboxChange(index)}
+              style={{ marginRight: '5px' }}
+            />
+            <span
+              style={{
+                marginRight: '5px',
+                color: agreement.mandatory === 'ESSENTIAL' ? 'red' : 'inherit',
+              }}
+            >
+              ({agreement.mandatory === 'ESSENTIAL' ? '필수' : '선택'})
+            </span>
+          <span onClick={() => handleOpenChange(index)}>{agreement.title}</span>
+          </div>
+          {openStates[index] && <p>{agreement.content}</p>}
         </div>
       ))}
       <S.NextButton disabled={!meetRequired} onClick={() => onNext(checkboxStates)}>

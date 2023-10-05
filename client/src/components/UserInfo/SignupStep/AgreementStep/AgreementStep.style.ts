@@ -1,8 +1,6 @@
 import { Button } from '@/components/common/Button/Button';
 import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
-import { Button } from '@/components/common/Button/Button';
-import { Flex } from '@/components/common/Flex/Flex';
 export const AgreementTitle = styled.h3`
   color: ${({ theme }) => theme.color.black};
 `;
