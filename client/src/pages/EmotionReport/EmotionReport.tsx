@@ -27,7 +27,7 @@ const EmotionReport = () => {
     labels: lineLabels,
     datasets: [
       {
-        label: '월별 이용금액',
+        label: '일별 이용금액',
         data: getUserReportData.balances.map(e => e.amount),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',

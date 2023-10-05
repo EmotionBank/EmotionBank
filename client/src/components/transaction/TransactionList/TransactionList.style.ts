@@ -33,6 +33,8 @@ export const TransactionTitle = styled.div`
   width: 60%;
 `;
 
-export const TransactionAmount = styled.div`
-  width: 20%;
+export const TransactionAmount = styled(Flex)`
+  height: 100%;
+  width: 25%;
+  justify-content: end;
 `;

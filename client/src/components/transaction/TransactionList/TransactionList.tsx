@@ -12,8 +12,6 @@ interface Props {
 
 const TransactionList = ({ transactionDatas }: Props) => {
   const navigate = useNavigate();
-  const handleNavigate = () => {};
-  // item.type에 따라 +- 설정하는 함수 필요
   const checkTitle = useCallback((title: string | null) => {
     if (title === null) return '송금했어요';
     return title;
@@ -30,7 +28,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
         >
           <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
           <S.TransactionTitle>{checkTitle(item.title)}</S.TransactionTitle>
-          <S.TransactionAmount>{setMoneyRegex(String(item.amount))}</S.TransactionAmount>
+          <S.TransactionAmount>{setMoneyRegex(String(item.amount))}원</S.TransactionAmount>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>
