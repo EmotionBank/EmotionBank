@@ -40,7 +40,7 @@ export interface GetOtherAccountInfoResponse {
   nickname: string;
   accountId: string;
   userId: string;
-  isFollow: boolean;
+  follow: boolean;
   following: number;
   follower: number;
 }
