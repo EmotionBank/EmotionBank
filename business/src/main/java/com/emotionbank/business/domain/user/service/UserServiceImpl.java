@@ -152,10 +152,12 @@ public class UserServiceImpl implements UserService {
 		List<ReportDto.Report> withdrawals = new ArrayList<>();
 		List<ReportDto.Balance> balances = new ArrayList<>();
 
-		long withdrawalSum = 0;
-		long depositSum = 0;
 
 		for (Category category : categories) {
+
+			long withdrawalSum = 0;
+			long depositSum = 0;
+
 			List<Transaction> transactions = transactionRepository.findByCategory(category);
 			for (Transaction transaction : transactions) {
 				if (TransactionType.WITHDRAWL.equals(transaction.getTransactionType())) {
