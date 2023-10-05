@@ -3,9 +3,12 @@ package com.emotionbank.business.domain.auth.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final AgreementRepository agreementRepository;
 	private final TermsRepository termsRepository;
+	private final RedisTemplate redisTemplate;
 
 	@Value("${kakao.client.id}")
 	private String kakaoClientId;
@@ -133,6 +137,12 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public void removeRefreshToken(Long userId) {
 		refreshTokenRepository.delete(userId);
+	}
+
+	@Override
+	public void addBlackList(String token) {
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		valueOperations.set(token, "BlackList", 10, TimeUnit.MINUTES);
 	}
 
 	private static boolean isNotSavedRefreshToken(String refreshToken, Optional<RefreshToken> savedRefreshToken) {

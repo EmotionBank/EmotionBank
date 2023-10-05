@@ -2,6 +2,7 @@ package com.emotionbank.business.api.auth.controller;
 
 import static org.springframework.http.HttpHeaders.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseCookie;
@@ -27,22 +28,25 @@ import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.SignUpDto;
 import com.emotionbank.business.domain.auth.dto.SignUpUserDto;
 import com.emotionbank.business.domain.auth.service.AuthService;
+import com.emotionbank.business.domain.auth.service.JwtManager;
 import com.emotionbank.business.domain.category.dto.CategoryDto;
 import com.emotionbank.business.domain.category.service.CategoryService;
 import com.emotionbank.business.global.jwt.annotation.UserInfo;
 import com.emotionbank.business.global.jwt.dto.UserInfoDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 	public static final int COOKIE_AGE_SECOND = 1209600;
 
 	private final AuthService authService;
 	private final AccountService accountService;
 	private final CategoryService categoryService;
-
+	private final JwtManager jwtManager;
 	@GetMapping("/auth/login/{loginType}/callback")
 	public ResponseEntity<LoginAccessTokenDto> login(
 		@PathVariable final String loginType,
@@ -87,7 +91,11 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/logout")
-	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response) {
+	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response,
+		HttpServletRequest request) {
+		String accessToken = request.getHeader("Authorization");
+		String[] token = accessToken.split(" ");
+		authService.addBlackList(token[1]);
 		authService.removeRefreshToken(userInfoDto.getUserId());
 
 		final ResponseCookie cookie = ResponseCookie.from("refresh-token", "")

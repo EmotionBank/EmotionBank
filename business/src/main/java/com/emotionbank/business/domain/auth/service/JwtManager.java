@@ -3,6 +3,7 @@ package com.emotionbank.business.domain.auth.service;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.emotionbank.business.domain.auth.constant.TokenType;
@@ -32,6 +33,7 @@ public class JwtManager {
 
 	private final JwtProperties jwtProperties;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final RedisTemplate redisTemplate;
 
 	public JwtTokens createJwtTokens(Long userId) {
 		Date accessTokenExpireTime = createAccessTokenExpireTime();
@@ -102,6 +104,9 @@ public class JwtManager {
 			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_EXPIRED);
 		} catch (final JwtException | IllegalArgumentException e) {
 			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_INVALID);
+		}
+		if (redisTemplate.opsForValue().get(accessToken) != null) {
+			throw new JwtTokenException(ErrorCode.ACCESS_TOKEN_BLACKLIST);
 		}
 	}
 
