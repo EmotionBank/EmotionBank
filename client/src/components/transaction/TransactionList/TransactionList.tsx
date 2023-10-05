@@ -17,6 +17,11 @@ const TransactionList = ({ transactionDatas }: Props) => {
     return title;
   }, []);
 
+  const setMoneyString = (item: TransactionResponse) => {
+    if (item.transactionType === 'DEPOSIT') return '+ ' + setMoneyRegex(String(item.amount)) + '원';
+    return '- ' + setMoneyRegex(String(item.amount)) + '원';
+  };
+
   return (
     <S.TransactionListWrapper>
       {transactionDatas.transactionInfoList.map((item: TransactionResponse) => (
@@ -28,7 +33,7 @@ const TransactionList = ({ transactionDatas }: Props) => {
         >
           <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
           <S.TransactionTitle>{checkTitle(item.title)}</S.TransactionTitle>
-          <S.TransactionAmount>{setMoneyRegex(String(item.amount))}원</S.TransactionAmount>
+          <S.TransactionAmount>{setMoneyString(item)}</S.TransactionAmount>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>
