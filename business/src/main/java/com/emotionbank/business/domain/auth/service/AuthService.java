@@ -14,4 +14,6 @@ public interface AuthService {
 	SignUpUserDto signup(SignUpDto signUpDto);
 
 	void removeRefreshToken(Long userInfoDto);
+
+	void addBlackList(String token);
 }

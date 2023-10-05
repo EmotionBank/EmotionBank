@@ -27,6 +27,7 @@ import com.emotionbank.business.domain.auth.dto.LoginJwtDto;
 import com.emotionbank.business.domain.auth.dto.SignUpDto;
 import com.emotionbank.business.domain.auth.dto.SignUpUserDto;
 import com.emotionbank.business.domain.auth.service.AuthService;
+import com.emotionbank.business.domain.auth.service.JwtManager;
 import com.emotionbank.business.domain.category.dto.CategoryDto;
 import com.emotionbank.business.domain.category.service.CategoryService;
 import com.emotionbank.business.global.jwt.annotation.UserInfo;
@@ -42,7 +43,7 @@ public class AuthController {
 	private final AuthService authService;
 	private final AccountService accountService;
 	private final CategoryService categoryService;
-
+	private final JwtManager jwtManager;
 	@GetMapping("/auth/login/{loginType}/callback")
 	public ResponseEntity<LoginAccessTokenDto> login(
 		@PathVariable final String loginType,
@@ -87,7 +88,10 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/logout")
-	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response) {
+	public ResponseEntity<Void> logout(@UserInfo UserInfoDto userInfoDto, final HttpServletResponse response,HttpServletResponse request) {
+		String accessToken = request.getHeader("Authorization");
+		String[] token = accessToken.split(" ");
+		authService.addBlackList(token[0]);
 		authService.removeRefreshToken(userInfoDto.getUserId());
 
 		final ResponseCookie cookie = ResponseCookie.from("refresh-token", "")
