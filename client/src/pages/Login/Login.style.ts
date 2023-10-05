@@ -35,6 +35,10 @@ export const NextButton = styled(Button)`
   background: ${({ theme }) => theme.color.secondary};
 `;
 
-export const MainImg = styled.img`
-  width: 50%;
+export const MainImg = styled(Flex)`
+  width: 100%;
+  flex-direction: column;
+  font-size: 4.5rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.navy};
 `;

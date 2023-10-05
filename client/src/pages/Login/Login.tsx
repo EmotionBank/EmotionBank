@@ -1,6 +1,7 @@
 import * as S from '@/pages/Login/Login.style';
 import { KakaoLoginButton } from './Login.style';
-import EmotionBank from '@assets/emotionbank_logo.png';
+import Logo from '@assets/emotions/exciting.svg';
+
 const Login = () => {
   const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT;
@@ -12,7 +13,10 @@ const Login = () => {
 
   return (
     <S.LoginWrapper>
-      <S.MainImg src={EmotionBank}></S.MainImg>
+      <S.MainImg>
+        <Logo />
+        Emotion Bank
+      </S.MainImg>
       <KakaoLoginButton onClick={handleLogin}>카카오로 로그인 하기</KakaoLoginButton>
     </S.LoginWrapper>
   );
