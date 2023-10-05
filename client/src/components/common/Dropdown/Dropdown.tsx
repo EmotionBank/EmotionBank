@@ -16,7 +16,7 @@ const Dropdown = ({ children }: DropdownProps) => {
   return (
     <div>
       <button onClick={toggleDropdown}>
-        <MenuIcon />
+        <MenuIcon style={{ fontSize: '2rem', cursor: 'pointer' }} />
       </button>
       {isDropdownOpen && (
         <>
