@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const PORT = 3000;
 dotenv.config();
@@ -19,6 +20,9 @@ module.exports = (env, argv) => {
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'public/firebase-messaging-sw.js', to: 'firebase-messaging-sw.js' }],
     }),
   ];
   if (prod) {

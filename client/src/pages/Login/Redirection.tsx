@@ -19,7 +19,7 @@ const Redirection = () => {
       localStorage.setItem('accessToken', response.accessToken);
       postoken(localStorage.getItem('FCM_token')!);
       if (response.role === 'PENDING') {
-        navigate('/signup');
+        window.location.replace(PATH.SIGNUP);
         return;
       }
       window.location.replace(PATH.ROOT);

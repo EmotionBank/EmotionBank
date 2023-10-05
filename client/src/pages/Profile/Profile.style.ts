@@ -42,7 +42,6 @@ export const TopWrapper = styled(Flex)`
 
 export const InputContainer = styled(Flex)`
   justify-content: space-between;
-  gap: 1rem;
 `;
 
 export const NicknameInput = styled.input`
@@ -52,7 +51,8 @@ export const NicknameInput = styled.input`
   border-radius: 8px;
 `;
 
-export const CheckButton = styled(Button)`
+export const CheckButton = styled.button`
+  width: 15rem;
   font-size: 1.4rem;
   font-weight: bold;
   color: ${({ theme }) => theme.color.darkgray};
