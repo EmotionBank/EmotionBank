@@ -1,6 +1,6 @@
-import { Button } from '@/components/common/Button/Button';
 import { Flex } from '@/components/common/Flex/Flex';
-import styled from 'styled-components';
+import { float } from '@/constants/animation';
+import styled, { css } from 'styled-components';
 
 export const FeedWrapper = styled(Flex)`
   width: 100%;
@@ -13,6 +13,7 @@ export const GridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 10px 10px;
   width: 100%;
+  height: 95%;
   margin: 0 auto;
 `;
 
@@ -24,18 +25,21 @@ export const FeedBody = styled(Flex)`
 `;
 
 export const FeedContent = styled(Flex)`
-  background-color: ${({ theme }) => theme.color.secondary};
-  color: ${({ theme }) => theme.color.primary};
-  padding: 20px;
+  color: ${({ theme }) => theme.color.darkgray};
   text-align: center;
   font-size: 10px;
 `;
 
-export const EmotionImageContainer = styled(Flex)`
+export const EmotionImageContainer = styled(Flex)<{ $speed: number }>`
   min-width: 10rem;
-  flex-direction: column;
-  justify-content: space-between;
+  width: 100px;
+  min-height: 10rem;
+  flex-direction: row;
+  justify-content: right;
   padding: 1rem;
+  animation: ${({ $speed }) => css`
+    ${float} ${$speed}s ease-in-out infinite
+  `};
 `;
 
 export const Target = styled.div`
@@ -43,19 +47,31 @@ export const Target = styled.div`
 `;
 
 export const SearchBody = styled(Flex)`
-
-`
+  width: 95%;
+`;
 export const SearchInput = styled.input`
-  padding : 0.5em;
+  width: 100%;
+  padding: 0.5em;
   border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  box-shadow: 0px 4px 4px 0px color(display-p3 0 0 0 / 0.25);
+  border: solid;
 `;
 
-export const SearchButton = styled(Button)``
-export const SearchResultItem = styled.li`
+export const SearchButton = styled.button`
+  margin: 10px;
+`;
+
+export const SearchResultBody = styled.div`
+  width: 300px;
+  height: 300px;
+  padding: 10px;
+`;
+export const SearchResultItem = styled.div`
+  padding: 20px 0;
   cursor: pointer;
   margin: 10px 10px 0 0;
-  list-style: none;
 `;
 
+export const SearchResultImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;

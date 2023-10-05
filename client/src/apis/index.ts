@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { renewAccessToken } from './user/renewAccessToken';
-import { useNavigate } from 'react-router-dom';
-
+import { logoutUser } from './user/logoutUser';
+import { PATH } from '@/constants/path'
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
   headers: {
@@ -10,8 +10,6 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let failedRequests: InternalAxiosRequestConfig[] = [];
 
 axiosInstance.interceptors.request.use(
   (req: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
@@ -42,6 +40,11 @@ axiosInstance.interceptors.response.use(
       localStorage.setItem('accessToken', accessToken)
       originalRequest.headers.Authorization = `Bearer ${accessToken}`
       return axiosInstance(originalRequest)
+    } else if (data.errorCode === 'J-002') {
+      await logoutUser();
+      localStorage.clear();
+      alert('로그인 화면으로 돌아갑니다.')
+      window.location.replace(PATH.ROOT);
     }
     return Promise.reject(error);
   },
