@@ -7,6 +7,7 @@ export const TransactionListWrapper = styled(Flex)`
   justify-content: start;
   gap: 0.5rem;
   overflow: scroll;
+  padding-bottom: 3rem;
   &::-webkit-scrollbar {
     display: none;
   }

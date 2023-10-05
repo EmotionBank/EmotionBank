@@ -69,3 +69,24 @@ export interface SearchUser {
 export interface GetSearchUserResponse {
   users: SearchUser[];
 }
+
+export interface Deposits {
+  categoryName: string;
+  amount: number;
+}
+
+export interface Withdrawals {
+  categoryName: string;
+  amount: number;
+}
+
+export interface Balances {
+  day: number;
+  amount: number;
+}
+
+export interface GetUserReportResponse {
+  deposits: Deposits[];
+  withdrawals: Withdrawals[];
+  balances: Balances[];
+}
