@@ -35,10 +35,9 @@ axiosInstance.interceptors.response.use(
     } = error;
     const originalRequest = config;
     if (data.errorCode === 'J-003') {
-      const {accessToken} = await renewAccessToken();
+      const {accessToken} = await renewAccessToken()
       localStorage.setItem('accessToken', accessToken)
       originalRequest.headers.Authorization = `Bearer ${accessToken}`
-      console.log(originalRequest)
       return axiosInstance(originalRequest)
     }
     return Promise.reject(error);

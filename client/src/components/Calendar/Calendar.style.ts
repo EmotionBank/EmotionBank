@@ -4,25 +4,32 @@ import styled from 'styled-components';
 export const CalendarWrapper = styled(Flex)`
   flex-direction: column;
   width: 100%;
-  border-radius: 5px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: whitesmoke;
 `;
 
 export const CalendarControllerWrapper = styled(Flex)`
   width: 100%;
   padding: 0.5rem 2rem;
-  justify-content: space-between;
   align-items: center;
 `;
 
 export const CalendarControllerContainer = styled(Flex)`
-  gap: 0.5rem;
+  gap: 3rem;
+  align-items: center;
+`;
+export const YearAndMonth = styled.span`
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.darkgray};
 `;
 
 export const CalendarController = styled.span`
   font-weight: bold;
   font-size: 2rem;
   cursor: pointer;
+  color: ${({ theme }) => theme.color.lightgray};
 `;
 
 export const CalendarHeader = styled(Flex)`
@@ -36,7 +43,6 @@ export const CalendarHeader = styled(Flex)`
 export const CalendarBody = styled(Flex)`
   flex-direction: column;
   width: 100%;
-  gap: 1rem;
 `;
 
 export const WeekContainer = styled(Flex)`
@@ -46,13 +52,14 @@ export const WeekContainer = styled(Flex)`
 
 export const DayContainer = styled(Flex)<{ $thisMonth: boolean }>`
   text-align: center;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   padding: 0.5rem;
   color: ${({ $thisMonth }) => ($thisMonth ? 'black' : 'lightgray')};
   cursor: pointer;
 `;
 
-export const EmotionImage = styled.img`
-  width: 120%;
+export const DateSpan = styled.span`
+  font-weight: bold;
+  font-size: 1.2rem;
 `;
