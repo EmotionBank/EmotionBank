@@ -27,7 +27,7 @@ export const AgreementWrapper = styled(Flex)`
   height: 100%;
   flex-direction: column;
   padding: 5rem 2rem;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
 `;
 export const AgreementContent = styled(Flex)`
@@ -45,3 +45,11 @@ export const AgreementButton = styled(Button)`
   color: ${({ theme }) => theme.color.primary};
   background-color: ${({ theme }) => theme.color.secondary};
 `;
+
+export const AgreementDetail = styled.div`
+  width:100%;
+  margin-left:15px;
+  padding: 5px 10px;
+  border: 1px solid ${({theme}) => theme.color.darkgray};
+  border-radius: 4px;
+`

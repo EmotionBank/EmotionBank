@@ -1,7 +1,6 @@
 import { ReactNode, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { DropdownBackground, DropdownWrapper } from './Dropdown.style';
-import { useNavigate } from 'react-router-dom';
 
 interface DropdownProps {
   children: ReactNode;
