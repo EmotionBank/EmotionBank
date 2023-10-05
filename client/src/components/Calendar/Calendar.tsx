@@ -5,6 +5,7 @@ import { DateType } from '@/types/date';
 import { getMonthDate } from '@/utils/getMonthDate';
 import { getNewDateObj } from '@/utils/getNewDateObj';
 import Happy from '@assets/emotions/happy.svg';
+import { filteredImage } from '@/utils/filterImage';
 interface currnetDateInterface extends DateType {
   weekList: DateType[][];
 }
@@ -41,24 +42,26 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
   }, []);
 
   const checkIsPaid = (curDate: DateType) => {
-    let isSame = false;
+    let emoji = '';
     const curDateString = [curDate.year, curDate.month, curDate.date];
     calendarList.calendarInfoList.forEach(item => {
       const resultDate = item.date.split('-').map(e => Number(e));
       const result = resultDate.every((item, idx) => item === curDateString[idx]);
-      if (result) isSame = result;
+      if (result) {
+        emoji = item.emoticon;
+      }
     });
-    return isSame;
+    return emoji;
   };
 
   return (
     <S.CalendarWrapper>
       <S.CalendarControllerWrapper>
-        <S.CalendarController>
-          {currentDate.year}. {convertDateFormat(currentDate.month)}
-        </S.CalendarController>
         <S.CalendarControllerContainer>
           <S.CalendarController onClick={handleDecreseMonth}>&lt;</S.CalendarController>
+          <S.YearAndMonth>
+            {currentDate.year}. {convertDateFormat(currentDate.month)}
+          </S.YearAndMonth>
           <S.CalendarController onClick={handleIncreseMonth}>&gt;</S.CalendarController>
         </S.CalendarControllerContainer>
       </S.CalendarControllerWrapper>
@@ -77,7 +80,7 @@ const Calendar = ({ updateDate, selectCalendarDate, calendarList }: Props) => {
                   $thisMonth={currentDate.month === day.month}
                   onClick={() => selectCalendarDate(day)}
                 >
-                  {checkIsPaid(day) ? <Happy /> : <span>{day.date}</span>}
+                  {checkIsPaid(day) ? filteredImage(checkIsPaid(day)) : <S.DateSpan>{day.date}</S.DateSpan>}
                 </S.DayContainer>
               );
             })}
