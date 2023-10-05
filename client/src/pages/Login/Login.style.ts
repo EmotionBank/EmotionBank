@@ -13,8 +13,11 @@ export const LoginWrapper = styled(Flex)`
 
 export const KakaoLoginButton = styled(Button)`
   width: 100%;
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: 1.8rem;
+  font-family: 'Pretendard ExtraBold';
   font-weight: bold;
+  padding: 1.6rem;
+  border-radius: 15px;
   background-color: #ffdc00;
 `;
 
