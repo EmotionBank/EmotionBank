@@ -12,7 +12,7 @@ import { PATH } from '@/constants/path';
 import { filteredImage } from '@/utils/filterImage';
 import SearchIcon from '@mui/icons-material/Search';
 import { setEmotionName } from '@/utils/setEmotionName';
-import emotionLogo from '@assets/emotionbank_logo.png'
+import emotionLogo from '@assets/emotionbank_logo.png';
 const Feed = () => {
   const [content, handleContent] = useInput('');
   const navigate = useNavigate();
@@ -35,10 +35,11 @@ const Feed = () => {
     }
   }, [content]);
 
-  const handleOtherProfile = (id:number) =>{
-    closeModal()
-    navigate(PATH.OTHER_USER(id))
-  }
+  const handleOtherProfile = (id: number) => {
+    closeModal();
+    navigate(PATH.OTHER_USER(id));
+  };
+  const createRandomNumber = () => Math.floor(Math.random() * (4 - 2 + 1)) + 2;
   return (
     <>
       <S.FeedWrapper>
@@ -51,7 +52,9 @@ const Feed = () => {
         <S.GridContainer>
           {users.map((user, index) => (
             <S.FeedBody key={index} onClick={() => navigate(PATH.OTHER_USER(user.userId))}>
-              <S.EmotionImageContainer>{filteredImage(user.emoticon)}</S.EmotionImageContainer>
+              <S.EmotionImageContainer $speed={createRandomNumber()}>
+                {filteredImage(user.emoticon)}
+              </S.EmotionImageContainer>
               <span>{setEmotionName(user.emoticon)}</span>
               <S.FeedContent>{user.nickname}</S.FeedContent>
             </S.FeedBody>
@@ -67,7 +70,7 @@ const Feed = () => {
               <div>{searchResult?.length}개의 검색 결과</div>
               {searchResult?.map((user, index) => (
                 <S.SearchResultItem key={index} onClick={() => handleOtherProfile(user.userId)}>
-                  <S.SearchResultImg src={emotionLogo}/>
+                  <S.SearchResultImg src={emotionLogo} />
                   {user.nickname}
                 </S.SearchResultItem>
               ))}

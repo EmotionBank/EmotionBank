@@ -40,7 +40,7 @@ export interface GetOtherAccountInfoResponse {
   nickname: string;
   accountId: string;
   userId: string;
-  isFollow: boolean;
+  follow: boolean;
   following: number;
   follower: number;
 }
@@ -89,4 +89,15 @@ export interface GetUserReportResponse {
   deposits: Deposits[];
   withdrawals: Withdrawals[];
   balances: Balances[];
+}
+
+export interface PersonalNotification {
+  followerId: number;
+  followerNickname: string;
+  body: string;
+  notificationType: string;
+  createTime: string;
+}
+export interface GetMyNotificationResponse {
+  personalNotificationList: PersonalNotification[];
 }

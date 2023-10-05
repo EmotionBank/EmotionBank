@@ -15,7 +15,7 @@ interface OtherUserInfoProps {
 const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) => {
   const { openModal: openTransferModal } = useModal('transfer');
   const { openModal: openFollowModal } = useModal('follow');
-  const postFollowMutation = usePostFollow();
+  const postFollowMutation = usePostFollow(getOtherAccountInfoData.follow);
 
   const handleFollowUser = () => {
     postFollowMutation.mutate(String(getOtherAccountInfoData.userId));
@@ -41,7 +41,11 @@ const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) 
         </S.OtherUserInfoTop>
         <S.OtherUserInfoBottom>
           <S.TransactionButton onClick={openTransferModal}>이체</S.TransactionButton>
-          <S.TransactionButton onClick={handleFollowUser}>팔로우</S.TransactionButton>
+          {getOtherAccountInfoData.follow ? (
+            <S.TransactionButton onClick={handleFollowUser}>팔로우 취소</S.TransactionButton>
+          ) : (
+            <S.TransactionButton onClick={handleFollowUser}>팔로우</S.TransactionButton>
+          )}
         </S.OtherUserInfoBottom>
       </S.OtherUserInfoWrapper>
       <Modal id="transfer">
