@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as S from '@/components/UserInfo/UserInfo.style';
 import { PATH } from '@/constants/path';
 import { GetUserAccountInfoResponse } from '@/types/user';
@@ -15,6 +16,16 @@ interface UserInfoProps {
 const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
   const navigate = useNavigate();
   const { openModal } = useModal();
+  const [selected, setSelected] = useState('');
+
+  const handleFollowingList = () => {
+    setSelected('FOLLOWING');
+    openModal();
+  };
+  const handleFollowerList = () => {
+    setSelected('FOLLOWER');
+    openModal();
+  };
 
   return (
     <>
@@ -27,12 +38,12 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
               <S.AccountNumberInfo>{getUserAccountInfoData.accountNumber}</S.AccountNumberInfo>
             </S.InfoTextContainer>
           </S.InfoContainer>
-          <S.FollowContainer onClick={openModal}>
-            <S.FollowingInfo>
+          <S.FollowContainer>
+            <S.FollowingInfo onClick={handleFollowingList}>
               <span>팔로잉</span>
               <span>{getUserAccountInfoData.following}</span>
             </S.FollowingInfo>
-            <S.FollowerInfo>
+            <S.FollowerInfo onClick={handleFollowerList}>
               <span>팔로워</span>
               <span>{getUserAccountInfoData.follower}</span>
             </S.FollowerInfo>
@@ -44,7 +55,7 @@ const UserInfo = ({ getUserAccountInfoData }: UserInfoProps) => {
         </S.UserInfoBottom>
       </S.UserInfoWrapper>
       <Modal>
-        <FollowListModal userId={localStorage.getItem('userId')!} />
+        <FollowListModal userId={localStorage.getItem('userId')!} selectFollow={selected} />
       </Modal>
     </>
   );
