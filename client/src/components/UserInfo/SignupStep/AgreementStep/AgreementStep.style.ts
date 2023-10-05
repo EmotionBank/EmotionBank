@@ -1,5 +1,3 @@
-import { Button } from '@/components/common/Button/Button';
-import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
 import { Button } from '@/components/common/Button/Button';
 import { Flex } from '@/components/common/Flex/Flex';
