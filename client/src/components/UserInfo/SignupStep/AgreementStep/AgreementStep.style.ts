@@ -8,13 +8,12 @@ export const AgreementTitle = styled.h3`
 `;
 
 export const AgreementForm = styled(Flex)`
-  align-items: center;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   height: 100%;
   padding: 4rem 0;
-  width: 100%;
 `;
 export const NextButton = styled(Button)`
   width: 100%;
@@ -49,15 +48,15 @@ export const AgreementButton = styled(Button)`
 `;
 
 export const AgreementDetail = styled.div`
-  width: 100%;
+  width: 80%;
   margin-left: 15px;
   padding: 5px 10px;
   border: 1px solid ${({ theme }) => theme.color.darkgray};
   border-radius: 4px;
 `;
 
-export const DetailButton = styled.div`
-  width: 10%;
-  color: '#6b7685';
+export const DetailButton = styled.span`
+  width: 20%;
   font-weight: bold;
+  color: ${({ theme }) => theme.color.gray};
 `;
