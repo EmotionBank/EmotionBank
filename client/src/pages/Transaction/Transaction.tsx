@@ -9,7 +9,7 @@ import CategoryStep from '@/components/transaction/TransactionStep/CategoryStep/
 
 const Transaction = () => {
   const initRequestdata = {
-    transactionType: '', // DEPOSIT | WITHDRAW
+    transactionType: 'WITHDRAWL', // DEPOSIT | WITHDRAWL
     categoryId: 0,
     accountNumber: localStorage.getItem('accountNumber')!,
     amount: 0,
@@ -22,20 +22,23 @@ const Transaction = () => {
   const postTransactionMutation = usePostTransaction();
 
   const isPositiveEmotion = (emoticon: string) => positiveEmotion.includes(emoticon);
-  const validateTransaction = (amount: number, content: string, transactionType: string) => {
-    if (amount === 0 || content === '' || transactionType === '') return false;
+  const validateTransaction = (amount: number, content: string) => {
+    if (amount === 0 || content === '') return false;
     return true;
   };
 
   const confirmEmotionStep = (emoticon: string) => {
+    if (isPositiveEmotion(emoticon)) {
+      setRequestData(prev => ({ ...prev, transactionType: 'DEPOSIT' }));
+    }
     setRequestData(prev => ({ ...prev, emoticon }));
     setStep('comment');
   };
 
-  const confirmDiaryStep = (amount: number, content: string, transactionType: string) => {
-    if (!validateTransaction(amount, content, transactionType)) return;
+  const confirmDiaryStep = (amount: number, content: string) => {
+    if (!validateTransaction(amount, content)) return;
     setStep('category');
-    setRequestData(prev => ({ ...prev, amount, content, transactionType }));
+    setRequestData(prev => ({ ...prev, amount, content }));
   };
 
   const confirmCategoryStep = (categoryId: number) => {

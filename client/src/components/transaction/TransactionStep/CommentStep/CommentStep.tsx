@@ -5,7 +5,7 @@ import { filteredImage } from '@/utils/filterImage';
 import { replaceDash, setMoneyRegex } from '@/utils/regex';
 
 interface IProps {
-  onNext: (amount: number, content: string, transactionType: string) => void;
+  onNext: (amount: number, content: string) => void;
   emoticon: string;
 }
 
@@ -21,21 +21,11 @@ const CommentStep = ({ onNext, emoticon }: IProps) => {
         <S.Inputlabel>금액</S.Inputlabel>
         <S.AmountInput placeholder="금액을 입력하세요." onChange={handleAmount} value={setMoneyRegex(amount)} />
       </S.LabelContainer>
-      <S.ButtonContainer>
-        <S.DepositButton $selected={transactionType === 'DEPOSIT'} onClick={() => setTransactionType('DEPOSIT')}>
-          입금
-        </S.DepositButton>
-        <S.WithdrawlButton $selected={transactionType === 'WITHDRAWL'} onClick={() => setTransactionType('WITHDRAWL')}>
-          출금
-        </S.WithdrawlButton>
-      </S.ButtonContainer>
       <S.LabelContainer>
         <S.Inputlabel>내용</S.Inputlabel>
         <S.CommentTextArea placeholder="내용을 입력하세요." onChange={handleContent} />
       </S.LabelContainer>
-      <S.NextButton onClick={() => onNext(Number(replaceDash(amount)), content, transactionType)}>
-        카테고리 설정
-      </S.NextButton>
+      <S.NextButton onClick={() => onNext(Number(replaceDash(amount)), content)}>카테고리 설정</S.NextButton>
     </S.CommentStepWrapper>
   );
 };
