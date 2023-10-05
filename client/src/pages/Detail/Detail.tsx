@@ -3,8 +3,8 @@ import * as S from '@/pages/Detail/Detsil.style';
 import { useGetTransactionDetail } from '@/hooks/apiHooks/useGetTransactionDetail';
 import { filteredImage } from '@/utils/filterImage';
 import { setMoneyRegex } from '@/utils/regex';
-import { useRef } from "react";
-import { toPng } from "html-to-image";
+import { useRef } from 'react';
+import { toPng } from 'html-to-image';
 
 const Detail = () => {
   const { transactionId } = useParams();
@@ -13,16 +13,16 @@ const Detail = () => {
   const ref = useRef<HTMLDivElement>(null);
   const htmlToImageConvert = () => {
     if (ref.current === null) {
-      return
+      return;
     }
     toPng(ref.current, { cacheBust: false })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
+      .then(dataUrl => {
+        const link = document.createElement('a');
         link.download = String(Date.now());
         link.href = dataUrl;
         link.click();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -32,7 +32,7 @@ const Detail = () => {
       <S.ReceiptWrapper ref={ref}>
         <S.TransactionTitle>{transactionDetailData.title}</S.TransactionTitle>
         <S.EmotionImageContainer>{filteredImage(transactionDetailData.emoticon)}</S.EmotionImageContainer>
-        <S.Money>{setMoneyRegex(String(transactionDetailData.amount))}</S.Money>
+        <S.Money>{setMoneyRegex(String(transactionDetailData.amount))} 원</S.Money>
         <S.EmotionContentContainer>
           <p>{transactionDetailData.content}</p>
         </S.EmotionContentContainer>

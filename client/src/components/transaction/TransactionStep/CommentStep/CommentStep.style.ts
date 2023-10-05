@@ -50,6 +50,23 @@ export const AmountInput = styled.input`
   border-radius: 8px;
 `;
 
+export const ButtonContainer = styled(Flex)`
+  width: 100%;
+  justify-content: space-between;
+`;
+export const DepositButton = styled(Button)<{ $selected: boolean }>`
+  width: 40%;
+  background-color: ${({ theme }) => theme.color.green};
+  color: white;
+  font-weight: bold;
+  opacity: ${({ $selected }) => ($selected ? 1 : 0.5)};
+`;
+
+export const WithdrawlButton = styled(DepositButton)<{ $selected: boolean }>`
+  opacity: ${({ $selected }) => ($selected ? 1 : 0.5)};
+  background-color: ${({ theme }) => theme.color.red};
+`;
+
 export const CommentTextArea = styled.textarea`
   width: 100%;
   background-color: ${({ theme }) => theme.color.white};

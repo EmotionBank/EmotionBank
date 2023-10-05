@@ -8,11 +8,12 @@ import { PATH } from '@/constants/path';
 
 interface FollowListModalProps {
   userId: string;
+  selectFollow: string;
 }
 
-const FollowListModal = ({ userId }: FollowListModalProps) => {
+const FollowListModal = ({ userId, selectFollow }: FollowListModalProps) => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState('FOLLOWER');
+  const [selected, setSelected] = useState(selectFollow);
   const { getFollowerListData } = useGetFollowerList(userId);
   const { getFolloweeListData } = useGetFolloweeList(userId);
   const listData = selected === 'FOLLOWER' ? getFollowerListData?.follows : getFolloweeListData?.follows;

@@ -12,22 +12,22 @@ import {
 } from 'chart.js';
 import { useGetUserReport } from '@/hooks/apiHooks/useGetUserReport';
 import * as S from '@/pages/EmotionReport/EmotionReport.style';
+import { useState } from 'react';
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const EmotionReport = () => {
+  const [toggle, setToggle] = useState(true);
   const { getUserReportData } = useGetUserReport();
-  console.log(getUserReportData);
   const lineLabels = getUserReportData!.balances.map(e => String(e.day) + '일');
   const depositsLabels = getUserReportData!.deposits.map(e => e.categoryName);
   const withdrawalsLabels = getUserReportData!.deposits.map(e => e.categoryName);
-  console.log(depositsLabels);
 
   const lineData = {
     labels: lineLabels,
     datasets: [
       {
-        label: '월별 이용금액',
+        label: '일별 이용금액',
         data: getUserReportData.balances.map(e => e.amount),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -54,7 +54,7 @@ const EmotionReport = () => {
     ],
   };
   const withdrawalsdata = {
-    labels: depositsLabels,
+    labels: withdrawalsLabels,
     datasets: [
       {
         label: '# of Votes',
@@ -75,18 +75,33 @@ const EmotionReport = () => {
 
   return (
     <S.EmotionReportWrapper>
-      <S.ReportContainer>
-        <Line data={lineData} />
-        <S.ReportSpan>이번달 내역</S.ReportSpan>
-      </S.ReportContainer>
-      <S.ReportContainer>
-        <Doughnut data={depositsdata} />
-        <S.ReportSpan>입금</S.ReportSpan>
-      </S.ReportContainer>
-      <S.ReportContainer>
-        <Doughnut data={withdrawalsdata} />
-        <S.ReportSpan>출금</S.ReportSpan>
-      </S.ReportContainer>
+      <S.SelectHeader>
+        <S.SelectContainer>
+          <S.ToggleButton $toggle={toggle} onClick={() => setToggle(true)}>
+            전체
+          </S.ToggleButton>
+          <S.ToggleButton $toggle={!toggle} onClick={() => setToggle(false)}>
+            입/출금
+          </S.ToggleButton>
+        </S.SelectContainer>
+      </S.SelectHeader>
+      {toggle ? (
+        <S.ReportContainer>
+          <Line data={lineData} />
+          <S.ReportSpan>이번달 내역</S.ReportSpan>
+        </S.ReportContainer>
+      ) : (
+        <>
+          <S.ReportContainer>
+            <Doughnut data={depositsdata} />
+            <S.ReportSpan>입금</S.ReportSpan>
+          </S.ReportContainer>
+          <S.ReportContainer>
+            <Doughnut data={withdrawalsdata} />
+            <S.ReportSpan>출금</S.ReportSpan>
+          </S.ReportContainer>
+        </>
+      )}
     </S.EmotionReportWrapper>
   );
 };
