@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import FollowListModal from '@/components/FollowListModal/FollowListModal';
 import * as S from '@/components/OtherUserInfo/OtherUserInfo.style';
 import Modal from '@/components/common/Modal/Modal';
@@ -15,6 +16,17 @@ interface OtherUserInfoProps {
 const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) => {
   const { openModal: openTransferModal } = useModal('transfer');
   const { openModal: openFollowModal } = useModal('follow');
+  const [selected, setSelected] = useState('');
+
+  const handleFollowingList = () => {
+    setSelected('FOLLOWING');
+    openFollowModal();
+  };
+  const handleFollowerList = () => {
+    setSelected('FOLLOWER');
+    openFollowModal();
+  };
+
   const postFollowMutation = usePostFollow(getOtherAccountInfoData.follow);
 
   const handleFollowUser = () => {
@@ -29,11 +41,11 @@ const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) 
             <S.NicknameInfo>{getOtherAccountInfoData.nickname}</S.NicknameInfo>
           </S.InfoContainer>
           <S.FollowContainer onClick={openFollowModal}>
-            <S.FollowingInfo>
+            <S.FollowingInfo onClick={handleFollowingList}>
               <span>팔로잉</span>
               <span>{getOtherAccountInfoData.following}</span>
             </S.FollowingInfo>
-            <S.FollowerInfo>
+            <S.FollowerInfo onClick={handleFollowerList}>
               <span>팔로워</span>
               <span>{getOtherAccountInfoData.follower}</span>
             </S.FollowerInfo>
@@ -52,7 +64,7 @@ const OtherUserInfo = ({ getOtherAccountInfoData, userId }: OtherUserInfoProps) 
         <TransferModal userId={userId} />
       </Modal>
       <Modal id="follow">
-        <FollowListModal userId={userId} />
+        <FollowListModal userId={userId} selectFollow={selected} />
       </Modal>
     </>
   );
