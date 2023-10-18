@@ -4,14 +4,15 @@ import Detail from '@/pages/Detail/Detail';
 import Main from '@/pages/Main/Main';
 import Login from '@/pages/Login/Login';
 import Signup from '@/pages/Login/Signup';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Redirection from '@/pages/Login/Redirection';
 import Transaction from '@/pages/Transaction/Transaction';
 import Profile from '@/pages/Profile/Profile';
 import Feed from '@/pages/Feed/Feed';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoginState } from '@/recoils/atom';
 import OtherUser from '@/pages/OtherUser/OtherUser';
+import Report from '@/pages/EmotionReport/EmotionReport';
 
 const AppRouter = () => {
   const isLogin = useRecoilValue(isLoginState);
@@ -43,16 +44,20 @@ const AppRouter = () => {
           element: <Transaction />,
         },
         {
-          path: '/profile',
+          path: PATH.PROFILE,
           element: <Profile />,
         },
         {
-          path: '/feed',
+          path: PATH.FEED,
           element: <Feed />,
         },
         {
           path: PATH.OTHER_USER(':userId'),
           element: <OtherUser />,
+        },
+        {
+          path: PATH.REPORT,
+          element: <Report />,
         },
       ],
     },

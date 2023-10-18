@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { renewAccessToken } from './user/renewAccessToken';
-
+import { logoutUser } from './user/logoutUser';
+import { PATH } from '@/constants/path'
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
   headers: {
@@ -9,8 +10,6 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let failedRequests:InternalAxiosRequestConfig[] = [];
 
 axiosInstance.interceptors.request.use(
   (req: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
@@ -18,7 +17,6 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       req.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-    // console.log(req, req.headers['Authorization']);
     return req;
   },
   error => {
@@ -38,35 +36,17 @@ axiosInstance.interceptors.response.use(
     } = error;
     const originalRequest = config;
     if (data.errorCode === 'J-003') {
-      if(!isRefreshing){
-        isRefreshing =true;
-      try {
-        const response = await renewAccessToken();
-        // console.log(response);
-        localStorage.setItem('accessToken', response.accessToken);
-        isRefreshing = false;
-        // 다시 시도하지 못한 요청 처리
-        failedRequests.forEach(cb => cb(response.accessToken));
-        failedRequests = [];
-        return axiosInstance(originalRequest);
-      } catch (error) {
-        console.log('토큰만료시 재요청 보냈을 때의 ' + error);
-      }
-    } else {
-      return new Promise((resolve, reject) =>{
-        failedRequests.push(newAccessToken =>{
-          originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
-          resolve(axiosInstance(originalRequest))
-        })
-      })
+      const {accessToken} = await renewAccessToken()
+      localStorage.setItem('accessToken', accessToken)
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`
+      return axiosInstance(originalRequest)
+    } else if (data.errorCode === 'A-005'){
+      alert('잔액이 부족합니다.')
+    } else if (data.errorCode === 'J-002'|| data.errorCode === 'J-001') {
+      localStorage.clear();
+      alert('로그인 화면으로 돌아갑니다.')
+      window.location.replace(PATH.ROOT);
     }
-  }
-    // } else if (status === 409){
-    //   alert('중복된 닉네임입니다.')
-    //   throw(error)
-    // } else if (status === 500) {
-    //   console.log('여긴 500 에러', error);
-    // }
     return Promise.reject(error);
   },
 );

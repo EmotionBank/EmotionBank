@@ -33,13 +33,14 @@ export interface GetUserAccountInfoResponse {
   balance: number;
   following: number;
   follower: number;
+  userId: number;
 }
 
 export interface GetOtherAccountInfoResponse {
   nickname: string;
   accountId: string;
   userId: string;
-  isFollow: boolean;
+  follow: boolean;
   following: number;
   follower: number;
 }
@@ -47,4 +48,56 @@ export interface GetOtherAccountInfoResponse {
 export interface GetRenewAccessTokenResponse {
   tokenType: string;
   accessToken: string;
+}
+
+export interface FollowType {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetFollowList {
+  follows: FollowType[];
+}
+
+export interface SearchUser {
+  nickname: string;
+  image: string;
+  userId: number;
+}
+
+export interface GetSearchUserResponse {
+  users: SearchUser[];
+}
+
+export interface Deposits {
+  categoryName: string;
+  amount: number;
+}
+
+export interface Withdrawals {
+  categoryName: string;
+  amount: number;
+}
+
+export interface Balances {
+  day: number;
+  amount: number;
+}
+
+export interface GetUserReportResponse {
+  deposits: Deposits[];
+  withdrawals: Withdrawals[];
+  balances: Balances[];
+}
+
+export interface PersonalNotification {
+  followerId: number;
+  followerNickname: string;
+  body: string;
+  notificationType: string;
+  createTime: string;
+}
+export interface GetMyNotificationResponse {
+  personalNotificationList: PersonalNotification[];
 }

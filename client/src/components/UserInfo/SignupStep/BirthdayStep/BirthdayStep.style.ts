@@ -1,28 +1,40 @@
+import { Button } from '@/components/common/Button/Button';
+import { Flex } from '@/components/common/Flex/Flex';
 import styled from 'styled-components';
 
-export const BirthdayTitle = styled.h3`
-  color: ${({ theme }) => theme.color.primary};
+export const BirthdayWrapper = styled(Flex)`
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4rem 0;
+  gap: 1rem;
 `;
 
-export const BirthdayWrapper = styled.div``;
+export const BirthdayTitle = styled.h3`
+  color: ${({ theme }) => theme.color.darkgray};
+  margin-bottom: 16px;
+`;
+
+export const BirthdayBody = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: start;
+`;
 
 export const StyledInput = styled.input`
-  flex-grow: 1;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: whitesmoke;
 `;
 
-export const StyledButton = styled.button`
-  margin-left: 8px;
-  background-color: #007bff;
+export const StyledButton = styled(Button)`
+  width: 100%;
+  background-color: ${({ theme }) => theme.color.navy};
   color: #fff;
-  border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 8px 12px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;

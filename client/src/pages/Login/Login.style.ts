@@ -13,8 +13,11 @@ export const LoginWrapper = styled(Flex)`
 
 export const KakaoLoginButton = styled(Button)`
   width: 100%;
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: 1.8rem;
+  font-family: 'Pretendard ExtraBold';
   font-weight: bold;
+  padding: 1.6rem;
+  border-radius: 15px;
   background-color: #ffdc00;
 `;
 
@@ -32,6 +35,10 @@ export const NextButton = styled(Button)`
   background: ${({ theme }) => theme.color.secondary};
 `;
 
-export const MainImg = styled.img`
-  width: 50%;
+export const MainImg = styled(Flex)`
+  width: 100%;
+  flex-direction: column;
+  font-size: 4.5rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.navy};
 `;

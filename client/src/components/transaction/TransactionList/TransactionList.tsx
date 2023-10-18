@@ -3,6 +3,7 @@ import { PATH } from '@/constants/path';
 import { TransactionResponse, GetTransactionListResponse } from '@/types/bank';
 import { filteredImage } from '@/utils/filterImage';
 import { setMoneyRegex } from '@/utils/regex';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
@@ -11,8 +12,15 @@ interface Props {
 
 const TransactionList = ({ transactionDatas }: Props) => {
   const navigate = useNavigate();
-  const handleNavigate = () => {};
-  // item.type에 따라 +- 설정하는 함수 필요
+  const checkTitle = useCallback((title: string | null) => {
+    if (title === null) return '송금했어요';
+    return title;
+  }, []);
+
+  const setMoneyString = (item: TransactionResponse) => {
+    if (item.transactionType === 'DEPOSIT') return '+ ' + setMoneyRegex(String(item.amount)) + '원';
+    return '- ' + setMoneyRegex(String(item.amount)) + '원';
+  };
 
   return (
     <S.TransactionListWrapper>
@@ -24,8 +32,8 @@ const TransactionList = ({ transactionDatas }: Props) => {
           }}
         >
           <S.EmotionImage>{filteredImage(item.emoticon)}</S.EmotionImage>
-          <span>{item.title}</span>
-          <span>{setMoneyRegex(String(item.amount))}</span>
+          <S.TransactionTitle>{checkTitle(item.title)}</S.TransactionTitle>
+          <S.TransactionAmount>{setMoneyString(item)}</S.TransactionAmount>
         </S.TransactionListContainer>
       ))}
     </S.TransactionListWrapper>

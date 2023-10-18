@@ -9,7 +9,7 @@ import CategoryStep from '@/components/transaction/TransactionStep/CategoryStep/
 
 const Transaction = () => {
   const initRequestdata = {
-    transactionType: 'WITHDRAWL', // DEPOSIT | WITHDRAW
+    transactionType: 'WITHDRAWL', // DEPOSIT | WITHDRAWL
     categoryId: 0,
     accountNumber: localStorage.getItem('accountNumber')!,
     amount: 0,
