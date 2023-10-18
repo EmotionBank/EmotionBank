@@ -1,0 +1,81 @@
+spring:
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/emotionbank?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
+    username: user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
+
+  data:
+    web:
+      pageable:
+        default-page-size: 5
+        max-page-size: 100
+    mongodb:
+      host: localhost
+      port: 27017
+      username: root
+      password: 1234
+      database: mydb
+      authentication-database: admin
+      uri: mongodb://root:1234@localhost:27017/?authSource=admin&authMechanism=SCRAM-SHA-256
+
+redis:
+  host: localhost
+  port: 6379
+  password: password
+
+server:
+  port: 8080
+
+social:
+  context-type: application/x-www-form-urlencoded;charset=utf-8
+
+redirect-uri: "http://localhost:8080/auth/login/kakao/callback"
+
+kakao:
+  client:
+    id: ${KAKAO_REST_KEY}
+    secret: ${KAKAO_SECRET_KEY}
+
+logging:
+  level:
+    org:
+      hibernate:sql: DEBUG
+      springframework:
+        security: DEBUG
+    type:
+      descriptor:
+        sql:
+          BasicBinder: TRACE
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+jwt:
+  secret-key: testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+  access-token-header: Authorization
+  refresh-token-header: Authorization-refresh
+  access-token-expiration-time: 600000
+  refresh-token-expiration-time: 1209600000
+
+google:
+  credentials: C:\\Users\\SSAFY\\Downloads\\service-account-file.json
+
