@@ -55,7 +55,7 @@ Emotion Bank는 유저가 자신의 감정을 
 <img src="https://img.shields.io/badge/Spring%20Cloud%20OpenFeign-6DB33F?style=flat-square&logoColor=white"/>
 <img src="https://img.shields.io/badge/Firebase%20Cloud%20Messaging-FFCA28?style=flat-square&logo=firebase&logoColor=black" />
 <br>
-<img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white" />
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" />
 <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white" />
 <img src="https://img.shields.io/badge/mongodb-47A248?style=flat-square&logo=mongodb&logoColor=white" />
 </div>
